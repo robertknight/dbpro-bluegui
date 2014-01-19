@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{selectedListViewItem}HelpPath{Special}ReturnValue{int item=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the index of the currently selected item in a listview.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a listview gadget.}

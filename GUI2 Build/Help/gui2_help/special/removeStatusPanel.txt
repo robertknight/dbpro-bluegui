@@ -1,0 +1,1 @@
+Parameters{handle gadget, int index}CommandName{removeStatusPanel}HelpPath{Special}ReturnValue{}OpenBrace{ }Description{Removes a panel from a statusbar gadget.}Param1{gadget}Param1Desc{Handle of a statusbar gadget}Param2{index}Param2Desc{Index of the panel which you want to remove.}

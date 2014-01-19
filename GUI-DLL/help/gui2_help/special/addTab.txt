@@ -1,0 +1,1 @@
+Param2Desc{The text of the new tab.}CommandName{addTab}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, str tabCaption}CloseBrace{}Description{Adds a new tab to a tabs gadget.  Tabs appear like markers at the top of the tabs gadget which the user can select.}ReturnDescription{}Param1{gadget}Param1Desc{Handle to a tabs gadget}Param2{tabCaption}

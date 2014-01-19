@@ -1,0 +1,1 @@
+Param1Desc{Handle of a trackbar gadget.}CommandName{getTrackbarMin}HelpPath{Special}ReturnValue{int min=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the minimum possible value of the trackbar gadget.}ReturnDescription{See Above}Param1{gadget}

@@ -1,0 +1,5 @@
+Param2Desc{1 if the ALT key must be pressed in order to trigger the HOTKEY event.}CommandName{createHotKey}HelpPath{Other}ReturnValue{}OpenBrace{ }Parameters{int HotKeyId, bool requireAlt, bool requireShift, bool requireCtrl, int character}CloseBrace{}Description{Creates a hot-key for the application.  When the specified key-combination is pressed, a HOTKEY event is sent to the main application window.  This is useful for menu shortcuts and other application shortcuts.}ReturnDescription{}Param1{hotKeyId}Param1Desc{An index number to use for the hotkey.  eventData() contains this Id when a HOTKEY event is received by the program.}Param2{requireAlt}Param3{requireShift}Param3Desc{1 if the SHIFT key must be pressed to trigger the HOTKEY event.}Param4{requireCtrl}Param4Desc{1 if the Control key must be pressed in order to activate the HOTKEY event.}Param5{character}Param5Desc{ASCII character code for the key which must be pressed in order to activate the HOTKEY event.  This can be generated using the asc function.   For example:
+<pre>
+createHotKey 1,0,1,0,asc("S")
+</pre>
+Will trigger a HOTKEY event when Ctrl+S is pressed.}

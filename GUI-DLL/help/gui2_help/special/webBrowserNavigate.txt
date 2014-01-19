@@ -1,0 +1,1 @@
+CloseBrace{}CommandName{webBrowserNavigate}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, str URL}Description{Navigates a web browser gadget to the specified URL.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a web browser gadget}Param2{URL}Param2Desc{The URL of the website you want to load, eg: "http://www.thegamecreators.com"}

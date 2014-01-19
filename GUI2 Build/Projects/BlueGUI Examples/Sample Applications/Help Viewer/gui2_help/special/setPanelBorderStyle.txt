@@ -1,0 +1,7 @@
+Param1Desc{Handle to a panel gadget}CommandName{setPanelBorderStyle}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle panelGadget, int borderStyle}CloseBrace{}Description{Sets the style of the border which surrounds a panel gadget.  The codes for the different kinds of border can be found in the constants file.  They are:<br><br>
+<ul>
+<li>BORDER_NONE - No border around the gadget.</li>
+<li>BORDER_FLAT - Single line black border</li>
+<li>BORDER_3D - Raised 3D border</li>
+<li>BORDER_SUNKEN - Sunken 3D border</li>
+</ul>}ReturnDescription{}Param1{panelGadget}Param2{borderStyle}Param2Desc{The style of the border (see above)}Remarks{setPanelBorderStyle will also work with many other, similar gadget types.  }

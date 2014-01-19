@@ -1,0 +1,38 @@
+version=DBP1.00
+;****DarkBASIC Professional Project****
+;[Created by BLUE IDE - version 1.0.0]
+;Basic project details
+project name=Untitled Project
+;
+;Files
+final source=_Temp.dbsource
+main=listview.dba
+include1=gui.dba
+executable=listview.exe
+build type=exe
+CLI=YES
+compression=NO
+encryption=NO
+media root path=C:\Documents and Settings\Rob\My Documents\DarkBASIC\Projects\GUI2 Build\Projects\BlueGUI Examples\Simple Gadget Demos\ListView\
+ 
+;====Other Settings====
+app title=ListView Example - Texture Browser
+graphics mode=Window
+fullscreen resolution=640x480
+window resolution=640x480
+compression=NO
+encryption=NO
+ 
+;====Version Information====
+vercomments=
+vercompany=
+vercopyright=
+verfiledesc=
+verfilename=
+verfilenumber=
+verinternal=
+verproduct=
+verproductnumber=
+vertrademark=
+ 
+;====Project Organisation====

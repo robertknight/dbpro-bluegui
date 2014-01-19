@@ -1,0 +1,150 @@
+<html>
+<head><title>createUpDown</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Create</a> &gt createUpDown</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>createUpDown</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+int handle=<b><font color="blue">createUpDown(</font></b><i>int x, int y, int width, int height, handle buddy, [style], handle parent</i><font color=blue><b>)</b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Creates an UpDown gadget.  UpDowns are a pair of buttons with up and down arrows on them.  They have a buddy gadget, usually an Edit.  When you click on the arrows, the text of the buddy gadget changes to the UpDown gadget's current value.  The value is a whole number within a range specified with setUpDownRange.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+Handle to the new gadget.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>x</i>
+</td>
+<td>
+X position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>y</i>
+</td>
+<td>
+Y position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>width</i>
+</td>
+<td>
+Width of new gadget in pixels
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>height</i>
+</td>
+<td>
+Height of new gadget in pixels
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>buddy</i>
+</td>
+<td>
+Handle to the buddy gadget for the new updown.  When you click on the UpDown gadgets, it sets the text of the buddy gadget.  UpDown gadgets resize the buddy window to make enough space for the arrow buttons.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>[style]</i>
+</td>
+<td>
+Optional.  If set to 0 (default), the UpDown gadget is vertical, ie. its buttons point up and down.  If set to 1, the UpDown gadget is horizontal, ie. its buttons point left and right.
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>parent</i>
+</td>
+<td>
+Handle to the parent of the new gadget, or 0 for the main window
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

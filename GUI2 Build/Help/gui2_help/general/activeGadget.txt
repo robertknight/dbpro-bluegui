@@ -1,0 +1,1 @@
+Param1Desc{}CommandName{activeGadget}HelpPath{General}ReturnValue{handle gadget=}OpenBrace{(}Parameters{}CloseBrace{)}Description{Returns a handle to the gadget which currently has the keyboard focus.}ReturnDescription{See Above.}

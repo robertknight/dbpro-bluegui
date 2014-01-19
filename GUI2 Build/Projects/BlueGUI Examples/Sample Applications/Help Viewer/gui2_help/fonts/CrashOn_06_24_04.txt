@@ -1,0 +1,5 @@
+[COMMON]
+PathToEXE=C:\DOCUME~1\Rob\MYDOCU~1\DARKBA~1\Projects\GUIV2E~1\SAMPLE~1\HELPVI~1\gui2_help\fonts\CrashOn_06_24_04.txt
+[CEXE]
+m_dwRuntimeErrorDWORD=0
+m_dwRuntimeErrorLineDWORD=96

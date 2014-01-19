@@ -1,0 +1,65 @@
+
+`Project: Simple Window Example
+`Created: 07/13/04
+`=================
+
+`This example shows you how to create windows, and what the difference is between the different types of windows.
+`There are three basic types of windows:
+
+`Normal.  These are resizeable, have an icon and min/max buttons - used for the main form or documents
+`Fixed.  These only have an "X" (Close) button and cannot be resized - used for dialogs
+`ToolWindow.  Usually fixed, these have a thinner border with a mini "X" icon in - used for floating palettes and so on.
+
+`BlueGUI v2 gives you a great deal of flexibility over the creation of windows, but you can use constants in the gui.dba file
+`to create the three standard types using createWindow
+`Normal:       Specify WINDOW_NORMAL for styles, and 0 for extraStyles
+`Fixed:        Specify WINDOW_FIXED for styles, and 0 for extraStyles
+`Toolwindow:   Specify WINDOW_FIXED for styles, and WINDOW_TOOLWINDOW for extraStyles
+
+`Window gadgets can either be children of the main DBPro window, another gadget window, or they can be a "top-level" window.
+`This means that they have their own icon in the taskbar, and are shown independantly of the main window.
+`To create a top-level window, set the createTopMost parameter to 1, and the parent parameter to 0.
+`To create a child window, set createTopMost to 0, and the parent parameter to 0 or the handle of an existing gadget.
+
+`Normally, unlike other child gadgets, child windows can be moved outside the areas of their parent windows.  
+`This is standard Windows behaviour.  However, several users have asked me to implement a system whereby child windows
+`are forced to stay inside their parent windows.  This can be done by calling setGadgetParent after creating the window.
+`it is a "bug" of sorts, but I have been asked not to fix it!
+
+`Global Variables
+	global normalWindow
+	global fixedWindow
+	global toolWindow
+
+startBlue "USER_ID","KEY"
+
+normalWindow=createWindow(100,100,300,300,"Normal Main Window",WINDOW_NORMAL,0,1,0)
+fixedWindow=createWindow(100,500,300,300,"Fixed Child Window",WINDOW_FIXED,0,0,normalWindow)
+toolWindow=createWindow(500,100,300,300,"Fixed Child ToolWindow",WINDOW_FIXED,WINDOW_TOOLWINDOW,0,normalWindow)
+
+`Set the Window Icon for the Normal and Fixed windows
+setWindowIcon normalWindow,"window.ico"
+setWindowIcon fixedWindow,"window.ico"
+
+
+
+`Main Loop
+do
+	`Get information about gadget events
+	getEvent
+	
+	`Important! - You must handle the WINDOW_CLOSE event
+	if eventType()=WINDOW_CLOSE
+	     if eventSource()=normalWindow
+	         if questionMessage("Do you wish to exit?","Exit?")=1
+	               end
+	         endif
+	     else
+	          warningMessage "Click the X button on the main window to exit the program."     
+	     endif
+	endif
+
+	
+loop
+
+

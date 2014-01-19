@@ -1,0 +1,1 @@
+CommandName{setLineWidth}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int width}CloseBrace{}Description{Sets the width of the lines drawn by the canvas drawing commands (drawLine, drawRect & drawEllipse).}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a canvas gadget}Param2{width}Param2Desc{The width of the line in pixels.}

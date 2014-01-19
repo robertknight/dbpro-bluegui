@@ -1,0 +1,21 @@
+ExampleSource{cv=createCanvas(0,0,200,200,0)
+
+setDrawingColor cv,RGB(0,255,0),RGB(255,0,0),0
+
+drawRect cv,0,0,200,200
+getCanvasImage cv,1
+paintGadget cv
+
+do	
+	getEvent
+	
+	paste image 1,300,100
+loop
+
+function neverRun()
+	delete memblock 0
+endfunction}Param6{}CommandName{getCanvasImage}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int imageId}CloseBrace{ }Description{Copies the contents of a canvas gadget to an image.  The image must not already exist (use DELETE IMAGE first if it does).<br><br>
+<b>Important:  There *must* be a memblock command in your source code.  The code does not have to be run, but its presence forces the compiler to include the memblocks plugin in your program.  See the example source below</b>}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a canvas gadget}Param2{imageId}Param2Desc{The number of the image you want the canvas contents to be copied to.}Param3{}Remarks{The user must be running in 32bit mode for this command to work.  You can check the display depth using the SCREEN DEPTH function.<br><br>
+getImageCanvas is a fairly fast command - it takes around 16ms to copy a 200x200 canvas on a Pentium 4.  For this reason it may be faster than using the native DBPro 2D commands.
+<br><br>
+You must have at least one memblock slot free for this command to work.  You can have up to 255 memblocks, and as long as one is free the plugin will automatically use it and then delete it afterwards.}

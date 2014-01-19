@@ -1,0 +1,1 @@
+Param1Desc{Handle of a menu}CommandName{deleteMenu}HelpPath{Menus}ReturnValue{}OpenBrace{ }Parameters{handle menu}CloseBrace{}Description{Removes a menu from the window or menu which it is currently attached to and deletes it.  After deleting the menu you should set the variable containing its handle to 0.}ReturnDescription{}Param1{menu}

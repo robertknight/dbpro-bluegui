@@ -1,0 +1,1 @@
+Param1Desc{Handle of a window gadget}CommandName{minimizeWindow}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget}Description{Minimizes a window gadget so that it either rests above the taskbar if the window is a child, or it minimizes to a taskbar icon if it is a toplevel window.}ReturnDescription{}CloseBrace{}Param1{gadget}

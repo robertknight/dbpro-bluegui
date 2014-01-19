@@ -1,0 +1,11 @@
+HelpPath{Events}CommandName{eventType}ReturnValue{int type=}OpenBrace{(}Parameters{}CloseBrace{)}Description{Retrieves a code specifying the kind of event which happened, eg: mouse click, key press, mouse move.
+<br><br>
+The constants gui.dba file contains the codes for the most common events which happen eg:
+<br><br>
+MOUSE_CLICK - User left-clicked gadget<br>
+MOUSE_MOVE - Mouse was moved over gadget<br>
+KEYDOWN - User pressed a key when gadget was active<br>
+KEYUP - User released a key when gadget was active<br>
+RIGHTMOSE_CLICK - User right-clicked gadget<br>
+GADGET_SIZE - Gadget resized<br>
+WINDOW_CLOSE - User clicked red "close" button on a window gadget<br>}ReturnDescription{See Above}Param1{}Param1Desc{}Param2{}Param2Desc{}Param3{}Param3Desc{}Param4{}Param4Desc{}Param5{}Param5Desc{}Param6{}Param6Desc{}Remarks{}Param7{}Param7Desc{}ExampleSource{}SeeAlso{}Param8{createTopMost}Param8Desc{If 1, the window is created independant of all the other windows in your program, if 0 the window is created as a child of another gadget, as specified by the parent parameter.}Param9{parent}Param9Desc{Handle to the parent for the new gadget.  If 0, this is either the main DBPro window if createTopMost is 0, or the window has no parent (if createTopMost is 1)}

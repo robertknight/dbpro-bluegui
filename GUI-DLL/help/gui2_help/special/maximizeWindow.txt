@@ -1,0 +1,1 @@
+Param3Desc{}CommandName{maximizeWindow}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget}CloseBrace{}Description{Maximizes a window gadget so that it fills the whole screen.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a window gadget}

@@ -1,0 +1,157 @@
+<html>
+<head><title>setDrawingColor</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Special</a> &gt setDrawingColor</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>setDrawingColor</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+<b><font color="blue">setDrawingColor </font></b><i>handle gadget, DWORD lineColour, DWORD fillColour, DWORD textColour</i><font color=blue><b></b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Sets the 3 different drawing colours which a canvas gadget uses when drawing shapes using drawLine, drawRect, drawEllipse or drawText.
+<br>
+Set any of the parameters to 0 for the colour black.
+<br>
+The colours can be created using the RGB command, eg for a red outline, green fill and black text:
+<pre>
+setDrawingColor rgb(255,0,0),rgb(0,255,0),0
+</pre>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>gadget</i>
+</td>
+<td>
+Handle of a canvas gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>lineColour</i>
+</td>
+<td>
+The colour used to draw the borders of shapes or lines.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>fillColour</i>
+</td>
+<td>
+The colour used to do the middle fill of shapes such as rectangles and ellipses.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>textColour</i>
+</td>
+<td>
+The colour used by the drawText command to draw text in the canvas.
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>setDrawingColor is quite fast, unlike DBPro's INK command, you can change it often in a loop without affecting performance.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

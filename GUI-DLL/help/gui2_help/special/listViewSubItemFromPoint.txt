@@ -1,0 +1,14 @@
+Param5Desc{}CommandName{listViewSubItemFromPoint}HelpPath{Special}ReturnValue{int index=}OpenBrace{(}Parameters{handle gadget, int x, int y}CloseBrace{)}Description{Returns the subitem index of the listview item at the specified co-ordinates.
+<br><br>
+If the gadget is in report mode, and you have added additional columns to it using addListViewColumn, you can use this command in combination with listViewItemFromPoint to work out which row and which column are at the specified point.
+<br><br>
+For example, to get the text of the item under the mouse you would use this code:
+<pre>
+x=mousePosX(listview)
+y=mousePosY(listview)
+
+lvItem=listViewItemFromPoint(listview,x,y)
+lvSubItem=listViewSubItemFromPoint(listview,x,y)
+
+text$=getListViewItemText(listview,lvItem,lvSubItem)
+</pre>}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a listview gadget}Param2{x}Param2Desc{X co-ordinate of the point, relative to the left-side of the gadget.}Param3{y}Param3Desc{Y co-ordinate of the point.  Relative to the top of the listview gadget.}

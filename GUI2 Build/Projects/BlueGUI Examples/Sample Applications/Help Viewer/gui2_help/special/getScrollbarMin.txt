@@ -1,0 +1,1 @@
+Param1Desc{Handle to a scrollbar gadget.}CommandName{getScrollbarMin}HelpPath{Special}ReturnValue{int min=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the minimum possible value of the scrollbar's position.}ReturnDescription{See Above}Param1{gadget}

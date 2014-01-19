@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getGadgetVisible}HelpPath{General}ReturnValue{bool visible=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Used to find out if a gadget is visible or hidden.}ReturnDescription{0 if the gadget is hidden, 1 if it is visible.}Param1{gadget}Param1Desc{Handle of a gadget.}

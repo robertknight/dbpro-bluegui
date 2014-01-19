@@ -1,0 +1,47 @@
+ 
+global contextMenu
+
+function createContextMenu()
+	
+	contextMenu=createPopupMenu()
+	
+	addMenuItem contextMenu,"Lock Gadget",1
+	addMenuItem contextMenu,"Hide in Editor",2
+	addMenuItem contextMenu,"Bring To Front",4
+	addMenuSplitter contextMenu
+	addMenuItem contextMenu,"Delete",3
+
+endfunction
+ 
+function showContextMenu()
+	`Update menu to reflect current gadget
+	selIndex=getGadgetData(selectedGadget)
+	
+	setMenuItemChecked contextMenu,1,gadgets(selIndex).locked
+	setMenuItemChecked contextMenu,2,not getGadgetVisible(selectedGadget)
+	
+	`Show context menu
+	option=showPopupMenu(contextMenu)
+	
+	
+	
+	select option
+		case 1 : `Lock Gadget Toggle
+			gadgets(selIndex).locked=1-gadgets(selIndex).locked
+			setMenuItemChecked contextMenu,1,gadgets(selIndex).locked
+		endcase
+		case 2 : `Hide In Editor Toggle
+			setGadgetVisible selectedGadget,not getGadgetVisible(selectedGadget)
+			setMenuItemChecked contextMenu,2,not getGadgetVisible(selectedGadget)
+			setMarkers(1)
+		endcase
+		case 3 : `Delete Gadget
+			deleteCurrentGadget()
+		endcase
+		case 4 : `Bring Gadget To Front
+			bringToFront gadgets(selIndex).handle
+		endcase
+	endselect
+	
+endfunction option
+ 

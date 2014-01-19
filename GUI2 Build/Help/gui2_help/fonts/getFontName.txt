@@ -1,0 +1,1 @@
+SeeAlso{}CommandName{getFontName}HelpPath{Fonts}ReturnValue{str name=}OpenBrace{(}Parameters{handle font}CloseBrace{)}Description{Retrieves the name of a font, eg: "Verdana" or "Times New Roman"}ReturnDescription{The name of the font}Param1{font}Param1Desc{Handle of a font}

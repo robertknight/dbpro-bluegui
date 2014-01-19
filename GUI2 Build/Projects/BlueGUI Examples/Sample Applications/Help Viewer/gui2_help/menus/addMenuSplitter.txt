@@ -1,0 +1,1 @@
+Param1Desc{Handle of a menu}CommandName{addMenuSplitter}HelpPath{Menus}ReturnValue{}OpenBrace{ }Parameters{handle menu}CloseBrace{}Description{Adds a splitter to a menu.  A splitter is a grey, horizontal line used to divide a menu up into different groups of items.}ReturnDescription{}Param1{menu}

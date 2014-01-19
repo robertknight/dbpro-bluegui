@@ -1,0 +1,1 @@
+Param2Desc{Handle of the item you wish to select.}CommandName{selectTreeViewItem}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, handle item}CloseBrace{}Description{Selects an item in a treeview.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a treeview gadget.}Param2{item}

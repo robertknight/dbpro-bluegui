@@ -1,0 +1,5 @@
+HelpPath{Events}CommandName{getEvent}ReturnValue{}OpenBrace{}Parameters{}CloseBrace{}Description{Retrieves information about events which have happened to gadgets in your application.
+
+When the user clicks a gadget, moves the mouse over it, or interacts with it in some other way, Windows sends information to the gadget about the event.  
+
+Use getEvent once at the top of your program's main loop, then use eventSource(), eventType(), eventData() and eventDataEx() to access the information.}ReturnDescription{}Param1{}Param1Desc{}Param2{}Param2Desc{}Param3{}Param3Desc{}Param4{}Param4Desc{}Param5{}Param5Desc{}Param6{}Param6Desc{}Remarks{}Param7{}Param7Desc{}ExampleSource{}SeeAlso{}Param8{createTopMost}Param8Desc{If 1, the window is created independant of all the other windows in your program, if 0 the window is created as a child of another gadget, as specified by the parent parameter.}Param9{parent}Param9Desc{Handle to the parent for the new gadget.  If 0, this is either the main DBPro window if createTopMost is 0, or the window has no parent (if createTopMost is 1)}

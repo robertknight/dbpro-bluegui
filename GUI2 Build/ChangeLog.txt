@@ -1,0 +1,60 @@
+BlueGUI 2.053
+===========
+
+New Features:
+
+- setListViewStyle listView,4 uses the "tiles" list view mode where the icon text is displayed to the right of the icon instead of 
+  underneath it.  Requires Windows XP and an <exename>.exe.manifest file to be present in the application's folder.
+  (See the section in the BlueGUI Guide about enabling Windows XP themes in applications)
+
+Bug Fixes:
+
+- New command:  removeImageListItem imageList, index
+- New command:  deleteImageList imageList 
+- Changed event type reported by menu clicks. 
+- Fix Rainbow startup for DBPro >= U6 
+
+Please Note:  The value of some of the constants in the gui.dba source file has changed.  Please update the copies 
+used by your projects.
+
+MENU_CLICKED, COMBOBOX_CHANGE and TREEVIEW_CHANGE are the affected constants.
+
+
+BlueGUI 2.052
+===========
+- Updated Rainbow to v1.05 (See history.txt in the "Projects/BlueGUI - Rainbow Source Code" folder)
+
+Bug Fixes:
+- Automatically rearrange listviews when their size changes or if items are removed.
+
+BlueGUI 2.051
+===========
+(For information on changes to Rainbow, see history.txt in the "Projects/BlueGUI - Rainbow Source Code" folder.)
+
+Bug Fixes & Other Changes
+- Labels are no longer transparent by default, this caused quite a mess in v2.05.
+- Corrected naming mistake in documentation (setParentGadget -> setGadgetParent)
+
+BlueGUI 2.05
+==========
+
+New Features:
+
+- Gadgets can be attached to pages on a a tabs gadget using attachGadget, detachGadget.  This makes it easier to work with tab-based dialogs.
+- Delimiter used to separate file names returned via openDialog can be changed using setDialogOptions
+- Support for tab-key navigation around dialogs.  setGadgetTab to set tabbing order
+- The parent window for common dialogs can be set using setDialogOwner
+- setGadgetColor supports richedit gadgets
+- Edit and richedit max text length can be set using setMaxTextLength
+- XP styles can be enabled or disabled on a per-gadget basis using enableXPStyles
+- Selected text in edit and richedit controls can be changed in code using setSelText
+- Word wrapping can be enabled or disabled on richedit gadgets using setWordWrapMode
+
+Bug Fixes & Other Changes:
+
+- openDialog can now return filenames longer than 255 characters.
+- Fixed critical startBlue security bug
+- Added BUTTON_CLICK event as the 'correct' means of detecting button presses
+- Label gadgets are now transparent by default.  If non-transparent labels are required, use panel gadgets
+- Toolbars can now be shown & hidden using setGadgetVisible.  Toolbars also respect default visiblity setting.
+- DLL size reduced from 172KB to 88.5KB

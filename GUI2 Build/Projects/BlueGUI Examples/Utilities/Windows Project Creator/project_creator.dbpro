@@ -1,0 +1,39 @@
+version=DBP1.00
+;****DarkBASIC Professional Project****
+;[Created by BLUE IDE - version 1.0.0]
+;Basic project details
+project name=Untitled Project
+;
+;Files
+final source=_Temp.dbsource
+main=main.dba
+include1=gui.dba
+include2=layout.dba
+executable=project_creator.exe
+build type=exe
+CLI=NO
+compression=NO
+encryption=NO
+media root path=C:\Documents and Settings\Rob\My Documents\DarkBASIC\Projects\GUIv2 Examples\Utilities\Windows Project Creator\
+ 
+;====Other Settings====
+app title=DarkBASIC Professional Project
+graphics mode=hidden
+fullscreen resolution=640x480
+window resolution=640x480
+compression=NO
+encryption=NO
+ 
+;====Version Information====
+vercomments=
+vercompany=
+vercopyright=
+verfiledesc=
+verfilename=
+verfilenumber=
+verinternal=
+verproduct=
+verproductnumber=
+vertrademark=
+ 
+;====Project Organisation====

@@ -1,0 +1,17 @@
+;Rainbow GUI Layout File
+;version 
+window name="pcWin" x="100" y="210" width="513" height="313" parent="" text="Project Creator" enabled="1" visible="1" align="0"
+label name="helpLabel" x="15" y="15" width="445" height="20" parent="pcWin" text="Project creator helps you to create DarkBASIC Projects using the BlueGUI plugin." enabled="1" visible="1" align="0" border="0"
+label name="nameLabel" x="15" y="50" width="70" height="15" parent="pcWin" text="Project Name:" enabled="1" visible="1" align="0" border="0"
+edit name="nameEdit" x="105" y="45" width="185" height="20" parent="pcWin" text="" enabled="1" visible="1" align="0"
+edit name="storeEdit" x="105" y="75" width="305" height="20" parent="pcWin" text="" enabled="1" visible="1" align="0"
+button name="storeBrowse" x="420" y="75" width="75" height="20" parent="pcWin" text="Browse" enabled="1" visible="1" align="0"
+frame name="optionsFrame" x="20" y="155" width="475" height="70" parent="pcWin" text="Project Options" enabled="1" visible="1" align="0"
+panel name="optionsPanel" x="4" y="19" width="465" height="40" parent="optionsFrame" text="" enabled="1" visible="1" align="0" border="0"
+checkbox name="webGadgetCheck" x="20" y="0" width="225" height="20" parent="optionsPanel" text="Include support for Web Browser Gadgets" enabled="1" visible="1" align="0"
+checkbox name="Gadget17" x="20" y="20" width="240" height="20" parent="optionsPanel" text="Include support for Windows XP themes" enabled="1" visible="1" align="0"
+button name="createBtn" x="295" y="240" width="120" height="25" parent="pcWin" text="Create Project" enabled="1" visible="1" align="0"
+button name="exitBtn" x="420" y="240" width="75" height="25" parent="pcWin" text="Exit" enabled="1" visible="1" align="0"
+label name="templateLabel" x="15" y="115" width="115" height="20" parent="pcWin" text="Use Project Template:" enabled="1" visible="1" align="0" border="0"
+label name="storeLabel" x="15" y="80" width="80" height="20" parent="pcWin" text="Store Project In:" enabled="1" visible="1" align="0" border="0"
+combobox name="templateCombo" x="135" y="115" width="155" height="17" parent="pcWin" text="" enabled="1" visible="1" align="0"

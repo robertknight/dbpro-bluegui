@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{colorDialog}HelpPath{Dialogs}ReturnValue{DWORD color=}OpenBrace{(}Parameters{}CloseBrace{)}Description{Displays a standard Windows Colour Picker dialog, and returns the colour which the user chose.}ReturnDescription{The colour which the user picked.  This colour is the same format as the colour which the RGB() function returns.  }

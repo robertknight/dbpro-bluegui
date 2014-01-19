@@ -1,0 +1,1 @@
+Param1Desc{The text of the warning message.}CommandName{warningMessage}HelpPath{Dialogs}ReturnValue{}OpenBrace{ }Parameters{str text}CloseBrace{}Description{Displays a message box with a yellow exclamation mark in it.}ReturnDescription{}Param1{text}

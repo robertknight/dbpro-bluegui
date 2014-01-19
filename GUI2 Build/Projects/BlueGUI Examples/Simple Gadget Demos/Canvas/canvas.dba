@@ -1,0 +1,136 @@
+`Simple Canvas Demo
+`==================
+`Robert Knight
+
+sync off
+
+startBlue "USER_ID","KEY"
+
+`Create a pretty outline shape for the main window
+main=createGadgetFromWindow(mainWindow())
+setGadgetShape main,"shape.bmp"
+
+`Define variables to hold gadget handles
+global dim customButtons(10)
+global canvas
+
+`Create a canvas gadget which fills the window
+canvas=createCanvas(0,0,640,480,0)
+
+
+`Draw our background
+color=90
+for x=0 to 640
+	if x mod 4 = 0 then inc color : setDrawingColor canvas,rgb(color,color,color),0,0
+	drawLine canvas,x,0,x,480
+	
+next x
+paintGadget canvas
+
+`Create Canvases to Hold Custom Buttons
+for x=1 to 5
+	for y=1 to 2
+		customButtons(index)=createCanvas(10+x*90,10+y*40,75,25,canvas)
+		drawCustomButton(customButtons(index),"Button",0)
+		inc index
+	next y
+next x
+
+`Say Hello to the User
+message "Canvas Example","Welcome to the Canvas example.  Move the mouse over the buttons to watch custom controls in action.  Press ESCAPE to Exit"
+
+
+`Main Loop
+do
+	getEvent
+	
+	`Watch for interaction with the buttons and redraw them when it occurs
+	if isCustomButton(eventSource())
+		if eventType()=MOUSE_MOVE
+			drawCustomButton(eventSource(),"Button",1)
+			lastButton=eventSource()
+		endif
+		if eventType()=LEFTBUTTON_DOWN
+			drawCustomButton(eventSource(),"Button",2)
+			lastButton=eventSource()
+		endif
+		if eventType()=LEFTBUTTON_UP
+			drawCustomButton(eventSource(),"Button",1)
+			lastButton=eventSource()
+		endif
+	endif	
+	`Check to see if the user has moved the mouse off the last button
+	if mousePosX(lastButton)=-1
+		drawCustomButton(lastButton,"Button",0)
+		lastButton=0
+	endif
+loop
+
+`Checks if a handle is a handle of a custom button
+function isCustomButton(handle)
+	for i=0 to 10
+		if customButtons(i)=handle then exitfunction 1 
+	next i
+endfunction 0
+
+`The function which does the drawing on the button canvas
+`The button is drawing differently depending on which state is specified (mouse off, mouse over, mouse down)
+function drawCustomButton(handle, caption as string, state)
+	height=gadgetHeight(handle)
+	width=gadgetWidth(handle)
+
+	`Mouse Off
+	if state=0 
+		clrR=255
+		clrG=170
+		clrB=85
+	
+		for i=0 to height
+			dec clrR,1
+			dec clrG,3
+			dec clrB,3
+		
+			setDrawingColor handle,rgb(clrR,clrG,clrB),0,0
+			drawLine handle,0,i,width,i
+		next i
+	endif
+	`Mouse Over
+	if state=1
+		clrR=255
+		clrG=206
+		clrB=157
+		
+		for i=0 to height
+			dec clrR,1
+			dec clrG,3
+			dec clrB,3
+			
+			setDrawingColor handle,rgb(clrR,clrG,clrB),0,0
+			drawLine handle,0,i,width,i
+		next i
+	endif
+	`Mouse Down
+	if state=2
+		clrR=211
+		clrG=111
+		clrB=0
+		
+		for i=0 to height
+			if clrR < 250 then inc clrR,3
+			inc clrG,3
+			inc clrB,3
+			
+			setDrawingColor handle,rgb(clrR,clrG,clrB),0,0
+			drawLine handle,0,i,width,i 
+		next i
+	endif
+	
+	`Calculate the amount of space to leave before drawing the text to ensure that it is centered.
+	space=(width-getTextWidth(handle,caption))/2
+	`Draw Caption
+	drawText handle,space,5,caption
+	
+	
+	paintGadget handle
+endfunction
+ 

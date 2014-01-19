@@ -1,0 +1,1 @@
+Param1Desc{Handle of a treeview gadget.}CommandName{removeTreeViewItem}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, handle item}CloseBrace{}Description{Removes an item from a treeview.  This will also delete any child items.}ReturnDescription{}Param1{gadget}Param2{item}Param2Desc{Handle of the treeview item which you wish to delete.}

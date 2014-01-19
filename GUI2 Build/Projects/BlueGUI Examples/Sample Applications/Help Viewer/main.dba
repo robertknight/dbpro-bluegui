@@ -1,0 +1,158 @@
+`Help Viewer Example
+`===================
+`Demonstrates usage of the TreeView gadget and the
+`Web Browser gadget.
+
+`Notes:
+`First, the createUI() function creates the treeview which allows the user to select
+`the help file they want to view, and the web browser to display the file.
+`Next, the populateTreeView() function adds the folders and files from the "gui2_help"
+`folder to the treeview.
+`Then we go the main loop which checks for mouse clicks on the treeview and updates the URL
+`of the web browser when they select a different help item.
+
+sync off
+
+startBlue "USER_ID","KEY"
+
+global tree : `Handle of treeview used to select the help file to view
+global browser : `Handle of browser gadget where help file is displayed
+`Stores the URL of a help file page which is then passed to the web browser to be displayed
+local url as string
+
+
+`Create our interface
+createUI()
+`Add items to the treeview from the gui2_help folder
+populateTreeView("gui2_help",0)
+
+
+
+do
+   `Get information about events
+   getEvent
+
+   `Check for help-file selection in the treeview
+   if eventSource()=tree
+      if (eventType()=LEFTBUTTON_DOWN) or (eventType()=KEYDOWN)
+         `User changed help file, get the URL of the page from the treeview item, then pass it to the webbrowser
+         url=getURL(0)
+
+         if url <> "" then webBrowserNavigate browser,url
+      endif
+   endif
+loop
+
+function createUI()
+
+   `Create treeview on left hand side
+   tree=createTreeView(0,0,200,600,0)
+
+   images=createImageList(16,16)
+   addImageListItem images,"doc.bmp"
+   addImageListItem images,"folder.bmp"
+
+   setTreeViewImageList tree,images,0
+
+   `Create web browser on right hand side
+   browser=createWebBrowser(200,0,600,600,0)
+   `Navigate to home page
+   webBrowserNavigate browser,"file://"+fixPath(get dir$())+"/index.html"
+endfunction
+
+function populateTreeView(folder as string, parent)
+   local name as string=""
+
+   `Set the current folder
+   set dir folder
+
+   `Get a list of files in the folder
+   perform checklist for files
+
+   count=checklist quantity()
+
+   `Loop through each item in the checklist, checking if it is a file or folder
+   `and adding it to the treeview.
+   for i=1 to count
+      name=checklist string$(i)
+      if (name <> ".") and (name <> "..")
+
+         isFolder=checklist value a(i)
+
+      `If the filename ends in html or htm, it is a web page, and so we add it to the treeview with
+      `a document icon
+         if (right$(name,4)="html") or (right$(name,3)="htm")
+            tmp=addTreeViewItem(tree,parent,0,name)
+         endif
+
+      `If its a folder, add it to the treeview with a folder icon
+         if (isFolder)
+            tmp=addTreeViewItem(tree,parent,1,name)
+         endif
+
+         `If it is a folder, fill in files underneath
+         if isFolder=1
+            folder=get dir$()
+        `Recursively call populateTreeView to add items inside this folder
+            populateTreeView(get dir$()+"\"+name,tmp)
+
+
+            `Reset the checklist - very important!
+           empty checklist
+
+
+        `Reset the checklist with the files that were there before we went into the other folder
+            set dir folder
+            perform checklist for files
+
+         endif
+      endif
+   next i
+
+endfunction
+
+`Replaces backslashes in a path with forward slashes
+function fixPath(path as string)
+
+   pathLen=len(path)
+
+   for i=1 to pathLen
+      if mid$(path,i)="\" : `Found a backslash, convert it to a forward slash
+         path=left$(path,i-1)+"/"+right$(path,pathLen-i)
+      endif
+   next i
+endfunction path
+
+`Converts a treeview item into an URL
+function getURL(item)
+
+
+   local url as string
+   local name as string=""
+   local slashChar as string="/"
+
+   if (item=0)
+      item=selectedTreeViewItem(tree)
+   endif
+
+   `Add the base name of the item to the path
+   name=getTreeViewItemText(tree,item)
+   `Exit if the selected file is not a web page file
+   if (right$(name,4) <> "html") and (right$(name,3) <> "htm") then exitfunction ""
+
+   `Walk *up* the treeview, adding to the path at each stage.  This adds the names of the parent folders
+   `to the path
+   repeat
+      url=getTreeViewItemText(tree,item)+slashChar+url
+      item=getTreeViewParent(tree,item)
+   until item=0
+
+
+      `Return a string in the format file://DRIVELETTER/.../file.html
+      url="file://"+fixPath(get dir$())+slashChar+url
+
+endfunction url
+
+
+
+ 

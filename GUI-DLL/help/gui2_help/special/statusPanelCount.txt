@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{statusPanelCount}HelpPath{Special}ReturnValue{int count=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the number of panels in a statusbar gadget.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle to a statusbar gadget}

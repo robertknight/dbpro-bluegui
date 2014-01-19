@@ -1,0 +1,1 @@
+ReturnDescription{}CommandName{positionGadget}HelpPath{General}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int x, int y}Description{Alternative name for the <a href="moveGadget.html">moveGadget</a> command.  Both work the same way.}

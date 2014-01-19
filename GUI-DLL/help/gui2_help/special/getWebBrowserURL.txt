@@ -1,0 +1,1 @@
+CommandName{getWebBrowserURL}HelpPath{Special}ReturnValue{str URL=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the current URL of a web browser gadget.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a web browser gadget}

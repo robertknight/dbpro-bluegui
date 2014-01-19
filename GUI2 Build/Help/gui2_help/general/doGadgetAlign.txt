@@ -1,0 +1,2 @@
+Param1Desc{Handle to a gadget}CommandName{doGadgetAlign}HelpPath{General}OpenBrace{ }Parameters{handle gadget}Description{Re-aligns a gadget relative to its parent, depending on the gadget's alignment setting (set with setGadgetAlign).  The gadget will be resized and repositioned to fit in the top/bottom/left/right/all of the parent gadget's main area.<br>
+The plugin will do this for you most of the time as necessary.  On ocassion though, it may be necessary to do this manually.}ReturnDescription{}Param1{gadget}

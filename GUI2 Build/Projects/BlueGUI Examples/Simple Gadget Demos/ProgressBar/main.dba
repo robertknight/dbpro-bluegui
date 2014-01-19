@@ -1,0 +1,108 @@
+`Project: ProgressBar Example
+`Created: 07/12/04
+`=================
+`Main Source File
+
+`Global Variables
+   global mainMenu
+   global fileMenu
+
+   global backPanel
+   global progressBar
+
+   global posLabel
+   global rangeEdit
+   global rangeUpDown
+
+   global posLabel
+   global posEdit
+   global posUpDown
+
+`Constants
+   #constant MENU_FILE 1
+   #constant MENU_FILE_EXIT 2
+
+startBlue "USER_ID","KEY"
+
+backPanel=createPanel(0,0,640,480,0)
+
+`Create ProgressBar
+progressBar=createProgressBar(220,20,200,20,backPanel)
+
+`Create Gadget to edit progressbar position and range
+rangeLabel=createLabel(220,50,75,15,"Range:",backPanel)
+rangeEdit=createEdit(220,70,75,25,0,backPanel)
+rangeUpDown=createUpDown(0,0,0,0,rangeEdit,backPanel)
+
+setUpDownRange    rangeUpDown,0,1000
+setUpDownPosition rangeUpDown,100
+
+posLabel=createLabel(345,50,75,15,"Position:",backPanel)
+posEdit=createEdit(345,70,75,25,0,backPanel)
+posUpDown=createUpDown(0,0,0,0,posEdit,backPanel)
+
+setUpDownPosition posUpDown,50
+
+
+
+`Create Menu
+createUIMenu()
+
+`Main Loop
+do
+   `Get information about gadget events
+   getEvent
+
+   `Process event information
+   processEvents()
+
+   `Non-windows related code goes here
+
+loop
+
+`Main User Interface Function
+function processEvents()
+
+   `Handle menu events
+   if eventType()=MENU_CLICK
+      eventMenu(eventData())
+   endif
+
+   `Position UpDown Change
+   currentPos=val(getGadgetText(posEdit))
+   if lastPos <> currentPos
+      setProgressBarPos progressBar,currentPos
+      lastPos=currentPos
+   endif
+
+   `Range Change
+   currentRange=val(getGadgetText(rangeEdit))
+   if lastRange <> currentRange
+      setProgressBarRange progressBar,0,currentRange
+      setUpDownRange posUpDown,0,currentRange
+      lastRange=currentRange
+   endif
+
+endfunction
+
+`Create a menu in the program
+function createUIMenu()
+   mainMenu=createMenu(0)
+   addMenuItem mainMenu,"File",MENU_FILE
+
+   fileMenu=createSubMenu(mainMenu,MENU_FILE)
+   addMenuItem fileMenu,"Exit",MENU_FILE_EXIT
+endfunction
+
+`Process menu selections
+function eventMenu(id)
+
+   select id
+      `insert case statements here to respond to each menu item click in turn
+      case MENU_FILE_EXIT
+         end
+      endcase
+   endselect
+
+endfunction
+

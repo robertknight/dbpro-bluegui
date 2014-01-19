@@ -1,0 +1,1 @@
+Param2Desc{Index of the item to remove.  The first tab has an index of 0.}CommandName{removeTab}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int index}Description{Removes a tab from a tabs gadget.}Param1{gadget}Param1Desc{Handle to a tab gadget}Param2{index}

@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getTrackbarPosition}HelpPath{Special}ReturnValue{int position=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the current position of the trackbar gadget's slider.}ReturnDescription{Position of the trackbar's slider.}Param1{gadget}Param1Desc{Handle of a trackbar gadget.}

@@ -1,0 +1,165 @@
+<html>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="index.html">GUI Help</a> &gt <a href="index.html">Create</a> &gt createButton</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>createButton</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+int handle=<b><font color="blue">createButton(</font></b><i>int x, int y, int width, int height, str caption, bool flat, handle parent</i><font color=blue><b>)</b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Creates a new button gadget.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+Handle to the new button
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>x</i>
+</td>
+<td>
+X position of new button
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>y</i>
+</td>
+<td>
+Y position of new button
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>width</i>
+</td>
+<td>
+Width of new button in pixels
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>height</i>
+</td>
+<td>
+Height of new gadget in pixels
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>caption</i>
+</td>
+<td>
+Text which appears on the face of the button
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>flat</i>
+</td>
+<td>
+0 for a 3D button, 1 for a flat button
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>parent</i>
+</td>
+<td>
+Handle to the parent of the new gadget, or 0 for the main window
+</td>
+</tr>
+
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre>if (not GUI_CONSTANTS) then errorMessage "You need to include the constants file for this example to work"
+
+`Create a 3D button belonging to the main window
+buttonA=createButton(10,10,75,25,"3D Button",0,0)
+
+`Create a flat button belonging to the main window
+buttonB=createButton(10,50,75,25,"Flat Button",1,0)
+
+do
+	getEvent
+	
+	if eventType()=MOUSE_CLICK
+		if eventSource()=buttonA then message "You clicked the 3D Button"
+		if eventSource()=buttonB then message "You clicked the Flat Button"
+	endif
+loop</pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

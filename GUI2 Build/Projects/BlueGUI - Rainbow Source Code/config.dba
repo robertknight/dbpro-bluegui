@@ -1,0 +1,87 @@
+`Rainbow Configuration Options
+
+global configSnapToGrid
+global allowGadgetReordering
+
+function loadConfig()
+   local fileNum
+   local configEntry as string
+   local configKey as string
+   local configValue as string
+   local configValueInt
+   
+
+
+   setConfigDefaults()
+
+   fileNum=1
+
+   if file exist("config.ini")=0 then saveConfig()
+
+   open to read fileNum,"config.ini"
+
+   while (not file end(fileNum))
+      read string fileNum,configEntry
+
+      if mid$(configEntry,1) <> ";"
+         equalPos=strchr(configEntry,"=")
+
+         if equalPos
+            configKey=left$(configEntry,equalPos-1)
+            configValue=right$(configEntry,len(configEntry)-equalPos)
+
+            configValueInt=val(configValue)
+
+            select configKey
+               case "snapToGrid"
+                  configSnapToGrid=configValueInt
+               endcase
+               case "allowGadgetReordering"
+                    allowGadgetReordering=configValueInt
+               endcase
+            endselect
+         endif
+      endif
+   endwhile
+
+   close file fileNum
+
+   applyConfig()
+
+endfunction
+
+function setConfigDefaults()
+   configSnapToGrid=1
+   allowGadgetReordering=1
+endfunction
+
+function applyConfig()
+   setMenuItemChecked viewMenu,8,configSnapToGrid
+   setMenuItemChecked editMenu,14,allowGadgetReordering
+endfunction
+
+function saveConfig()
+   local fileNum
+
+   `Reset folder
+   set dir appdir
+
+   fileNum=1
+
+   if file exist("config.ini") then delete file "config.ini"
+
+`   sleep 10000
+
+   open to write fileNum,"config.ini"
+
+   write string fileNum,";View Settings"
+   write string fileNum,"snapToGrid="+str$(configSnapToGrid)
+   
+   write string fileNum,";"
+   write string fileNum,";Edit Settings"
+   write string fileNum,"allowGadgetReordering="+str$(allowGadgetReordering)
+
+   close file fileNum
+
+endfunction
+ 

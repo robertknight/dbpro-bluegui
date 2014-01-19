@@ -1,0 +1,153 @@
+<html>
+<head><title>createRichEdit</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Create</a> &gt createRichEdit</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>createRichEdit</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+int handle=<b><font color="blue">createRichEdit(</font></b><i>int x, int y, int width, int height, handle parent</i><font color=blue><b>)</b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Creates a richedit gadget.  Rich edit gadgets are very similar to normal edit gadgets created with createEdit, except that they are much more flexible.  Whereas all the text in an edit gadget has to have the same font and colour, each character in a richedit gadget can have a different font and colour.  This is useful for any word-processing type applications.<br>Rich edit gadgets work with the same commands as normal edit gadgets, but they also have several richedit-specific commands:  setSelFont, getSelFont and getSelColor.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+Handle to the new richedit.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>x</i>
+</td>
+<td>
+X position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>y</i>
+</td>
+<td>
+Y position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>width</i>
+</td>
+<td>
+Width of new gadget in pixels
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>height</i>
+</td>
+<td>
+Height of new gadget in pixels
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>parent</i>
+</td>
+<td>
+Handle to the parent of the new gadget, or 0 for the main window
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>Richedit gadgets require more memory than standard edit gadgets, so you should only use them where multi-colour / font support is necessary.  Use the standard font command createFont to create a font for use with a richedit.<br>
+Passing a font to setSelFont will set the font of the selected text.  The selected text is only highlighted in a different colour if the richedit gadget is selected, so if you wish to change the properties of text in a richedit without the user seeing a text selection, use activateGadget first to set the focus to another gadget, then select the text and change its font and finally set the focus back to the richedit gadget.
+<br>
+RichEdit gadgets are always multi-line.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Param1Desc{Handle of a window gadget}CommandName{restoreWindow}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget}CloseBrace{}Description{Restores a window to its original size, this "undoes" the effects of the maximizeWindow & minimizeWindow commands.}ReturnDescription{}Param1{gadget}

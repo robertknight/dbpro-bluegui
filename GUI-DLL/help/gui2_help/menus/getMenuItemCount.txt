@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getMenuItemCount}HelpPath{Menus}ReturnValue{int count=}OpenBrace{(}Parameters{handle menu}CloseBrace{)}Description{Retrieves the number of items in the menu.}ReturnDescription{The number of items in the menu.}Param1{menu}Param1Desc{Handle of a menu}

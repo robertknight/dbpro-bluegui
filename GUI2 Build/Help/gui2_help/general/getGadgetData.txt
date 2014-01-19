@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getGadgetData}HelpPath{General}ReturnValue{int data=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the data associated with the gadget.  This is a user-defined value set using setGadgetData.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a gadget}

@@ -1,0 +1,48 @@
+`Trackbar Example
+`================
+`Robert Knight
+
+global win
+global trackbar
+global label
+
+startBlue "USER_ID","KEY"
+
+sync off
+
+`Create a small, fixed window
+win=createWindow(100,100,200,250,"Trackbar Example",WINDOW_FIXED,0,1,0)
+
+`Create an info label
+lb=createLabel(80,20,100,100,"Move the trackbar slider to change the music volume.",win)
+
+`Create a vertical trackbar
+trackbar=createTrackbar(20,20,50,180,1,win)
+
+setTrackbarRange trackbar,0,200
+setTrackbarTickFrequency trackbar,20
+setTrackbarPosition trackbar,100
+
+`Load Music
+load music "music.mp3",1
+
+loop music 1
+
+do
+	getEvent
+
+	if eventSource()=trackbar
+		`Check that the mouse is being moved and that the left mouse button is held down (eventData()=1)
+		if eventType()=MOUSE_MOVE
+			if eventData()=1
+				`Now adjust the volume.  Not that a trackbar's highest value is when the slider is at the bottom
+				`so we have to do 200-getTrackbarPosition(trackbar)
+				set music volume 1,200-getTrackbarPosition(trackbar)
+			endif
+		endif	
+	endif
+	
+	
+	if eventSource()=win and eventType()=WINDOW_CLOSE then end
+loop
+ 

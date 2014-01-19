@@ -1,0 +1,1 @@
+ReturnDescription{Width of specified gadget.}CommandName{gadgetWidth}HelpPath{General}ReturnValue{int width=}OpenBrace{(}CloseBrace{)}Parameters{handle gadget}Description{Retrieves the width of the specified gadget in pixels.}Param1{gadget}Param1Desc{Handle to a gadget}

@@ -1,0 +1,154 @@
+<html>
+<head><title>setPanelImage</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Special</a> &gt setPanelImage</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>setPanelImage</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+<b><font color="blue">setPanelImage </font></b><i>handle gadget, [str filename] | [int image]</i><font color=blue><b></b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Loads an image into a panel gadget.  This can either be an image loaded into DBPro using LOAD IMAGE, or a bitmap file.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>gadget</i>
+</td>
+<td>
+Handle to a panel or label gadget.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>image</i>
+</td>
+<td>
+If specified, the Id of an image loaded into DBPro using LOAD IMAGE or GET IMAGE.  Note that images created using SET CAMERA TO IMAGE do not work (bug in DBPro).
+<br><br>
+<b>Important:</b>  When loading the image into DBPro, you should enable the texture flag.  Eg: LOAD IMAGE "file.bmp",imageNum,1 or GET IMAGE imageNum,0,0,128,128,1.
+<br><br>
+You must also ensure that you have a memblock command somewhere else in your program.  This does not need to be in any code which is ever run, but it just needs to be there in your source so that the compiler builds the memblock commands into the program.  
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>fileName</i>
+</td>
+<td>
+Alternatively, you can specify the filename of a bitmap (BMP) file and that will be loaded instead.  The pixel in the top-left hand corner of the image will be used as a transparent colour.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

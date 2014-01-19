@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getChecked}HelpPath{Special}ReturnValue{bool checked=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Used to find out if a checkbox or radiobutton gadget is checked or not.}ReturnDescription{0 if the gadget is unchecked, 1 if the gadget is checked.}Param1{gadget}Param1Desc{Handle to a checkbox or radiobutton gadget}

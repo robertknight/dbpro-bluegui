@@ -1,0 +1,237 @@
+`TreeView Example
+`================
+`Robert Knight
+sync off
+
+startBlue "USER_ID","KEY"
+
+global taskImageList
+global popupMenu
+
+global mode
+
+#constant POPUP_VIEW     1
+#constant POPUP_ADD      2
+#constant POPUP_ADDCHILD 3
+#constant POPUP_REMOVE   4
+#constant POPUP_SAVE     5
+
+type TToDoItem
+	tvHandle `Handle of treeview item
+	details as string `The content of the to-do item
+endtype
+
+global dim items(100) as TToDoItem
+
+items(0).tvHandle=1
+items(0).details="-None-"
+
+`Call function to create Rainbow-generated interface
+createUI()
+
+`Create the right-click popup menu for the treeview
+popupMenu=createPopupMenu()
+addMenuItem popupMenu,"View Item",POPUP_VIEW
+addMenuSplitter popupMenu
+addMenuItem popupMenu,"Add Item",POPUP_ADD
+addMenuItem popupMenu,"Add Child Item",POPUP_ADDCHILD
+addMenuItem popupMenu,"Remove Item",POPUP_REMOVE
+addMenuSplitter popupMenu
+addMenuItem popupMenu,"Save List",POPUP_SAVE
+
+`Fill in the various gadgets
+setupUI()
+
+do
+	getEvent
+	
+	if eventSource()=tvTasks
+		if eventType()=RIGHTBUTTON_DOWN
+			`Select the item currently under the mouse
+			selectTreeViewItem tvTasks,treeViewItemFromPoint(tvTasks,mousePosX(tvTasks),mousePosY(tvTasks))
+			todoPopup()
+		endif	
+		if eventType()=LEFTBUTTON_DBLCLICK
+			viewItem()
+		endif
+	endif
+	
+	
+	if eventSource()=winTaskEdit
+		if eventType()=WINDOW_CLOSE
+			end
+		endif
+	endif
+loop
+
+function setupUI()
+	`Priority options
+	addItem cmbPriority,"Normal"
+	addItem cmbPriority,"Low"
+	addItem cmbPriority,"High"
+	addItem cmbPriority,"Urgent"
+	selectItem cmbPriority,0
+	
+	
+	`Create an image list for the different priority options
+	taskImageList=createImageList(16,16)
+
+	addImageListItem taskImageList,get dir$()+"\graphics\pri_normal.bmp"
+	addImageListItem taskImageList,get dir$()+"\graphics\pri_low.bmp"
+	addImageListItem taskImageList,get dir$()+"\graphics\pri_high.bmp"
+	addImageListItem taskImageList,get dir$()+"\graphics\pri_urgent.bmp"
+	`Associate the image list with the treeview
+	setTreeViewImageList tvTasks,taskImageList,0
+	
+	`Add some items to the treeview
+	tmp=addTreeViewItem(tvTasks,0,0,"Graphics")
+	tmp=addTreeViewItem(tvTasks,0,0,"AI")
+	tmp=addTreeViewItem(tvTasks,0,0,"Sound")
+	tmp=addTreeViewItem(tvTasks,0,0,"Editor")
+endfunction
+
+function todoPopup()
+	result=showPopupMenu(popupMenu)
+	
+	select result
+		case POPUP_VIEW
+			viewItem()
+		endcase
+		case POPUP_ADD
+			mode=0
+			newItem()
+		endcase
+		case POPUP_ADDCHILD
+			mode=1
+			newItem()
+		endcase
+		case POPUP_REMOVE
+			removeTreeViewItem tvTasks,selectedTreeViewItem(tvTasks)
+		endcase
+		case POPUP_SAVE
+			saveList()
+		endcase
+	endselect
+endfunction
+ 
+function newItem()
+	local subject as string
+	local details as string
+	
+	`Setup Window
+	setGadgetVisible winNewTask,1
+	setGadgetText txtSubject,""
+	setGadgetText txtDetails,""
+	selectItem cmbPriority,0
+	activateGadget txtSubject
+	
+	
+	
+	`Loops and waits
+	repeat
+		getEvent
+		
+		if (eventSource()=addNewOK and eventType()=MOUSE_CLICK)
+			
+			selItem=selectedTreeViewItem(tvTasks)
+			selImage=selectedItem(cmbPriority)
+			
+			subject=getGadgetText(txtSubject)
+			details=getGadgetText(txtDetails)
+			
+			if mode=0
+				tmp=addTreeViewItem(tvTasks,getTreeViewParent(tvTasks,selItem),selImage,subject)
+			endif
+			if mode=1
+				tmp=addTreeViewItem(tvTasks,selItem,selImage,subject)
+			endif
+			
+			index=freeIndex()
+			items(index).tvHandle=tmp
+			items(index).details=details
+			
+			
+			finished=1
+		endif	
+		
+		`Check for Tab press - if so activate Details box
+		if (eventSource()=txtSubject and eventType()=KEYDOWN and eventData()=9)
+			activateGadget txtDetails
+		endif
+		
+		if ((eventSource()=addNewCancel and eventType()=MOUSE_CLICK)) or eventType()=WINDOW_CLOSE
+			finished=1
+		endif
+		
+		`Important! - If you have RemoveSafetyCode set to "Yes" in the compiler settings file
+		`you must call the Sync command to ensure that the window receives messages. 
+		
+		`If you have this set to "No" then it is not necessary.  You only need to do this in the outer loop
+		`it does have a speed impact though.
+		sync
+	until finished
+	
+	setGadgetVisible winNewTask,0
+	activateGadget tvTasks
+endfunction
+
+function freeIndex()
+	for i=0 to 100
+		if items(i).tvHandle=0 then exitfunction i
+	next i
+endfunction 0
+ 
+function tvHandleToIndex(handle)
+	for i=0 to 100
+		if items(i).tvHandle=handle then exitfunction i
+	next i
+endfunction 0
+
+function viewItem()
+	index=tvHandleToIndex(selectedTreeViewItem(tvTasks))
+	message "To-Do Summary:"+chr$(10)+chr$(13)+items(index).details
+endfunction
+
+function saveList()
+	local fileName as string
+	
+	fileName=saveDialog("Save List","Text Files (*.txt)|*.txt")	
+	
+	if fileName <> ""
+		if file exist(fileName) then delete file fileName
+		
+		open to write 1,fileName
+		
+		item=getTreeViewRoot(tvTasks)
+		
+		
+		while (item)
+			write string 1,getTreeViewItemText(tvTasks,item) + ": " + items(tvHandleToIndex(item)).details
+			item=getNextItem(tvTasks,item)
+		endwhile
+		
+		close file 1
+	endif
+endfunction
+
+`Walks through the treeview and returns the handle of the next item
+function getNextItem(treeview,item)
+	
+	nxtItem=getTreeViewChild(treeview,item)
+	if nxtItem <> 0 then exitfunction nxtItem
+	
+	nxtItem=getTreeViewNext(treeview,item)
+	if nxtItem <> 0 then exitfunction nxtItem
+	
+	repeat
+		parent=getTreeViewParent(treeview,item)
+		nxtItem=getTreeViewNext(treeview,parent)
+		
+		item=parent
+		
+	until (parent=0) or (nxtItem<>0)
+	
+	exitfunction nxtItem
+	
+endfunction 0
+ 

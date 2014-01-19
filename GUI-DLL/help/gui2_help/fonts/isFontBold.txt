@@ -1,0 +1,1 @@
+Param1Desc{Handle of a font.}CommandName{isFontBold}HelpPath{Fonts}ReturnValue{bool bold=}OpenBrace{(}Parameters{handle font}CloseBrace{)}Description{Used to determine if a font is bold or not.}ReturnDescription{Returns 1 if the specified font is bold, or 0 if it is not.}Param1{font}

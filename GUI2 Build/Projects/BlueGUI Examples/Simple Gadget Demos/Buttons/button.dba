@@ -1,0 +1,108 @@
+`Button Example
+`==============
+`Robert Knight
+
+sync on
+
+startBlue "USER_ID","KEY"
+
+`Variables to hold gadget handles
+global btnCube
+global btnSphere
+global btnCone
+global btnExit
+
+`Create instruction label
+lbInstruction=createLabel(0,0,640,20,"Click a button to create a new object",0)
+
+`Create buttons
+btnCube=createButton(140,50,100,100,"",0,0)
+btnSphere=createButton(270,50,100,100,"",0,0)
+btnCone=createButton(400,50,100,100,"",0,0)
+btnExit=createButton(560,440,75,25,"Exit",0,0)
+
+`Set the backdrop of the 3D view to the same color as the button face
+create bitmap 1,64,64
+color backdrop getSystemColor(22)
+set camera view 0,0,64,64
+
+`Create a cube, capture its image and apply it to the button
+	make object cube 1,5
+	turn object right 1,45
+	color object 1,RGB(255,0,0)
+	sync
+
+	get image 1,0,0,64,64,1
+	
+	`Apply image to the button
+	setButtonImage btnCube,1
+	
+	delete object 1
+	
+`Create a sphere, capture its image and apply it to the button
+	make object sphere 1,5
+	color object 1,RGB(255,0,0)
+	sync
+	
+	get image 1,0,0,64,64,1
+	
+	`Apply image to the button
+	setButtonImage btnSphere,1
+	
+	delete object 1
+	
+`Create a cone, capture its image and apply it to the button
+	make object cone 1,5
+	color object 1,RGB(255,0,0)
+	sync
+	
+	get image 1,0,0,64,64,1
+	
+	`Apply image to the button
+	setButtonImage btnCone,1
+	
+	delete object 1
+
+`Reset
+set current bitmap 0
+color backdrop rgb(0,0,0)
+set camera view 0,0,640,480
+
+
+do
+	getEvent
+	
+	if eventSource()=btnCube and eventType()=MOUSE_CLICK
+		message "You clicked the CUBE button."
+		if object exist(1) then delete object 1
+		make object cube 1,5
+		color object 1,rgb(255,0,0)
+		setGadgetEnabled btnCube,0
+	endif
+	if eventSource()=btnSphere and eventType()=MOUSE_CLICK
+		message "You clicked the SPHERE button."
+		if object exist(1) then delete object 1
+		make object sphere 1,5
+		color object 1,rgb(255,0,0)
+		setGadgetEnabled btnSphere,0
+	endif
+	if eventSource()=btnCone and eventType()=MOUSE_CLICK
+		message "You clicked the CONE button."
+		if object exist(1) then delete object 1
+		make object cone 1,5
+		color object 1,rgb(255,0,0)
+		setGadgetEnabled btnCone,0
+	endif
+	
+	if eventSource()=btnExit and eventType()=MOUSE_CLICK
+		end
+	endif
+	
+	sync
+loop
+
+`VERY VERY Important - You must have a memblock command somewhere in your program else it won't work
+function neverCalled()
+	delete memblock 0
+endfunction
+ 

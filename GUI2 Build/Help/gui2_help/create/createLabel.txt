@@ -1,0 +1,14 @@
+HelpPath{Create}CommandName{createLabel}ReturnValue{int handle=}OpenBrace{(}Parameters{int x, int y, int width, int height, str caption, handle parent}CloseBrace{)}Description{Creates a new label gadget.  Labels are simple pieces of text used to label parts of your program, or provide status information to the user.}ReturnDescription{Handle to the new label.}Param1{x}Param1Desc{X position of new gadget}Param2{y}Param2Desc{Y position of new gadget}Param3{width}Param3Desc{Width of new gadget in pixels}Param4{height}Param4Desc{Height of new gadget in pixels}Param5{caption}Param5Desc{Text which appears on the face of the label}Param6{}Param6Desc{}Remarks{}Param7{parent}Param7Desc{Handle to the parent of the new gadget, or 0 for the main window}ExampleSource{if (not GUI_CONSTANTS) then errorMessage "You need to include the constants file for this example to work"
+
+`Create a background panel
+back=createPanel(0,0,640,480,0)
+
+`Create label gadgets inside panel
+coords=createLabel(10,10,400,15,"Move the mouse over the window to see its position:",back)
+xLabel=createLabel(10,30,50,15,"X:",back)
+yLabel=createLabel(10,50,50,15,"Y:",back)
+
+do
+	setGadgetText xLabel,"X: " + str$(mousePosX())
+	setGadgetText yLabel,"Y: " + str$(mousePosY())
+loop}

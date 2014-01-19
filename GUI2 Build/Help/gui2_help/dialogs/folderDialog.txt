@@ -1,0 +1,1 @@
+CommandName{folderDialog}HelpPath{Dialogs}ReturnValue{str dir=}OpenBrace{(}Parameters{ }CloseBrace{)}Description{Shows a standard windows folder-picker dialog and returns the path of the folder which the user selected.}ReturnDescription{The path of the folder which the user selected.}Param1{}

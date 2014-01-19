@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getUpDownPosition}HelpPath{Special}ReturnValue{int position=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the current value of the UpDown gadget, set using setUpDownPosition or by clicking the up/down arrows on the gadget.}ReturnDescription{Value of the UpDown gadget.}Param1{gadget}Param1Desc{Handle to an UpDown gadget.}

@@ -1,0 +1,1 @@
+CommandName{getParentGadget}HelpPath{General}ReturnValue{handle parent=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns a handle to the parent of a gadget, ie. the window which owns the gadget.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a gadget}

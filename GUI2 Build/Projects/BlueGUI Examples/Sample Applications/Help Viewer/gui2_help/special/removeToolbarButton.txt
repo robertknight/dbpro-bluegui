@@ -1,0 +1,1 @@
+Param2Desc{Zero-based index of the button you wish to remove.}CommandName{removeToolbarButton}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int index}CloseBrace{}Description{Removes a button from a toolbar.}ReturnDescription{}Param1{gadget}Param1Desc{Handle to a toolbar gadget.}Param2{index}

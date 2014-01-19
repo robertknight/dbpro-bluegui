@@ -1,0 +1,172 @@
+<html>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="index.html">GUI Help</a> &gt <a href="index.html">Create</a> &gt createWindow</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>createWindow</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+int handle=<b><font color="blue">createWindow(</font></b><i>int x, int y, int width, int height, str caption, int styles, int extraStyles, int createTopMost, handle parent</i><font color=blue><b>)</b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Creates a window gadget.  Windows come in a variety of different kinds, which you can specify using the styles parameters.  Windows can either belong to another gadget (they are only visible when the parent is visible, and they always show in front of the parent), or they can be independant (the main application window is usually the only independant window).
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+Handle to the new gadget.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>x</i>
+</td>
+<td>
+X position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>y</i>
+</td>
+<td>
+Y position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>width</i>
+</td>
+<td>
+Width of new gadget in pixels
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>height</i>
+</td>
+<td>
+Height of new gadget in pixels
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>caption</i>
+</td>
+<td>
+The text which appears in the titlebar of the window.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>styles</i>
+</td>
+<td>
+Specifies the appearence & features of the window.  This must be specified. There are two common types, the values below are specified in the gui.dba constants file:
+<br><br>
+<ul>
+<li>WINDOW_NORMAL- Resizeable window with an icon, max/min button and a close button.</li> 
+<li>WINDOW_FIXED - Window with titlebar and close button, but no min/max button and is not resizeable</li>
+</ul>
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>extraStyles</i>
+</td>
+<td>
+Additional window options.  You can leave this as 0.  The only setting which you will need on a regular basis here is WINDOW_TOOLWINDOW (from the constants file).  This creates a window with a thin title bar and a close button.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>createTopMost</i>
+</td>
+<td>
+If 1, the window is created independant of all the other windows in your program, if 0 the window is created as a child of another gadget, as specified by the parent parameter.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>parent</i>
+</td>
+<td>
+Handle to the parent for the new gadget.  If 0, this is either the main DBPro window if createTopMost is 0, or the window has no parent (if createTopMost is 1)
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

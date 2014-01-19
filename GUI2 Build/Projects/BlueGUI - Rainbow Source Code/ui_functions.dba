@@ -1,0 +1,98 @@
+`Removes Quotes from a String
+function stripQuotes(inputStr as string)
+	local result as string	
+	
+	for i=1 to len(inputStr)
+		if mid$(inputStr,i) <> QUOTE_CHAR
+			result=result+mid$(inputStr,i)
+		endif
+	next i
+	
+endfunction result
+
+
+`Displays an input dialog which returns the number entered
+function inputBox(title as string, prompt as string, defaultText as string, parent)
+     local inputWin
+     local inputPrompt
+     local inputEdit
+     local inputOK
+     local inputCancel
+     local result as string
+     
+ 	
+    
+    `Create gadgets for input dialog 
+    setGadgetDefaults 0
+    inputWin=createWindow(100,221,376,176,title,WINDOW_FIXED,0,0,0)
+    setWindowIcon inputWin,"graphics\rainbow.ico"
+ 
+    setGadgetDefaults 1
+    
+    setGadgetVisible inputWin,1,1
+    
+    inputPrompt=createLabel(15,20,335,30,prompt,inputWin)
+    inputEdit=createEdit(15,60,345,20,0,inputWin)
+    
+    setGadgetText inputEdit,defaultText
+    setSelStart inputEdit,len(defaultText)
+    
+    inputOK=createButton(205,100,75,25,"OK",0,inputWin)
+    inputCancel=createButton(285,100,75,25,"Cancel",0,inputWin)
+    
+    activateGadget inputEdit
+    
+    `Loop until user selects yes or no
+    do
+          getEvent
+          
+          if (activeGadget()<>inputEdit) then activateGadget inputEdit
+          
+          if (eventSource()=inputEdit) and (eventType()=KEYDOWN) and (eventData()=13)
+               result=getGadgetText(inputEdit)
+               exit 
+          endif
+          
+          if (eventSource()=inputOK) and (eventType()=MOUSE_CLICK)
+               result=getGadgetText(inputEdit)
+               exit
+          endif
+          
+          if (eventSource()=inputCancel) and (eventType()=MOUSE_CLICK)
+               result="~X~"
+               exit
+          endif
+          if (eventSource()=inputWin) and (eventType()=WINDOW_CLOSE)
+               result="~X~"
+               exit
+          endif
+          
+    loop
+    
+    `Delete gadgets and clear up
+    
+    deleteGadget inputOK
+    deleteGadget inputCancel
+    deleteGadget inputEdit
+    deleteGadget inputWin
+     
+endfunction result
+
+`Paints a canvas gadget to look like a scroll bar
+function paintDummyScrollbar(gadget)
+     width=gadgetWidth(gadget)
+     height=gadgetHeight(gadget)
+     
+     `Draw Background Rectangle
+     setDrawingColor gadget,RGB(0,128,255),RGB(255,255,255),0
+     drawRect gadget,0,0,width,height
+
+     `Draw Info
+     heightReq=getTextHeight(gadget,"Scrollbar")
+     widthReq=getTextWidth(gadget,"Scrollbar")
+     
+     drawText gadget,(width/2)-(widthReq/2),(height/2)-(heightReq/2),"Scrollbar"
+     
+     paintGadget gadget
+endfunction
+ 

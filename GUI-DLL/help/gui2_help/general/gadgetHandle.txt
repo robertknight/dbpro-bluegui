@@ -1,0 +1,1 @@
+Param1Desc{}CommandName{gadgetHandle}HelpPath{General}ReturnValue{int handle=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Alternative name for the <a href="windowHandle.html">windowHandle</a> function.  Both commands do the same task.}

@@ -1,0 +1,8 @@
+Param1{gadget}CommandName{setDrawingColor}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, DWORD lineColour, DWORD fillColour, DWORD textColour}CloseBrace{}Description{Sets the 3 different drawing colours which a canvas gadget uses when drawing shapes using drawLine, drawRect, drawEllipse or drawText.
+<br>
+Set any of the parameters to 0 for the colour black.
+<br>
+The colours can be created using the RGB command, eg for a red outline, green fill and black text:
+<pre>
+setDrawingColor rgb(255,0,0),rgb(0,255,0),0
+</pre>}ReturnDescription{}Param1Desc{Handle of a canvas gadget}Param2{lineColour}Param2Desc{The colour used to draw the borders of shapes or lines.}Param3{fillColour}Param3Desc{The colour used to do the middle fill of shapes such as rectangles and ellipses.}Param4{textColour}Param4Desc{The colour used by the drawText command to draw text in the canvas.}Param5{}Remarks{setDrawingColor is quite fast, unlike DBPro's INK command, you can change it often in a loop without affecting performance.}

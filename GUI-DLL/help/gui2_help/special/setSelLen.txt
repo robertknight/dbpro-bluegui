@@ -1,0 +1,1 @@
+CommandName{setSelLen}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle editGadget, int selLength}CloseBrace{}Description{Sets the length of the selection in an edit gadget.}ReturnDescription{}Param1{editGadget}Param1Desc{Handle to an edit gadget}Param2{selLength}Param2Desc{The new length of the selection, or 0 to remove the current selection.}

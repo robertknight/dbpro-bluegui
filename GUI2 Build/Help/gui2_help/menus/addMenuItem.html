@@ -1,0 +1,151 @@
+<html>
+<head><title>addMenuItem</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Menus</a> &gt addMenuItem</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>addMenuItem</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+<b><font color="blue">addMenuItem </font></b><i>handle menu, str caption, int returnValue, [int insertBefore], [str image]</i><font color=blue><b></b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Adds an item to a menu created with createMenu, createSubMenu or createPopupMenu.  When the user selects the item from the menu, a MENU_CLICK message is sent to the window which owns the menu, and eventData() contains the menu item id (taken from the returnValue parameter ^ )
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>menu</i>
+</td>
+<td>
+Handle to a menu
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>caption</i>
+</td>
+<td>
+The text of the menu item
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>returnValue</i>
+</td>
+<td>
+A number which identifies the new item.  The number which will appear in eventData() when the menu item is selected.  Use this to identify which menu item has been clicked.  You also need to pass this number to the setMenuItemEnabled, setMenuItemChecked etc. commands to change the item.<br><br>
+You should use a different number for all menu items in your application, regardless of which menus they belong to.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>[insertBefore]</i>
+</td>
+<td>
+Optional.  Usually items are added to the end of the menu, but sometimes you may want to insert a menu item into the menu in a different place.  If specified, the new item will be inserted before this item.
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>[str image]</i>
+</td>
+<td>
+Optional.  A bitmap image usually 16x16 pixels in size which appears next to the menu item and takes the place normally reserved for check / radio marks.  This must be a ".bmp" file.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

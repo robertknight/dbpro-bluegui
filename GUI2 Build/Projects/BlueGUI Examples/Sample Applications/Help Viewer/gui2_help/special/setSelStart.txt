@@ -1,0 +1,3 @@
+SeeAlso{}CommandName{setSelStart}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle editGadget, int selStart}Description{Sets the position of the caret (the thin blinking cursor) within the edit gadget if no text is selected.  Otherwise, it sets the first character of the current selection in an edit gadget.
+
+Used in combination with setSelLen to set the length of the selected text.}ReturnDescription{}Param1{editGadget}Param1Desc{Handle to an edit gadget}Param2{selStart}Param2Desc{Zero based index of character which will be the first in the current selection.  Set this to -1 to deselect all text.}Remarks{}

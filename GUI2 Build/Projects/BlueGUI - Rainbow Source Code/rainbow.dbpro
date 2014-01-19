@@ -1,0 +1,42 @@
+version=DBP1.00
+;****DarkBASIC Professional Project****
+;[Created by BLUE IDE - version 1.0.0]
+;Basic project details
+project name=
+;
+;Files
+final source=_Temp.dbsource
+main=main.dba
+include1=gui.dba
+include2=export.dba
+include3=config.dba
+include4=context_menu.dba
+include5=ui_functions.dba
+executable=rainbow.exe
+build type=exe
+CLI=NO
+compression=NO
+encryption=NO
+media root path=C:\Documents and Settings\Rob\My Documents\DarkBASIC\Projects\Rainbow\
+ 
+;====Other Settings====
+app title=Rainbow
+graphics mode=hidden
+fullscreen resolution=
+window resolution=
+compression=NO
+encryption=NO
+ 
+;====Version Information====
+vercomments=
+vercompany=
+vercopyright=
+verfiledesc=
+verfilename=
+verfilenumber=
+verinternal=
+verproduct=
+verproductnumber=
+vertrademark=
+ 
+;====Project Organisation====

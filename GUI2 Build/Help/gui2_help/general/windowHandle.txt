@@ -1,0 +1,3 @@
+CommandName{windowHandle}HelpPath{General}ReturnValue{int handle=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns Windows' own handle for the specified gadget.  Each gadget has a window handle assigned to it by Windows.  This handle is used internally by the plugin to manipulate the gadget.
+<br><br>
+The window handle will only be needed by more advanced users, but can be useful if you wish to directly manipulate the gadget using the Windows API commands (via the CALL DLL function).}ReturnDescription{Window handle of the specified gadget}Param1{gadget}Param1Desc{Handle to the gadget whoose window handle you wish to obtain.}

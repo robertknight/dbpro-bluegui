@@ -1,0 +1,8 @@
+Remarks{}CommandName{setButtonImage}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{[handle gadget, str fileName] | [handle gadget, int imageIndex]}CloseBrace{}Description{Sets the image which appears on the face of a button.  This can either be an image from a bitmap file, or an image already loaded into DBPro using LOAD IMAGE or GET IMAGE.
+<br><br>
+For a panel or label gadget use setPanelImage instead.
+<br><br>
+<i><b>Please read the paramter descriptions below carefully, there are some important notes which you need to know in order to use this command.</b></i>}ReturnDescription{}Param1{gadget}Param1Desc{Handle to a button gadget}Param2{[fileName]}Param2Desc{Bitmap file to load the image from.  This must be a standard windows BMP file.  For other file types load the image using LOAD IMAGE, then use the imageIndex parameter instead.<br>
+Images loaded using this method will use transparency by default.  The colour of the top-left hand pixel in the image will be used as the transparent colour.}Param3{[imageIndex]}Param3Desc{Instead of a filename you can specify the number of an image loaded into DBPro.  For the image to work correctly, you must disable mip-mapping of the image.  To do this, you should set the texture flag to 1 on the end of the LOAD IMAGE or GET IMAGE command.  (Eg: LOAD IMAGE "myfile.bmp",1,1  or GET IMAGE 1,0,0,128,128,1)  
+<br><br>
+<b>Important:</b> - In order to use this command, you must use at least one memblock command somewhere else in your program.  This does not have to be in code which is actually run, it can be in a function or subroutine which you never actually use, but it must be there.}

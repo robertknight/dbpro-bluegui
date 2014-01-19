@@ -1,0 +1,3604 @@
+`Rainbow
+`Visual UI Designer for BlueGUI
+`==============================
+`Robert Knight 2004
+
+`region - App Initialisation
+	startBlue "USER_ID","KEY"
+	
+	`Setup app in high-CPU usage mode
+	sync on
+`endregion
+
+`region - Editor Globals and Constants
+	`========================================
+	`region - General App Globals
+		global inactiveMode
+		
+		#constant RAINBOW_VERSION "1.04"
+		#constant MAX_GADGETS 500
+		
+		global appdir as string
+		appdir=get dir$()
+	`endregion
+	
+	`region - Editor Gadgets
+		`===============
+		`Main Windows
+		global propsWin    :     	`Gadget layout treeview & gadget properties editor
+		global toolboxWin  :     	`Main menu and gadget toolbox
+		global mainEditWin :        	`Editor area window representing the main DBPro window
+		global mainEditMenu : 	`Menu belonging to main edit area
+		global mainEditWin_TVHandle
+		
+		`Toolbox Window
+		global menu
+		global fileMenu
+		global editMenu
+		global viewMenu
+		global helpMenu
+		global toolbar
+		global toolboxStatus
+		
+		`Item Editor Window
+		global itemWin
+		global itemList
+		global itemAdd
+		global itemRemove
+		global itemListPopup
+		
+		`Menu Editor Window
+		global menuWin
+		global menuTree
+		global tvMenuTreeRoot
+		global menuPopup
+		
+		`Properties Window
+		global layoutFrame
+		global layoutTree
+		global layoutTreeIcons
+		global propsFrame
+		global propsSelect
+		global propsTree
+		global propsSettingLabel
+		
+		`Various different gadgets for editing different types of properties
+		global propsSettingEdit     :`Text or Numbers
+		global propsSettingCombo    :`Multiple discreet properties
+		global propsSettingCheckbox :`Boolean Yes/No type property
+		
+		`Edit window
+		global dim sizeMarker(8)
+		global sizeToolTip
+		
+	`endregion
+	
+	`region - Drawing
+		`=======
+		global currentDrawingType=-1
+		global selectedGadget
+		global activeWin
+		global activeMarker=0
+		global activeMode=0
+		
+		global sourceIndex :`When we click to position a gadget this is updated
+		
+		global positionOffsetX
+		global positionOffsetY
+		global ignoreMouseMove: `When selecting gadgets that have a border, we have to ignore the first subsequent mouse move message
+		
+		global oldPropText as string :`When a text or number property is edited, this stores the original value
+		
+		global lockedState :`Is the current gadget locked?
+		
+	`endregion
+	
+	`region - State Variables
+		`===============
+		
+		global gridSizeX=5
+		global gridSizeY=5
+		
+		global activeFile as string
+		global modified
+		
+		global layoutDragging :`Set to 1 when the user is rearranging gadgets in the layout treeview
+		global dragStartX : `X co-ord of mouse when dragging started
+		global dragStartY : `Y co-ord of mouse when dragging started
+		
+		global currentPropEditorGadget `Handle of the gadget whoose properties are currently being edited
+		global currentPropEditorItem `Handle of the property tree item which is currently being edited
+		global currentPropEditorString as string `Text of the property edit box
+		
+		global createHidden : `Set to 1 when loading a file so that other potential calls to setGadgetDefaults are ignored.
+		
+		#constant MODE_RESIZE   1
+		#constant MODE_POSITION 2
+		
+		#constant QUOTE_CHAR    chr$(34)
+		#constant SPACETAB      space$(4)
+		
+		`Orientation styles for gadgets like scrollbars, trackbars and updowns
+		#constant STYLE_HORZ 0
+		#constant STYLE_VERT 1
+		
+		`Window border styles for window gadgets
+		#constant WINBORDER_NORMAL      0
+		#constant WINBORDER_FIXED       1
+		#constant WINBORDER_NORMAL_TOOL 2
+		#constant WINBORDER_FIXED_TOOL  3
+	`endregion
+	
+	`region - Properties Tree Handles
+		`=======================
+		global tvItemName
+		global tvItemEnabled
+		global tvItemVisible
+		global tvItemWidth
+		global tvItemHeight
+		global tvItemLeft
+		global tvItemTop
+		global tvItemText
+		global tvItemAlign
+		
+		`global tvItemStyle
+		global tvItemBorder
+		
+		`Optional Styles
+		global tvItemStyle
+		global tvItemItems
+		global tvItemMenu
+		global tvItemWinBorder
+		
+	`endregion 
+	
+	`region Gadget Types
+		`============
+		#constant GADGET_BUTTON 0
+		#constant GADGET_LABEL  1
+		#constant GADGET_EDIT   2
+		#constant GADGET_CHECK  3
+		#constant GADGET_RADIO  4
+		#constant GADGET_PANEL  5
+		#constant GADGET_FRAME  6
+		#constant GADGET_LIST   7
+		#constant GADGET_COMBO  8
+		#constant GADGET_TABS   9
+		#constant GADGET_TREEVW 10
+		#constant GADGET_CANVAS 11
+		#constant GADGET_SCROLL 12
+		#constant GADGET_UPDWN  13
+		#constant GADGET_TOOLB  14
+		#constant GADGET_WIN    15
+		
+		`TODO - Implement these - (21-X)
+		#constant GADGET_LISTVW 16
+		#constant GADGET_WEB    30
+		#constant GADGET_PROG   17
+		#constant GADGET_STATUS 18
+		#constant GADGET_TRACK  19
+		
+		#constant GADGET_TYPE_COUNT 19
+		
+	`endregion
+	
+	type TGadget
+		handle   `Gadget handle
+		parent `Handle of gadget's parent
+		gtype  `Numerical identifier specifying the type of the parent
+		name as string `Used for the variable name of the gadget in the exported code
+		caption as string `Gadget's caption
+		treeviewItemHandle `Handle of the treeview item representing the gadget
+		comboIndex `Index of the combobox item representing the gadget
+		locked `When set to 1, the gadget cannot be positioned
+		window `The window which was active when the gadget was created
+		startEnabled `Is gadget enabled or disabled when it is first created
+		startVisible `Is gadget visible or hidden when it is first created
+		align `How gadget automatically resizes to fit parent
+		
+		hasBorder `Set to 1 to enable border property
+		border `Stores the kind of border, values are same as the BORDER constants for setPanelBorderStyle
+		hasStyle `Set to 1 to enable style property
+		style `0 for Horizontal, 1 for Vertical
+		
+		windowBorder `Window Border Style (Window Gadgets only): 0 for Normal, 1 for Fixed Border, 2 for ToolWindow, 3 for Fixed ToolWindow
+		
+		`NOT IMPLEMENTED propFlags `A combination of flags which specify the additional properties that a gadget has
+		`NOT IMPLEMENTED hasImage `Set to 1 to enable image property
+		`NOT IMPLEMENTED image as string `String containing path to gadget image
+		
+		hasItems `Set to 1 to enable items editing
+		
+		`Needed For Cloning Gadgets - Don't use to find out the width or height of a gadget, use gadgetWidth / gadgetHeight instead.
+		width	
+		height
+	endtype
+	
+	`region - Gadget Lists & Clipboard Management
+		
+		global dim gadgets(MAX_GADGETS) as TGadget
+		
+		`Clipboard Management
+		global dim clipboardGadgets(0) as TGadget
+		#constant CLIP_CLEAR 1
+	`endregion
+	`========================================
+`endregion
+
+`region - Editor Initalisation
+	`Create editor interface
+	createUI()
+	
+	`Load settings
+	loadConfig()
+	
+	activeWin=mainEditWin
+	
+	`Workaround for DBPro U5.4 Hidden Window Bug
+	proWin=createGadgetFromWindow(mainWindow())
+	setGadgetVisible proWin,0
+	`===
+	
+	local commandline as String
+	commandline=stripQuotes(CL$())
+	`Check for commandline request to open file
+	if file exist(commandline) 
+		loadLayout(commandline)
+	endif
+`endregion
+
+`region - Main Program Loop
+	do
+		getEvent
+		
+		`if getGadgetVisible(toolboxWin)=0
+		`   saveConfig()
+		`   end `Exit if main window is closed
+		`endif
+		
+		processEvents()
+		
+	loop
+`endregion
+
+function createUI()
+	createToolbox()
+	createProperties()
+	createMainEditArea()
+	
+	createItemEdit()
+	createMenuEdit()
+	createContextMenu()
+	
+	createSizeMarkers(mainEditWin)
+	
+	`Initial program setup
+	setGadgetVisible toolboxWin,1
+	activateGadget toolboxWin
+	
+	updatePropertyTree()
+endfunction
+
+function processEvents()
+	local fileName as string
+	
+	lockedState = gadgets(getGadgetData(selectedGadget)).locked
+	
+	`Switch to inactive or active mode if necessary depending on whether Rainbow has keyboard focus
+	if activeGadget()=0
+		if inactiveMode=0 then sync off : inactiveMode=1
+	else
+		if inactiveMode then sync on : inactiveMode=0
+	endif
+	
+	if (eventSource()=mainEditWin) and (eventType()=MOUSE_CLICK) and (activeMode=0)
+		selectedGadget=0
+	endif
+	
+	`Exit Request
+	if eventSource()=toolboxWin and eventType()=WINDOW_CLOSE
+		doExit=1
+		
+		if modified
+			doExit=savePrompt()
+		endif
+		
+		if doExit
+			setGadgetVisible toolboxWin,0
+			setGadgetVisible propsWin,0
+			setGadgetVisible activeWin,0
+			
+			sync
+			
+			deleteGadget toolboxWin
+			
+			saveConfig()
+			end
+		endif
+	endif
+	
+	`Toolbar Selection
+	if eventSource()=toolbar and eventType()=MOUSE_CLICK
+		currentDrawingType=getToolbarItem(toolbar)
+		
+		for i=0 to GADGET_TYPE_COUNT
+			if i <> currentDrawingType then setToolbarButtonState toolbar,i,0	
+		next i
+		
+		if currentDrawingType=GADGET_WIN
+			createNewGadget(0,"",0,0,0)
+			currentDrawingType=-1
+		endif
+	endif
+	
+	if gadgetUnderMouse()=toolbar
+		typeString$=gadgetTypeToString(getToolbarItem(toolbar))
+		
+		if typeString$ <> ""
+			statusString$="Create a " + typeString$ + " gadget."
+		else
+			statusString$=""
+		endif
+	else
+		statusString$=""
+	endif
+	
+	if getStatusText(toolboxStatus,0) <> statusString$
+		setStatusText toolboxStatus,0,statusString$
+	endif
+	
+	`Menu Selection
+	if (eventType()=MENU_CLICK) and (eventDataEx()=0)
+		editorEventMenuSelect()
+	endif
+	
+	`Left mouse down actions - Draw new gadget or begin positioning / resizing
+	if eventType()=LEFTBUTTON_DOWN
+		editorEventLeftButtonDown()
+		modified=1
+	endif
+	
+	`Finish moving or positioning the gadget when the mouse is released
+	if eventType()=LEFTBUTTON_UP
+		editorEventLeftButtonUp()
+		modified=1
+	endif
+	
+	`Resize property window
+	if eventSource()=propsWin and eventType()=GADGET_SIZE
+		editorEventPropsResize()
+	endif
+	
+	`Move the markers and re-space them when the mouse is moved
+	if eventType()=MOUSE_MOVE
+		if activeMode=MODE_RESIZE
+			resizeEvent()
+			positionGadget sizeToolTip,mousePosX(activeWin)+20,mousePosY(activeWin)+20
+			
+			newWidth=gadgetX(sizeMarker(3))-gadgetX(sizeMarker(1))-5
+			newHeight=gadgetY(sizeMarker(6))-gadgetY(sizeMarker(1))-5
+			
+			setGadgetText sizeToolTip,str$(newWidth)+","+str$(newHeight)
+			modified=1
+		endif
+		if activeMode=MODE_POSITION and lockedState=0
+			if ignoreMouseMove=0
+				positionMarkers(mousePosX(activeWin)-positionOffsetX,mousePosY(activeWin)-positionOffsetY,selectedGadget)
+				positionGadget sizeToolTip,mousePosX(activeWin)+20,mousePosY(activeWin)+20
+				setGadgetText sizeToolTip,(str$(gadgetX(sizeMarker(1))+5)+","+str$(gadgetY(sizeMarker(1))+5))
+				modified=1
+			else
+				ignoreMouseMove=0
+			endif
+		endif
+	endif
+	
+	`Process Context Menu Call
+	if (eventType()=RIGHTBUTTON_DOWN) and (eventSource() <> mainEditWin)
+		
+		if eventSource()=layoutTree
+			itemAtPoint=treeViewItemFromPoint(layoutTree,mousePosX(layoutTree),mousePosY(layoutTree))
+			index=indexFromTVHandle(itemAtPoint)
+			
+			selectedGadget=gadgets(index).handle
+		else
+			selectedGadget=eventSource()
+		endif
+		
+		setMarkers(1)
+		
+		
+		showContextMenu()
+	endif
+	
+	`Process keyboard shortcuts
+	if (eventType()=KEYDOWN) and (eventSource() <> propsSettingEdit)
+		editorEventKeyShortCut()
+	endif
+	
+	`Property editing
+	`> Edit
+	if eventSource()=propsSettingEdit 
+		if ((eventType()=KEYDOWN and eventData()=0x0D) or (eventType()=LOSEFOCUS))
+			processPropertyEdit()
+			modified=1
+		else
+			if (eventType()=KEYDOWN)
+				currentPropEditorItem=selectedTreeViewItem(propsTree)
+				currentPropEditorString=getGadgetText(propsSettingEdit)
+				currentPropEditorGadget=selectedGadget
+			endif
+		endif
+	endif
+	`> Combo
+	if eventSource()=propsSettingCombo
+		
+		if ((eventType()=KEYDOWN and eventData()=0x0D) or (eventType()=LOSEFOCUS) or (eventType()=MENU_CLICK))
+			processPropertyCombo()
+			modified=1
+		else
+			if (eventType()=KEYDOWN) or (eventType()=MENU_CLICK)
+				currentPropEditorItem=selectedTreeViewItem(propsTree)
+				currentPropEditorGadget=selectedGadget
+			endif
+		endif
+	endif
+	
+	`Layout Tree Events
+	if eventSource()=layoutTree
+		editorEventLayoutTree()
+	endif
+	
+	`Gadget Property Selector
+	if eventSource()=propsSelect
+		if eventType()=COMBOBOX_CHANGE
+			`Get new selection
+			selectedGadget=gadgets(indexFromComboIndex(selectedItem(propsSelect))).handle
+			
+			if (isDrawingGadget(selectedGadget))
+				setMarkers(1)
+			else
+				setMarkers(0)
+			endif
+			
+			setActiveWin()
+			
+			`Update treeview
+			updateLayoutTree()
+			
+			`Update property treeview
+			updatePropertyTree()
+			updatePropsValue()
+		endif
+	endif
+	
+	`Gadget Property Value Tree
+	if eventSource()=propsTree
+		if eventType()=LEFTBUTTON_DOWN or eventType()=KEYDOWN
+			
+			
+			updatePropsValue()
+			selectedGadget=gadgets(indexFromComboIndex(selectedItem(propsSelect))).handle
+			
+			if (isDrawingGadget(selectedGadget))
+				setMarkers(1)
+			else
+				setMarkers(0)
+			endif
+		endif
+		
+		`Toggle Boolean Values
+		if eventType()=LEFTBUTTON_DOUBLECLICK
+			
+			local tempStatus as string 	
+			
+			if getGadgetVisible(propsSettingEdit)
+				tempStatus=getGadgetText(propsSettingEdit)
+				
+				if tempStatus="0"
+					setGadgetText propsSettingEdit,"1"
+				endif
+				if tempStatus="1"
+					setGadgetText propsSettingEdit,"0"
+				endif
+				
+				currentPropEditorItem=selectedTreeViewItem(propsTree)
+				currentPropEditorGadget=selectedGadget
+				currentPropEditorString=getGadgetText(propsSettingEdit)
+				processPropertyEdit()
+			
+				
+				modified=1
+			endif
+		endif
+	endif
+	
+	
+	
+endfunction
+
+function createSizeMarkers(window)
+	
+	for i=1 to 8
+		if sizeMarker(i) <> 0 then deleteGadget sizeMarker(i)
+	next i
+	
+	for i=1 to 8
+		sizeMarker(i)=createCanvas(0,0,5,5,window)
+		
+		if (i=1) or (i=3) or (i=6) or (i=8)
+			setDrawingColor sizeMarker(i),0,0,0
+		else
+			setDrawingColor sizeMarker(i),RGB(143,143,143),RGB(143,143,143),0
+		endif
+		
+		drawRect sizeMarker(i),0,0,5,5
+		
+		`#  `Draw white lines around the side of the marker
+		`  setDrawingColor sizeMarker(i),RGB(255,255,255),0,0
+		`  drawLine sizeMarker(i),0,0,4,0
+		`  drawLine sizeMarker(i),0,0,0,4
+		`  drawLine sizeMarker(i),0,4,5,4
+		`  drawLine sizeMarker(i),4,0,4,4
+		
+		
+		
+		`Update the marker
+		paintGadget sizeMarker(i)
+		
+		setGadgetVisible sizeMarker(i),0
+	next i
+	
+	if (sizeToolTip)
+		deleteGadget sizeToolTip
+	endif
+	
+	
+	if createHidden=0 then setGadgetDefaults 0
+	sizeToolTip=createPanel(0,0,50,15,window)
+	
+	setGadgetColor sizeToolTip,RGB(255,255,176),0
+	setPanelBorderStyle sizeToolTip,BORDER_FLAT
+	if createHidden=0 then setGadgetDefaults 1
+	
+	
+endfunction
+
+function createItemEdit()
+	`Create item editing window
+	setGadgetDefaults 0
+	itemWin=createWindow(200,200,200,400,"Item Editor",WINDOW_FIXED,0,0,toolboxWin)
+	setWindowIcon itemWin,"graphics\rainbow.ico"
+	setGadgetDefaults 1
+	
+	
+	`Create item editing list
+	itemList=createListBox(5,5,180,350,itemWin)
+	
+	`Create add and remove buttons
+	itemAdd=createButton(5,340,80,25,"Add Item",0,itemWin)
+	itemRemove=createButton(100,340,85,25,"Remove Item",0,itemWin)
+	
+	`Create Popup Context Menu
+	itemListPopup=createPopupMenu()
+	addMenuItem itemListPopup,"Import...",1
+	addMenuItem itemListPopup,"Export...",2
+endfunction
+
+function createMenuEdit()
+	`Create menu editing window
+	setGadgetDefaults 0
+	menuWin=createWindow(200,200,200,400,"Menu Editor",WINDOW_NORMAL,0,0,toolboxWin)
+	setWindowIcon menuWin,"graphics\rainbow.ico"
+	setGadgetDefaults 1
+	
+	`Create menu editing tree
+	menuTree=createTreeView(0,0,1,1,menuWin)
+	tvMenuTreeRoot=addTreeViewItem(menuTree,0,0,"[Menu Root]")
+	setGadgetAlign menuTree,ALIGN_ALL
+	
+	`Create menu editing popup
+	menuPopup=createPopupMenu()
+	addMenuItem menuPopup,"Insert Item",1
+	addMenuItem menuPopup,"Insert SubMenu",2
+	addMenuItem menuPopup,"Insert Splitter",5
+	addMenuSplitter menuPopup
+	addMenuItem menuPopup,"Move Item Up",6
+	addMenuItem menuPopup,"Move Item Down",7
+	addMenuSplitter menuPopup
+	addMenuItem menuPopup,"Rename",3
+	addMenuItem menuPopup,"Delete",4
+	
+endfunction
+
+function createToolbox()
+	`Create Toolbox Window
+	setGadgetDefaults 0
+	toolboxWin=createWindow(100,100,845,100,"Rainbow - Visual UI Designer",WINDOW_FIXED+WINDOW_MINBUTTON,0,1,0)
+	setGadgetDefaults 1
+	
+	setWindowIcon toolboxWin,"graphics\rainbow.ico"
+	`Create Toolbox Menu
+	menu=createMenu(toolboxWin)
+	addMenuItem menu,"File",1
+	addmenuitem menu,"Edit",12
+	addMenuItem menu,"View",9
+	addMenuItem menu,"Help",2
+	
+	fileMenu=createSubMenu(menu,1)
+	addMenuItem fileMenu,"New",11,"graphics\new.bmp"
+	addMenuItem fileMenu,"Open",5,"graphics\open.bmp"
+	addMenuItem fileMenu,"Save",6,"graphics\save.bmp"
+	addMenuItem fileMenu,"Save As",10
+	addMenuItem fileMenu,"Export DarkBASIC Code",7
+	addMenuItem fileMenu,"Export To Clipboard",20
+	addMenuSplitter fileMenu
+	addMenuItem fileMenu,"Exit",3
+	
+	editMenu=createSubMenu(menu,12)
+	addMenuItem editMenu,"Cut",21
+	addMenuItem editMenu,"Copy",22
+	addMenuItem editMenu,"Paste",23
+	addMenuSplitter editMenu
+	addMenuItem editMenu,"Set Main Window Size",13
+	addMenuItem editMenu,"Allow Gadget Reordering",14
+	
+	viewMenu=createSubMenu(menu,9)
+	addMenuItem viewMenu,"Snap to Grid",8
+	setMenuItemChecked viewMenu,8,configSnapToGrid
+	addMenuItem viewMenu,"Menu Editor",15
+	
+	helpMenu=createSubMenu(menu,2)
+	addMenuItem helpMenu,"About",4
+	
+	`Create Toolbox Toolbar
+	toolbar=createToolbar(toolboxWin)
+	addToolbarButton toolbar,"graphics/toolbar/tb_btn.bmp",1,"Create a Button"
+	addToolbarButton toolbar,"graphics/toolbar/tb_label.bmp",1,"Create a Label"
+	addToolbarButton toolbar,"graphics/toolbar/tb_edit.bmp",1,"Create an Edit"
+	addToolbarButton toolbar,"graphics/toolbar/tb_check.bmp",1,"Create a CheckBox"
+	addToolbarButton toolbar,"graphics/toolbar/tb_radio.bmp",1,"Create a RadioButton"
+	addToolbarButton toolbar,"graphics/toolbar/tb_panel.bmp",1,"Create a Panel"
+	addToolbarButton toolbar,"graphics/toolbar/tb_frame.bmp",1,"Create a Frame"
+	addToolbarButton toolbar,"graphics/toolbar/tb_list.bmp",1,"Create a ListBox"
+	addToolbarButton toolbar,"graphics/toolbar/tb_combo.bmp",1,"Create a ComboBox"
+	addToolbarButton toolbar,"graphics/toolbar/tb_tab.bmp",1,"Create a Tab"
+	addToolbarButton toolbar,"graphics/toolbar/tb_tree.bmp",1,"Create a TreeView"
+	addToolbarButton toolbar,"graphics/toolbar/tb_canvas.bmp",1,"Create a Canvas"
+	addToolbarButton toolbar,"graphics/toolbar/tb_scroll.bmp",1,"Create a ScrollBar"
+	addToolbarButton toolbar,"graphics/toolbar/tb_updown.bmp",1,"Create an UpDown"
+	addToolbarButton toolbar,"graphics/toolbar/tb_toolb.bmp",1,"Create a Toolbar"
+	addToolbarButton toolbar,"graphics/toolbar/tb_win.bmp",1,"Create a Window"
+	addToolbarButton toolbar,"graphics/toolbar/tb_listvw.bmp",1,"Create a ListView"
+	`  addToolbarButton toolbar,"graphics/toolbar/tb_web.bmp",0,"Create a Web Browser"
+	addToolbarButton toolbar,"graphics/toolbar/tb_prog.bmp",1,"Create a Progress Bar"
+	addToolbarButton toolbar,"graphics/toolbar/tb_status.bmp",1,"Create a Status Bar"
+	addToolbarButton toolbar,"graphics/toolbar/tb_track.bmp",1,"Create a Track Bar"
+	
+	toolboxStatus=createStatusBar(toolboxWin)
+	
+	
+endfunction
+
+function createProperties()
+	propsWin=createWindow(745,210,200,480,"Gadget Properties",WINDOW_NORMAL,WINDOW_TOOLWINDOW,0,toolboxWin)
+	
+	`Create Gadget Layout Section
+	layoutFrame=createFrame(5,10,185,185,"Gadgets",propsWin)
+	layoutTree=createTreeview(5,15,175,165,layoutFrame)
+	
+	`Layout Tree Icons
+	layoutTreeIcons=createImageList(16,16)
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_btn.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_label.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_edit.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_check.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_radio.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_panel.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_frame.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_list.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_combo.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_tab.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_tree.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_canvas.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_scroll.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_updown.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_toolb.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_win.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_listvw.bmp"
+	` addImageListItem layoutTreeIcons,"graphics/toolbar/tb_web.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_prog.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_status.bmp"
+	addImageListItem layoutTreeIcons,"graphics/toolbar/tb_track.bmp"
+	
+	setTreeViewImageList layoutTree,layoutTreeIcons,0
+	
+	mainEditWin_TVHandle=addTreeViewItem(layoutTree,0,GADGET_WIN,"DBProWindow")
+	
+	`Create Gadget Properties Editor Frame
+	propsFrame=createFrame(5,200,185,250,"Gadget Properties",propsWin)
+	
+	
+	
+	`Select gadget whoose properties you wish to set
+	propsSelect=createCombobox(5,15,175,15,propsFrame)
+	addItem propsSelect,"[No Gadget Selected]"
+	selectItem propsSelect,0
+	
+	
+	propsTree=createTreeview(5,40,175,150,propsFrame)
+	
+	`propsFont=createFont("Courier New",8,0,0,0)
+	`applyFont propsTree,propsFont
+	
+	`Temporary treeview items
+	tvItemName=addTreeviewItem(propsTree,0,0,"Name")
+	a=addTreeviewItem(propsTree,0,0,"Position & Size")
+	tvItemWidth=addTreeviewItem(propsTree,a,0,"Width")
+	tvItemHeight=addTreeviewItem(propsTree,a,0,"Height")
+	tvItemLeft=addTreeviewItem(propsTree,a,0,"Left")
+	tvItemTop=addTreeviewItem(propsTree,a,0,"Top")
+	a=addTreeviewItem(propsTree,0,0,"States")
+	tvItemEnabled=addTreeviewItem(propsTree,a,0,"Initially Enabled")
+	tvItemVisible=addTreeviewItem(propsTree,a,0,"Initially Visible")
+	tvItemText=addTreeviewItem(propsTree,0,0,"Text")
+	tvItemAlign=addTreeViewItem(propsTree,0,0,"Alignment")
+	tvItemStyle=addTreeViewItem(propsTree,0,0,"Style")
+	tvItemBorder=addTreeViewItem(propsTree,0,0,"Border")
+	
+	
+	`Create gadgets for editing properties
+	propsSettingLabel=createLabel(5,200,175,20,"Edit Value:",propsFrame)
+	setGadgetEnabled propsSettingLabel,0
+	propsSettingEdit=createEdit(5,220,175,20,0,propsFrame)
+	setGadgetEnabled propsSettingEdit,0
+	
+	propsSettingCombo=createCombobox(5,220,175,20,propsFrame)
+	setGadgetVisible propsSettingCombo,0
+	propsSettingCheckbox=createCheckbox(5,220,175,20,"Yes / No",propsFrame)
+	setGadgetVisible propsSettingCheckbox,0
+	
+endfunction
+
+function createMainEditArea()
+	mainEditWin=createWindow(100,210,640,480,"Main DarkBASIC Professional Window",0+WINDOW_NORMAL,0,0,toolboxWin)
+	setWindowIcon mainEditWin,"graphics/db.ico"
+endfunction
+
+function createNewGadget(useSuppliedValues,supName as string,supX,supY,supParent)
+	local newGadget
+	local createX
+	local createY
+	local parent
+	
+	if useSuppliedValues
+		parent=supParent
+		createX=supX
+		createY=supY
+		
+	else
+		parent=gadgetUnderMouse()
+		createX=mousePosX(parent)
+		createY=mousePosY(parent)
+	endif
+	
+	if useSuppliedValues=0 then setMarkers(0)
+	
+	`if useSuppliedValues=1 then message supName
+	
+	select currentDrawingType
+	case GADGET_BUTTON
+	newGadget=createButton(createX,createY,75,25,"Button",0,parent) 
+	endcase
+	case GADGET_LABEL
+	newGadget=createLabel(createX,createY,50,20,"Label",parent)
+	hasBorder=1
+	endcase
+	case GADGET_EDIT
+	newGadget=createEdit(createX,createY,75,20,0,parent)
+	endcase
+	case GADGET_CHECK
+	newGadget=createCheckbox(createX,createY,75,20,"Check",parent)
+	endcase
+	case GADGET_RADIO
+	newGadget=createRadiobutton(createX,createY,75,20,"Radio",parent)
+	endcase
+	case GADGET_PANEL
+	newGadget=createPanel(createX,createY,50,50,parent)
+	setPanelBorderStyle newGadget,BORDER_3D
+	hasBorder=1
+	endcase
+	case GADGET_FRAME
+	`Use a label because that works better for the purposes of an editing environment
+	newGadget=createPanel(createX,createY,50,50,parent)
+	setGadgetText newGadget,"Frame"
+	setPanelBorderStyle newGadget,BORDER_FLAT
+	` hasBorder=1
+	endcase
+	case GADGET_LIST
+	newGadget=createListbox(createX,createY,75,50,parent)
+	hasItems=1
+	endcase
+	case GADGET_COMBO
+	`Use a listbox because that works better for the purposes of an editing environment
+	newGadget=createListbox(createX,createY,75,30,parent)
+	addItem newGadget,"ComboBox"
+	`newGadget=createCombobox(createX,createY,75,25,parent)
+	hasItems=1
+	endcase
+	case GADGET_TABS
+	newGadget=createTabs(createX,createY,75,50,parent)
+	addTab newGadget,"Tab"
+	hasItems=1
+	endcase
+	case GADGET_TREEVW
+	newGadget=createTreeview(createX,createY,75,50,parent)
+	endcase
+	case GADGET_CANVAS
+	newGadget=createCanvas(createX,createY,75,75,parent)
+	endcase
+	case GADGET_SCROLL
+	newGadget=createCanvas(createX,createY,75,20,parent)
+	paintDummyScrollbar(newGadget)
+	hasStyle=1
+	`   setGadgetEnabled newGadget,0
+	endcase
+	case GADGET_UPDWN
+	newGadget=createUpDown(createX,createY,20,40,0,parent)
+	endcase
+	case GADGET_WIN
+	newGadget=createWindow(gadgetX(activeWin),gadgetY(activeWin),320,240,"Window",WINDOW_NORMAL,0,0,toolboxWin)
+	setGadgetVisible activeWin,0
+	activeWin=newGadget
+	createSizeMarkers(activeWin)
+	
+	endcase
+	case GADGET_TOOLB
+	newGadget=createToolbar(parent)
+	
+	`Add a few basic buttons just to show that the toolbar is there, the actual appearence of the toolbar must be configured
+	`in code
+	addStandardToolbarButtons newGadget
+	addToolbarButton newGadget,TOOLBAR_NEW,0
+	addToolbarButton newGadget,TOOLBAR_OPEN,0
+	addToolbarButton newGadget,TOOLBAR_SAVE,0
+	
+	
+	endcase
+	case GADGET_LISTVW
+	newGadget=createListView(createX,createY,200,200,parent)
+	endcase
+	case GADGET_PROG
+	newGadget=createProgressBar(createX,createY,75,25,parent)
+	setProgressBarPos newGadget,50
+	endcase
+	case GADGET_STATUS
+	newGadget=createStatusBar(parent)
+	endcase
+	case GADGET_TRACK
+	newGadget=createTrackBar(createX,createY,75,25,0,parent)
+	hasStyle=1
+	endcase
+	case default
+	noSelection=1
+	
+	endcase
+	endselect
+	
+	selectedGadget=newGadget
+	
+	if not noSelection
+		index=freeGadgetIndex()
+		
+		`Fill in TGadget structure for this new gadget
+		gadgets(index).handle=newGadget
+		gadgets(index).caption=getGadgetText(newGadget)
+		gadgets(index).gtype=currentDrawingType
+		gadgets(index).window=activeWin
+		gadgets(index).startEnabled=1
+		gadgets(index).startVisible=1
+		
+		`Set style-specific properties
+		gadgets(index).hasStyle=hasStyle
+		gadgets(index).hasBorder=hasBorder
+		gadgets(index).hasItems=hasItems
+		
+		if currentDrawingType=GADGET_TOOLB
+			gadgets(index).locked=1
+		endif
+		
+		if currentDrawingType=GADGET_PANEL
+			gadgets(index).border=BORDER_3D
+		endif
+		
+		if currentDrawingType=GADGET_FRAME
+			gadgets(index).border=BORDER_FLAT
+		endif
+		
+		`Select the new gadget
+		selectedGadget=newGadget
+		if useSuppliedValues=0 then setMarkers(1) : `message "OK"
+		
+		setGadgetData selectedGadget,index
+		
+		if useSuppliedValues
+			gadgets(index).name=supName
+		else
+			gadgets(index).name="Gadget" + str$(index)
+		endif
+		
+		`Set Parent Property
+		if parent=mainEditWin
+			gadgets(index).parent=0
+		else
+			gadgets(index).parent=parent
+		endif
+		
+		`Add information to treeview
+		if (parent=activeWin) and (activeWin=mainEditWin)
+			gadgets(index).treeviewItemHandle=addTreeviewItem(layoutTree,mainEditWin_TVHandle,currentDrawingType,gadgets(index).name)
+		else
+			if currentDrawingType=GADGET_WIN
+				gadgets(index).treeviewItemHandle=addTreeviewItem(layoutTree,0,currentDrawingType,gadgets(index).name)
+			else
+				parentIndex=getGadgetData(parent)
+				parentTVHandle=gadgets(parentIndex).treeviewItemHandle
+				gadgets(index).treeviewItemHandle=addTreeviewItem(layoutTree,parentTVHandle,currentDrawingType,gadgets(index).name)
+			endif
+		endif
+		
+		updateLayoutTree()
+		
+		`Add New Item To Combobox
+		addItem propsSelect,gadgets(index).name
+		gadgets(index).comboIndex = itemCount(propsSelect)-1
+		
+		updatePropsSelect()
+		
+		`selectedGadget=newGadget
+		` setMarkers(1)
+		
+	endif
+endfunction
+
+
+function setMarkers(showMarkers)
+	`Exit if the gadget is hidden
+	if selectedGadget
+		if getGadgetVisible(selectedGadget)=0 then showMarkers = 0
+		
+		if gadgets(getGadgetData(selectedGadget)).gtype = GADGET_WIN then showMarkers = 0
+	endif
+	
+	
+	
+	local gX
+	local gY
+	
+	`Get X/Y positions relative to top/left of active editing window
+	gX=gadgetX(selectedGadget,activeWin)
+	gY=gadgetY(selectedGadget,activeWin)
+	
+	
+	local gW
+	gW=gadgetWidth(selectedGadget)
+	local gH
+	gH=gadgetHeight(selectedGadget)
+	
+	
+	if showMarkers
+		for i=1 to 8
+			
+			select i
+			case 1
+			positionGadget sizeMarker(i),gX-5,gY-5
+			endcase
+			case 2
+			positionGadget sizeMarker(i),gX+(gW/2),gY-5
+			endcase
+			case 3
+			positionGadget sizeMarker(i),gX+gW,gY-5
+			endcase
+			case 4
+			positionGadget sizeMarker(i),gX-5,gY+(gH/2)-2
+			endcase
+			case 5
+			positionGadget sizeMarker(i),gX+gW,gY+(gH/2)-2
+			endcase
+			case 6
+			positionGadget sizeMarker(i),gX-5,gY+gH
+			endcase
+			case 7
+			positionGadget sizeMarker(i),gX+(gW/2),gY+gH
+			endcase
+			case 8
+			positionGadget sizeMarker(i),gX+gW,gY+gH
+			endcase
+			endselect
+			
+			setGadgetVisible sizeMarker(i),1
+			bringToFront sizeMarker(i)
+			
+			
+			
+		next i
+		
+		bringToFront sizeToolTip
+	else
+		for i=1 to 8
+			setGadgetVisible sizeMarker(i),0
+		next i
+	endif
+endfunction
+
+function isMarker(handle)
+	result=0
+	for i=1 to 8
+		if sizeMarker(i)=handle then activeMarker=i : result = 1
+	next i
+endfunction result
+
+function isDrawingGadget(gadgetHndle)
+	if gadgetHndle=0 then exitfunction 0
+	for i=1 to MAX_GADGETS
+		if gadgets(i).handle = gadgetHndle then exitfunction 1
+	next i
+endfunction 0
+
+function freeGadgetIndex()
+	for i=1 to MAX_GADGETS
+		if gadgets(i).handle = 0 then exitfunction i
+	next i
+	errorMessage "Max Gadget Count"
+endfunction 0
+
+function positionMarkers(x,y,gadget)
+	
+	if configSnapToGrid
+		x=nearestGridX(x)
+		y=nearestGridY(y)
+	endif
+	
+	local gW
+	gW=gadgetWidth(gadget)
+	local gH
+	gH=gadgetHeight(gadget)
+	
+	positionGadget sizeMarker(1),x-5,y-5
+	positionGadget sizeMarker(2),x+(gW/2),y-5
+	positionGadget sizeMarker(3),x+gW,y-5
+	positionGadget sizeMarker(4),x-5,y+(gH/2)-2
+	positionGadget sizeMarker(5),x+gW,y+(gH/2)-2
+	positionGadget sizeMarker(6),x-5,y+gH
+	positionGadget sizeMarker(7),x+(gW/2),y+gH
+	positionGadget sizeMarker(8),x+gW,y+gH
+	
+	for i=1 to 8
+		paintGadget sizeMarker(i)
+	next i
+endfunction
+
+function resizeEvent()
+	`If Snap To Grid is enabled translate current mouse co-ords into nearest grid co-ords
+	if configSnapToGrid
+		mX=nearestGridX(mousePosX(activeWin))
+		mY=nearestGridY(mousePosY(activeWin))
+	else
+		mX=mousePosX(activeWin)
+		mY=mousePosY(activeWin)
+	endif
+	
+	markerX=gadgetX(sizeMarker(activeMarker))
+	markerY=gadgetY(sizeMarker(activeMarker))
+	
+	select activeMarker
+	case 1 :`Top left marker
+	positionGadget sizeMarker(1),mX,mY
+	
+	positionGadget sizeMarker(6),mX,gadgetY(sizeMarker(6))
+	positionGadget sizeMarker(3),gadgetX(sizeMarker(3)),mY
+	
+	positionGadget sizeMarker(2),(gadgetX(sizeMarker(1))+gadgetX(sizeMarker(3)))/2,mY
+	positionGadget sizeMarker(4),mX,(gadgetY(sizeMarker(1))+gadgetY(sizeMarker(6)))/2
+	positionGadget sizeMarker(5),gadgetX(sizeMarker(5)),gadgetY(sizeMarker(4))
+	
+	positionGadget sizeMarker(7),gadgetX(sizeMarker(2)),gadgetY(sizeMarker(7))
+	endcase
+	
+	case 3 :`Top right marker
+	positionGadget sizeMarker(3),mX,mY
+	
+	positionGadget sizeMarker(1),gadgetX(sizeMarker(1)),mY
+	positionGadget sizeMarker(2),(gadgetX(sizeMarker(1))+gadgetX(sizeMarker(3)))/2,mY
+	positionGadget sizeMarker(4),gadgetX(sizeMarker(4)),(gadgetY(sizeMarker(1))+gadgetY(sizeMarker(6)))/2
+	positionGadget sizeMarker(5),mX,gadgetY(sizeMarker(4))
+	positionGadget sizeMarker(7),gadgetX(sizeMarker(2)),gadgetY(sizeMarker(7))
+	positionGadget sizeMarker(8),mX,gadgetY(sizeMarker(8))
+	endcase
+	
+	case 6 :`Bottom Left Marker
+	positionGadget sizeMarker(6),mX,mY
+	
+	positionGadget sizeMarker(1),mX,gadgetY(sizeMarker(1))
+	positionGadget sizeMarker(2),((mX)+gadgetX(sizeMarker(3)))/2,gadgetY(sizeMarker(1))
+	positionGadget sizeMarker(4),mX,(gadgetY(sizeMarker(1))+mY)/2
+	positionGadget sizeMarker(5),gadgetX(sizeMarker(5)),gadgetY(sizeMarker(4))
+	positionGadget sizeMarker(7),gadgetX(sizeMarker(2)),mY
+	positionGadget sizeMarker(8),gadgetX(sizeMarker(8)),mY
+	endcase
+	
+	case 8 :`Bottom right marker
+	positionGadget sizeMarker(8),mX,mY
+	
+	positionGadget sizeMarker(2),(gadgetX(sizeMarker(1))+gadgetX(sizeMarker(3)))/2,gadgetY(sizeMarker(1))
+	positionGadget sizeMarker(3),mX,gadgetY(sizeMarker(3))
+	positionGadget sizeMarker(4),gadgetX(sizeMarker(4)),(gadgetY(sizeMarker(1))+gadgetY(sizeMarker(6)))/2
+	positionGadget sizeMarker(5),mX,gadgetY(sizeMarker(4))
+	positionGadget sizeMarker(6),gadgetX(sizeMarker(6)),mY
+	positionGadget sizeMarker(7),gadgetX(sizeMarker(2)),mY
+	endcase
+	endselect
+	
+	
+endfunction
+
+function deleteCurrentGadget()
+	
+	if selectedGadget=0 then exitfunction
+	
+	index=getGadgetData(selectedGadget)
+	
+	`message gadgets(index).name
+	
+	tvHandle=gadgets(index).treeviewItemHandle
+	
+	`Iterate through children first and delete them using recursion
+	`====
+	nextChild=getTreeViewChild(layoutTree,tvHandle)
+	
+	if nextChild > 0
+		repeat
+			childIndex=indexFromTVHandle(nextChild)
+			selectedGadget=gadgets(childIndex).handle
+			
+			`Get child after the handle of the present one
+			`We have to do this *before* we delete the gadget
+			nextChild=getTreeViewNext(layoutTree,nextChild)
+			
+			if selectedGadget <> 0
+				`message gadgets(childIndex).name
+				deleteCurrentGadget()
+			endif
+			
+			
+		until nextChild=0
+	endif
+	`====
+	
+	`Reset selected gadget
+	selectedGadget=gadgets(index).handle
+	
+	`Now delete the gadget itself
+	gadgets(index).handle=0
+	gadgets(index).name=""
+	gadgets(index).parent=0
+	
+	`Clear treeview
+	removeTreeViewItem layoutTree,tvHandle
+	`Clear property selector
+	removeItem propsSelect,gadgets(index).comboIndex
+	
+	oldIndex=gadgets(index).comboIndex
+	gadgets(index).comboIndex=0
+	
+	updateComboIndex(oldIndex)
+	
+	deleteGadget selectedGadget
+	setMarkers(0)
+	
+	selectedGadget=0
+	updatePropsSelect()
+endfunction
+
+function closeLayout()
+	`Delete All Items Starting at the root
+	
+	item=mainEditWin_TVHandle
+	
+	nextChild=getTreeViewChild(layoutTree,item)
+	
+	`Delete all gadgets under main DBPro window
+	repeat
+		selectedGadget=gadgets(indexFromTVHandle(nextChild)).handle
+		`message gadgets(indexFromTVHandle(nextChild)).name
+		nextChild=getTreeViewNext(layoutTree,nextChild)
+		deleteCurrentGadget()
+		
+	until nextChild=0
+	
+	`message str$(p)
+	
+	`Delete all gadgets under other windows
+	nextWin=getTreeViewNext(layoutTree,item)
+	repeat
+		selectedGadget=gadgets(indexFromTVHandle(nextWin)).handle
+		nextWin=getTreeViewNext(layoutTree,nextWin)
+		deleteCurrentGadget()
+	until nextWin=0
+	
+	`Erase Menu
+	removeTreeViewItem menuTree,tvMenuTreeRoot
+	tvMenuTreeRoot=addTreeViewItem(menuTree,0,0,"[Menu Root]")
+	updateWindowMenu(mainEditWin,menuTree,tvMenuTreeRoot)
+	
+	`Very imporant - reset active window back to the main DBPro window
+	
+	activeWin=mainEditWin
+	createSizeMarkers(activeWin)
+	setGadgetVisible activeWin,1
+	
+endfunction
+
+function updateLayoutTree()
+	`message str$(gadgets(getGadgetData(selectedGadget)).treeviewItemHandle)
+	selectTreeViewItem layoutTree,gadgets(getGadgetData(selectedGadget)).treeviewItemHandle
+endfunction
+
+function updatePropsSelect()
+	if selectedGadget
+		selectItem propsSelect,gadgets(getGadgetData(selectedGadget)).comboIndex
+	else
+		selectItem propsSelect,0
+	endif
+	
+	updatePropertyTree()
+endfunction
+
+
+function indexFromTVHandle(handle)
+	for i=1 to MAX_GADGETS
+		if gadgets(i).treeviewItemHandle=handle then exitfunction i
+	next i
+endfunction 0
+
+function indexFromComboIndex(index)
+	`   message str$(index)
+	for i=1 to MAX_GADGETS
+		if gadgets(i).handle <> 0 and gadgets(i).comboIndex=index then exitfunction i
+	next i
+endfunction 0
+
+function boolStr(bval)
+	if bval=0 then exitfunction "False" 
+endfunction "True"
+
+function updatePropertyTree()
+	if selectedGadget
+		index=getGadgetData(selectedGadget)
+	else
+		index=0
+	endif
+	
+	activeItem=selectedTreeViewItem(propsTree)
+	if activeItem = tvItemStyle then styleActive=1
+	if activeItem = tvItemBorder then borderActive=1
+	if activeItem = tvItemWinBorder then winBorderActive=1
+	`if activeItem = tvItemItems then itemsActive=1
+	
+	`Remove optional items
+	if tvItemStyle then removeTreeViewItem propsTree,tvItemStyle : tvItemStyle=0
+	if tvItemBorder then removeTreeViewItem propsTree,tvItemBorder : tvItemBorder=0
+	if tvItemItems then removeTreeViewItem propsTree,tvItemItems : tvItemItems=0
+	if tvItemMenu then removeTreeViewItem propsTree,tvItemMenu : tvItemMenu=0
+	if tvItemWinBorder then removeTreeViewItem propsTree,tvItemWinBorder : tvItemWinBorder=0
+	
+	if index
+		setGadgetEnabled propsTree,1
+		setTreeViewItemText propsTree,tvItemName,"Name - " + gadgets(index).name
+		
+		local cap as String
+		cap=getGadgetText(gadgets(index).handle)
+		if (cap="")
+			setTreeViewItemText propsTree,tvItemText,"Text - {Empty}"
+		else
+			setTreeViewItemText propsTree,tvItemText,"Text - " + cap
+		endif
+		
+		
+		setTreeViewItemText propsTree,tvItemWidth, "Width - " + str$(gadgetWidth(selectedGadget))
+		setTreeViewItemText propsTree,tvItemHeight,"Height - " + str$(gadgetHeight(selectedGadget))
+		setTreeViewItemText propsTree,tvItemLeft,  "Left - " + str$(gadgetX(selectedGadget))
+		setTreeViewItemText propsTree,tvItemTop,   "Top - " + str$(gadgetY(selectedGadget))
+		setTreeViewItemText propsTree,tvItemVisible,"Initially Visible - " + boolStr(gadgets(index).startVisible)
+		setTreeViewItemText propsTree,tvItemEnabled,"Initially Enabled - " + boolStr(gadgets(index).startEnabled)
+		setTreeViewItemText propsTree,tvItemAlign,"Alignment - " + alignConstantToString(gadgets(index).align)
+		
+		`Optional Styles
+		if gadgets(index).hasStyle
+			tvItemStyle=addTreeViewItem(propsTree,0,0,"Style - " + styleConstantToString(gadgets(index).style))
+			if styleActive then selectTreeViewItem propsTree,tvItemStyle
+		endif
+		
+		if gadgets(index).hasBorder
+			tvItemBorder=addTreeViewItem(propsTree,0,0,"Border - " + borderConstantToString(gadgets(index).border))
+			if borderActive then selectTreeViewItem propsTree,tvItemBorder
+		endif
+		
+		if gadgets(index).gtype=GADGET_WIN
+			tvItemWinBorder=addTreeViewItem(propsTree,0,0,"Border - " + winBorderConstantToString(gadgets(index).windowBorder))
+			if winBorderActive then selectTreeViewItem propsTree,tvItemWinBorder	
+		endif
+		
+		`Options That Launch Dialogs
+		if gadgets(index).hasItems
+			tvItemItems=addTreeViewItem(propsTree,0,0,"Edit Items...")
+			` if itemsActive then selectTreeViewItem propsTree,tvItemItems
+		endif
+		
+		if gadgets(index).gtype=GADGET_WIN
+			`FIXME
+			`tvItemMenu=addTreeViewItem(propsTree,0,0,"Edit Menu...")
+		endif
+		
+	else
+		updatePropsValue()
+		setGadgetEnabled propsTree,0
+		setTreeViewItemText propsTree,tvItemName,"Name"
+		setTreeViewItemText propsTree,tvItemText,"Text"
+		setTreeViewItemText propsTree,tvItemWidth,"Width"
+		setTreeViewItemText propsTree,tvItemHeight,"Height"
+		setTreeViewItemText propsTree,tvItemLeft,"Left"
+		setTreeViewItemText propsTree,tvItemTop,"Top"
+		setTreeViewItemText propsTree,tvItemVisible,"Initially Visible"
+		setTreeViewItemText propsTree,tvItemEnabled,"Initially Enabled"
+		setTreeViewItemText propsTree,tvItemAlign,"Alignment"
+		setTreeViewItemText propsTree,tvItemStyle,"Style"
+		setTreeViewItemText propsTree,tvItemBorder,"Border"
+	endif
+	
+endfunction
+
+function updatePropsValue()
+	current=selectedTreeViewItem(propsTree)
+	combo=selectedItem(propsSelect)
+	
+	found=0
+	
+	index=indexFromComboIndex(combo)
+	
+	mode=0
+	
+	local editText as string
+	
+	`message str$(index)
+	
+	`Important
+	if current=0 then current =1
+	
+	`Which property are we editing?
+	if combo <> 0
+		`Name
+		if current=tvItemName
+			mode=1
+			editText=gadgets(index).name
+		endif
+		
+		`Text
+		if current=tvItemText
+			mode=1
+			editText=getGadgetText(selectedGadget)
+		endif
+		
+		`Width
+		if current=tvItemWidth
+			mode=1
+			editText=str$(gadgetWidth(selectedGadget))
+		endif
+		
+		`Height
+		if current=tvItemHeight
+			mode=1
+			editText=str$(gadgetHeight(selectedGadget))
+		endif
+		
+		`Left
+		if current=tvItemLeft
+			mode=1
+			editText=str$(gadgetX(selectedGadget))
+		endif
+		
+		`Top
+		if current=tvItemTop
+			mode=1
+			editText=str$(gadgetY(selectedGadget))
+		endif
+		
+		`Initially Enabled
+		if current=tvItemEnabled
+			mode=1
+			editText=str$(gadgets(index).startEnabled)
+		endif
+		
+		`Initially Visible
+		if current=tvItemVisible
+			mode=1
+			editText=str$(gadgets(index).startVisible)
+		endif
+		
+		`Alignment
+		if current=tvItemAlign
+			mode=2
+			`message "OK"
+			clearPropsCombo()
+			addItem propsSettingCombo,"None"
+			addItem propsSettingCombo,"All Client"
+			addItem propsSettingCombo,"Top"
+			addItem propsSettingCombo,"Left"
+			addItem propsSettingCombo,"Right"
+			addItem propsSettingCombo,"Bottom"
+			selectItem propsSettingCombo,gadgets(index).align
+		endif
+		
+		`Style
+		if current=tvItemStyle
+			mode=2
+			clearPropsCombo()
+			addItem propsSettingCombo,"Horizontal"
+			addItem propsSettingCombo,"Vertical"
+			selectItem propsSettingCombo,gadgets(index).style
+		endif
+		
+		`Border
+		if current=tvItemBorder
+			mode=2
+			clearPropsCombo()
+			addItem propsSettingCombo,"None"
+			addItem propsSettingCombo,"Flat"
+			addItem propsSettingCombo,"3D Raised"
+			addItem propsSettingCombo,"3D Sunken"
+			selectItem propsSettingCombo,gadgets(index).border
+		endif
+		
+		`Window Border
+		if current=tvItemWinBorder
+			mode=2
+			clearPropsCombo()
+			for i=0 to 3
+				addItem propsSettingCombo,winBorderConstantToString(i)
+			next i
+			selectItem propsSettingCombo,gadgets(index).windowBorder
+		endif
+		
+		`Items Editor
+		if current=tvItemItems
+			mode=0
+			index=getGadgetData(selectedGadget)
+			selectTreeViewItem propsTree,0
+			showItemEditor(index)
+		endif
+		
+		`Menu Editor
+		if current=tvItemMenu
+			mode=0
+			index=getGadgetData(selectedGadget)
+			selectTreeViewItem propsTree,0
+			showMenuEditor(index)
+		endif
+		
+		`Not Found?
+		if mode=0
+			setPropsEditMode(1)
+			setGadgetText propsSettingLabel,"Edit Value:"
+			setGadgetEnabled propsSettingEdit,0
+		endif
+		
+	else
+		setGadgetEnabled propsSettingEdit,0
+	endif
+	
+	`Update the editing controls depending on the kind of value we are changing
+	
+	`Text
+	if mode=1
+		setPropsEditMode(1)
+		setGadgetEnabled propsSettingEdit,1
+		setGadgetText propsSettingEdit,editText
+		
+		
+		`Store old setting in case we get an invalid value entered and have to reset
+		oldPropText=editText
+	endif
+	
+	if mode=2
+		setPropsEditMode(2)
+		
+	endif
+	
+	currentTVText as string
+	currentTVText = getTreeviewItemText(propsTree,selectedTreeviewItem(propsTree))
+	
+	`Set caption of edit box so user knows what they are editing.
+	editStr as string
+	
+                editPos = strchr(currentTVText,"-")-2
+
+                if editPos >= 0
+                   editStr = left$(currentTVText,editPos)
+	endif
+
+	if (len(editStr)>0)
+		setGadgetEnabled propsSettingLabel,1
+		setGadgetText propsSettingLabel,"Edit Value ("+editStr+"):"
+	else
+		setGadgetEnabled propsSettingLabel,0
+		setGadgetText propsSettingLabel,"Edit Value:"
+	endif
+	
+endfunction
+
+function clearPropsCombo()
+	count=itemCount(propsSettingCombo)
+	for i=1 to count
+		removeItem propsSettingCombo,0
+	next i
+endfunction
+
+function setPropsEditMode(flag)
+	showEdit=0
+	showCombo=0
+	showCheck=0
+	
+	setGadgetText propsSettingEdit,""
+	setChecked propsSettingCheckbox,0
+	`selectItem propsSettingCombo,0
+	
+	select flag
+	case 1 :`Text
+	showEdit=1
+	endcase
+	case 2 :`Combo
+	showCombo=1
+	
+	
+	endcase
+	case 3 :`Checkbox
+	showCheck=1
+	endcase
+	endselect
+	
+	setGadgetVisible propsSettingEdit,showEdit
+	setGadgetVisible propsSettingCombo,showCombo
+	setGadgetVisible propsSettingCheckbox,showCheck
+	
+endfunction
+
+`When the user changes a text property, check which property was changed and update values
+function processPropertyEdit()
+	local item
+	local index
+	local newText as string
+	
+	`item=selectedTreeViewItem(propsTree)
+	item=currentPropEditorItem
+	newText=currentPropEditorString
+	
+	index=getGadgetData(currentPropEditorGadget)
+	
+	value=val(newText)
+	
+	`Name
+	if item=tvitemName
+		if newText="" then msgErrorValue() : exitfunction
+		if isValidIdentifierName(newText)=0 then msgErrorValue() : exitfunction
+		if (gadgetNameToIndex(newText) <> 0) and (newText <> gadgets(index).name) then msgErrorAlreadyExists() : exitfunction
+		
+		gadgets(index).name=newText
+		setTreeViewItemText layoutTree,gadgets(index).treeviewItemHandle,newText
+		changeItem propsSelect,gadgets(index).comboIndex,newText
+		selectItem propsSelect,gadgets(index).comboIndex
+	endif
+	
+	`Text
+	if item=tvitemText
+		gadgets(index).caption=newText
+		setGadgetText currentPropEditorGadget,newText
+	endif
+	
+	`Width
+	if item=tvItemWidth
+		if value=0 and newText <> "0" then msgErrorValue() : exitfunction
+		resizeGadget currentPropEditorGadget,value,gadgetHeight(currentPropEditorGadget)
+		setMarkers(1)
+	endif
+	
+	`Height
+	if item=tvItemHeight
+		if value=0 and newText <> "0" then msgErrorValue() : exitfunction
+		resizeGadget currentPropEditorGadget,gadgetWidth(currentPropEditorGadget),value
+		setMarkers(1)
+	endif
+	
+	`Left
+	if item=tvItemLeft
+		if value=0 and newText <> "0" then msgErrorValue() : exitfunction
+		positionGadget currentPropEditorGadget,value,gadgetY(currentPropEditorGadget)
+		setMarkers(1)
+	endif
+	
+	`Top
+	if item=tvItemTop
+		if value=0 and newText <> "0" then msgErrorValue() : exitfunction
+		positionGadget currentPropEditorGadget,gadgetX(currentPropEditorGadget),value
+		setMarkers(1)
+	endif
+	
+	`Initially Enabled
+	if item=tvItemEnabled
+		gadgets(index).startEnabled=value
+	endif
+	
+	`Initially Visible
+	if item=tvItemVisible
+		gadgets(index).startVisible=value
+	endif
+	
+	
+	
+	updatePropertyTree()
+endfunction
+
+function processPropertyCombo()
+	local item
+	local index
+	local value
+	
+	item=selectedTreeViewItem(propsTree)
+	index=getGadgetData(selectedGadget)
+	
+	value=selectedItem(propsSettingCombo)
+	
+	`Alignment
+	if item=tvItemAlign
+		gadgets(index).align=value
+		setGadgetAlign selectedGadget,value
+		setMarkers(1)
+	endif
+	
+	
+	`Border
+	if item=tvItemBorder
+		gadgets(index).border=value
+		setPanelBorderStyle selectedGadget,value
+	endif
+	
+	`Window Border
+	if item=tvItemWinBorder
+		gadgets(index).windowBorder=value
+	endif
+	
+	`Style
+	if item=tvItemStyle
+		gadgets(index).style=value
+		parent=getParentGadget(gadgets(index).handle)
+		x=gadgetX(selectedGadget)
+		y=gadgetY(selectedGadget)
+		width=gadgetWidth(selectedGadget)
+		height=gadgetHeight(selectedGadget)
+		
+		`Recreate gadget in editor
+		if gadgets(index).gtype=GADGET_TRACK
+			
+			deleteGadget gadgets(index).handle
+			gadgets(index).handle=createTrackBar(x,y,height,width,gadgets(index).style,parent)
+			setGadgetData gadgets(index).handle,index
+			selectedGadget=gadgets(index).handle
+			activeMode=0
+			setMarkers(1)
+			
+		endif 
+		
+	endif
+	
+	updatePropertyTree()
+endfunction
+
+function msgErrorValue()
+	warningMessage "Invalid value"
+	setGadgetText propsSettingEdit,oldPropText
+endfunction
+
+function msgErrorAlreadyExists()
+	warningMessage "Another gadget with this name already exists"
+	setGadgetText propsSettingEdit,oldPropText
+endfunction
+
+`When a gadget is deleted, the combo box indicies will need to be corrected
+function updateComboIndex(removedItem)
+	`   comboCount=itemCount(propsSelect)
+	
+	
+	`   for z=1 to comboCount-1
+	`      for i=1 to MAX_GADGETS
+	`         if itemText(propsSelect,z)=gadgets(i).name
+	`   message gadgets(i).name
+	`            gadgets(i).comboIndex=z
+	`            z=comboCount
+	`         endif
+	`      next i
+	`   next z
+	
+	for i=1 to MAX_GADGETS
+		if gadgets(i).comboIndex
+			if gadgets(i).comboIndex > removedItem then dec gadgets(i).comboIndex
+		endif
+	next i
+	
+endfunction
+
+`Finds first occurence of the specified character within a string
+function strchr(stringToSearch as string, characterToFind as string)
+	textLen=len(stringToSearch)
+	
+	for i=1 to textLen
+		if mid$(stringToSearch,i)=characterToFind then exitfunction i
+	next i
+endfunction 0
+
+`Finds last occurence of the specified character within a string
+function strchrRev(stringToSearch as string, characterToFind as string)
+	textLen=len(stringToSearch)
+	
+	for i=textLen to 1 step -1
+		if mid$(stringToSearch,i)=characterToFind then exitfunction i
+	next i
+endfunction 0
+
+`Returns 1 if the specified string is a valid variable name
+function isValidIdentifierName(checkStr as string)
+	`First character must be a letter
+	if charType(mid$(checkStr,1)) < 2 then exitfunction 0
+	
+	textLen=len(checkStr)
+	
+	for i=2 to textLen
+		if charType(mid$(checkStr,i)) = 0 then exitfunction 0
+	next i
+	
+endfunction 1
+
+function charType(char as string)
+	ascii=asc(char)
+	
+	if ascii >= 48 and ascii <= 57 :`Number
+		exitfunction 1
+	endif
+	
+	if ascii >= 65 and ascii <= 90 :`Upper Case Letter
+		exitfunction 2
+	endif
+	
+	if ascii >=97 and ascii <= 122 :`Lower case Letter
+		exitfunction 3
+	endif
+	
+	if ascii = 34 :`Quote Character
+		exitfunction 4
+	endif
+	
+endfunction 0
+
+function nearestGridX(x)
+	`Returns the co-ordinates of the grid reference nearest the specified X co-ord
+	
+	`Note that we are DELIBERATELY doing integer division here, this means that we chop off
+	`the x value above the nearest 5, eg: 7 goes to 5.
+	result=(x/gridSizeX)*gridSizeX
+	
+endfunction result
+
+function nearestGridY(y)
+	`Returns the co-ordinates of the grid reference nearest the specified Y co-ord
+	
+	`Note that we are DELIBERATELY doing integer division here to chop off the y value
+	`above the nearest 5.
+	result=(y/gridSizeY)*gridSizeY
+	
+endfunction result
+
+function saveLayout(fileName as string)
+	local fileNum=1
+	local tvItem=0
+	
+	if file exist(fileName) then delete file fileName
+	
+	open to write fileNum,fileName
+	c=0
+	
+	tvItem=mainEditWin_TVHandle
+	
+	`Write Header
+	write string fileNum,";"+"Rainbow GUI Layout File"
+	write string fileNum,";"+"version " + RAINBOW_VERSION
+	
+	`Write Contents
+	repeat
+		tvItem=getNextGadget(tvItem)
+		item=indexFromTVHandle(tvItem)
+		
+		if gadgets(item).handle
+			
+			write string fileNum,generateSaveLayoutLine(item)
+			
+		endif
+		
+		inc c
+	until tvItem=0
+	
+	`Write Menu Data
+	saveMenuLayout(fileNum)
+	
+	close file fileNum
+	
+	`Update menu caption
+	updateWindowCaption()
+	
+endfunction
+
+function saveMenuLayout(fileNum)
+	if (getTreeViewChild(menuTree,tvMenuTreeRoot))
+		write string fileNum,"menu"
+		
+		
+		nextItem=getTreeViewChild(menuTree,tvMenuTreeRoot)
+		
+		repeat
+			write string fileNum,generateDepthMarker(depth)+getTreeViewItemText(menuTree,nextItem)	
+			
+			childItem=getTreeViewChild(menuTree,nextItem)
+			
+			if childItem
+				inc depth
+				nextItem=childItem
+			else
+				siblingItem=getTreeViewNext(menuTree,nextItem)
+				if siblingItem
+					nextItem=siblingItem
+				else
+					parentItem=getTreeViewParent(menuTree,nextItem)
+					shift=1
+					
+					while (getTreeViewNext(menuTree,parentItem)=0) and (parentItem <> tvMenuTreeRoot)
+						parentItem=getTreeViewParent(menuTree,parentItem)
+						inc shift		
+					endwhile
+					
+					nextItem=getTreeViewNext(menuTree,parentItem)
+					dec depth,shift
+				endif
+				
+			endif
+			
+			
+		until nextItem=0
+		
+		write string fileNum,"endmenu"
+	endif
+endfunction
+
+function generateDepthMarker(depth)
+	for i=0 to depth
+		temp$=temp$+"-"
+	next i
+endfunction temp$
+
+`Iterates through the treeview gadget and returns the handles to each item
+`Optionally it will return 0 after going through all children of the specified parent
+function getNextGadget(handle)
+	`message "H - " + str$(handle)
+	`Does gadget have any children?
+	item=getTreeViewChild(layoutTree,handle)
+	`message "C - " + str$(item)
+	if item then exitfunction item
+	
+	`No - is there another item at this level?
+	item=getTreeViewNext(layoutTree,handle)
+	`message "N - " + str$(item)
+	if item then exitfunction item
+	
+	`No - go back to the parent and then to its next sibling
+	
+	temp=handle
+	
+	repeat
+		temp=getTreeViewParent(layoutTree,temp)
+		
+		`   if parent<>0 and temp=parent then exitfunction 0
+		
+		item=getTreeViewNext(layoutTree,temp)
+	until (item <> 0) or temp=0
+	
+	if item then exitfunction item
+	
+endfunction 0
+
+function gadgetTypeToString(gadgetType)
+	local null as string
+	
+	select gadgetType
+	case GADGET_BUTTON
+	exitfunction "button"
+	endcase
+	case GADGET_LABEL
+	exitfunction "label"
+	endcase
+	case GADGET_EDIT
+	exitfunction "edit"
+	endcase
+	case GADGET_CHECK
+	exitfunction "checkbox"
+	endcase
+	case GADGET_RADIO
+	exitfunction "radiobutton"
+	endcase
+	case GADGET_PANEL
+	exitfunction "panel"
+	endcase
+	case GADGET_FRAME
+	exitfunction "frame"
+	endcase
+	case GADGET_LIST
+	exitfunction "listbox"
+	endcase
+	case GADGET_COMBO
+	exitfunction "combobox"
+	endcase
+	case GADGET_TABS
+	exitfunction "tabs"
+	endcase
+	case GADGET_TREEVW
+	exitfunction "treeview"
+	endcase
+	case GADGET_CANVAS
+	exitfunction "canvas"
+	endcase
+	case GADGET_SCROLL
+	exitfunction "scrollbar"
+	endcase
+	case GADGET_UPDWN
+	exitfunction "updown"
+	endcase
+	case GADGET_TOOLB
+	exitfunction "toolbar"
+	endcase
+	case GADGET_WIN
+	exitfunction "window"
+	endcase
+	case GADGET_LISTVW
+	exitfunction "listview"
+	endcase
+	case GADGET_WEB
+	exitfunction "webbrowser"
+	endcase
+	case GADGET_PROG
+	exitfunction "progressbar"
+	endcase
+	case GADGET_STATUS
+	exitfunction "statusbar"
+	endcase
+	case GADGET_TRACK
+	exitfunction "trackbar"
+	endcase
+	endselect
+endfunction null
+
+function gadgetTypeStringToConst(gadgetType as string)
+	select gadgetType
+	case "button"
+	exitfunction GADGET_BUTTON
+	endcase
+	case "label"
+	exitfunction GADGET_LABEL
+	endcase
+	case "edit"
+	exitfunction GADGET_EDIT
+	endcase
+	case "checkbox"
+	exitfunction GADGET_CHECK
+	endcase
+	case "radiobutton"
+	exitfunction GADGET_RADIO
+	endcase
+	case "panel"
+	exitfunction GADGET_PANEL
+	endcase
+	case "frame"
+	exitfunction GADGET_FRAME
+	endcase
+	case "listbox"
+	exitfunction GADGET_LIST
+	endcase
+	case "combobox"
+	exitfunction GADGET_COMBO
+	endcase
+	case "tabs"
+	exitfunction GADGET_TABS
+	endcase
+	case "treeview"
+	exitfunction GADGET_TREEVW
+	endcase
+	case "canvas"
+	exitfunction GADGET_CANVAS
+	endcase
+	case "scrollbar"
+	exitfunction GADGET_SCROLL
+	endcase
+	case "updown"
+	exitfunction GADGET_UPDWN
+	endcase
+	case "toolbar"
+	exitfunction GADGET_TOOLB
+	endcase
+	case "window"
+	exitfunction GADGET_WIN
+	endcase
+	case "listview"
+	exitfunction GADGET_LISTVW
+	endcase
+	case "webbrowser"
+	exitfunction GADGET_WEB
+	endcase
+	case "progressbar"
+	exitfunction GADGET_PROG
+	endcase
+	case "statusbar"
+	exitfunction GADGET_STATUS
+	endcase
+	case "trackbar"
+	exitfunction GADGET_TRACK
+	endcase
+	endselect
+endfunction -1
+
+function generateSaveLayoutLine(index)
+	local result as string
+	
+	handle=gadgets(index).handle
+	
+	`Write Parameters
+	
+	`Type
+	result=gadgetTypeToString(gadgets(index).gtype)
+	
+	`Name
+	result=result + generateStringParam("name",gadgets(index).name)
+	
+	`X Pos
+	result=result + generateNumParam("x",gadgetX(handle))
+	
+	`Y Pos
+	result=result + generateNumParam("y",gadgetY(handle))
+	
+	`Width
+	result=result + generateNumParam("width",gadgetWidth(handle))
+	
+	`Height
+	result=result + generateNumParam("height",gadgetHeight(handle))
+	
+	`Parent
+	result=result + generateStringParam("parent",gadgets(getGadgetData(gadgets(index).parent)).name)
+	
+	`Text
+	result=result + generateStringParam("text",getGadgetText(handle))
+	
+	`Initially Enabled
+	result=result + generateNumParam("enabled",gadgets(index).startEnabled)
+	
+	`Initially Visible
+	result=result + generateNumParam("visible",gadgets(index).startVisible)
+	
+	`Alignment
+	result=result + generateNumParam("align",gadgets(index).align)
+	
+	`Optional Parameters
+	if gadgets(index).hasStyle then result=result + generateNumParam("style",gadgets(index).style)
+	
+	if gadgets(index).hasBorder then result=result + generateNumParam("border",gadgets(index).border)
+	
+	if gadgets(index).gtype=GADGET_WIN then result=result + generateNumParam("winborder",gadgets(index).windowBorder)
+	
+	`Items
+	if gadgets(index).hasItems
+		count=getItemCount(index)
+		local itemStr as string
+		
+		`message str$(count)
+		for i=0 to count-1
+			`	message str$(i)
+			if i < (count-1)
+				itemStr = itemStr+getItemText(index,i)+"|"
+			else
+				itemStr = itemStr+getItemText(index,i)
+			endif
+		next i
+		
+		result=result + generateStringParam("items",itemStr)
+	endif
+	
+	if len(result) > 500
+		warningMessage "Encountered a problem when saving '"+gadgets(index).name+"'.  This gadget will not be saved."
+		result=""
+	endif
+	
+	
+	
+endfunction result
+
+function generateStringParam(key as string, value as string)
+	local result as string
+	result=" "+key+"="+QUOTE_CHAR+value+QUOTE_CHAR
+endfunction result
+
+function generateNumParam(key as string, value as integer)
+	local result as string
+	
+	result=" "+key+"="+QUOTE_CHAR+str$(value)+QUOTE_CHAR
+endfunction result
+
+function gadgetNameToIndex(name as string)
+	local lowerName as string
+	lowerName=lower$(name)
+	
+	for i=1 to MAX_GADGETS
+		
+		if lower$(gadgets(i).name)=lowerName then exitfunction i
+	next i
+endfunction 0
+
+function loadLayout(fileName as string)
+	if file exist(fileName)=0 then exitfunction
+	
+	`Close the existing layout first,
+	`TODO - We really ought to prompt the user to save
+	
+	closeLayout()
+	
+	local fileNum=1
+	local pos as DWORD
+	local lineTxt as string
+	local txtWord as string
+	local newPos as DWORD
+	local valueType as string
+	
+	
+	local tempType as string
+	local tempText as string
+	local tempName as string
+	local tempParent as string
+	local tempItems as string
+	
+	newPos=make memory(4)
+	
+	open to read fileNum,fileName
+	
+	setAutoUpdate layoutTree,0
+	setAutoUpdate propsTree,0
+	setAutoUpdate propsSelect,0
+	
+	setGadgetDefaults 0
+	createHidden=1
+	
+	`Read each line in the file and construct the gadget
+	repeat
+		read string fileNum,lineTxt
+		
+		if left$(lineTxt,4)="menu"
+			loadMenuLayout(fileNum)
+			`Force it to skip this line
+			lineTxt=";"	
+		endif
+		
+		if lineTxt=""
+			lineTxt=";"
+		endif
+		
+		tempType=""
+		
+		pos=1
+		waitingValue=0
+		
+		
+		if mid$(lineTxt,1) <> ";" :`Ensure it is not a comment
+			
+			tempType=getNextWord(lineTxt,pos,newPos)
+			pos=*newPos
+			
+			if tempType="EOL" then tempType=""
+			
+			`Get each word from the line and the values and copy them into the appropriate vars
+			repeat
+				txtWord=getNextWord(lineTxt,pos,newPos)
+				pos=*newPos
+				
+				if waitingValue=0
+					valueType=txtWord
+					waitingValue=1
+				else
+					waitingValue=0
+					
+					value=val(txtWord)
+					
+					select valueType
+					case "name"
+					tempName=txtWord
+					endcase
+					case "width"
+					tempWidth=value
+					endcase
+					case "height"
+					tempHeight=value
+					endcase
+					case "x"
+					tempX=value
+					endcase
+					case "y"
+					tempY=value
+					endcase
+					case "text"
+					tempText=txtWord
+					endcase
+					case "parent"
+					tempParent=txtWord
+					endcase
+					case "align"
+					tempAlign=value
+					endcase
+					case "border","winborder"
+					tempBorder=value
+					endcase
+					case "style"
+					tempStyle=value
+					endcase
+					case "visible"
+					tempVisible=value
+					endcase
+					case "enabled"
+					tempEnabled=value
+					endcase
+					case "items"
+					tempItems=txtWord
+					endcase
+					endselect
+				endif
+			until txtWord="EOL"
+		endif
+		
+		`What type of gadget are we creating
+		if tempType <> ""
+			`Setup details of new Gadget
+			currentDrawingType=gadgetTypeStringToConst(tempType)
+			newIndex=freeGadgetIndex()
+			
+			`   message tempParent
+			parent=gadgets(gadgetNameToIndex(tempParent)).handle
+			
+			if parent=0 then parent=mainEditWin
+			
+			`Create new gadget
+			createNewGadget(1,tempName,tempX,tempY,parent)
+			
+			gadgets(newIndex).startEnabled=tempEnabled
+			gadgets(newIndex).startVisible=tempVisible
+			gadgets(newIndex).style=tempStyle
+			gadgets(newIndex).align=tempAlign
+			
+			if gadgets(newIndex).hasItems
+				`message "hasitems " + tempItems
+				loadItemsIntoGadget(newIndex,tempItems)
+			endif
+			
+			if gadgets(newIndex).gtype=GADGET_WIN
+				gadgets(newIndex).windowBorder=tempBorder
+				gadgets(newIndex).border=0
+			else
+				gadgets(newIndex).border=tempBorder
+			endif
+			
+			
+			`Apply properties
+			resizeGadget gadgets(newIndex).handle,tempWidth,tempHeight
+			setGadgetText gadgets(newIndex).handle,tempText
+			setGadgetAlign gadgets(newIndex).handle,tempAlign
+			
+			if gadgets(newIndex).hasBorder then setPanelBorderStyle gadgets(newIndex).handle,tempBorder
+			
+			`message "S: " + tempText
+			`message "G: " + getGadgetText(gadgets(newIndex).handle)
+		endif
+		
+	until file end(fileNum)
+	
+	createHidden=0
+	setGadgetDefaults 1
+	setAutoUpdate layoutTree,1
+	setAutoUpdate propsTree,1
+	setAutoUpdate propsSelect,1
+	
+	for i=0 to MAX_GADGETS
+		if gadgets(i).handle
+			if gadgets(i).gtype=GADGET_WIN
+				if gadgets(i).handle=activeWin then setGadgetVisible gadgets(i).handle,1
+			else
+				if getGadgetVisible(gadgets(i).handle)=0 then setGadgetVisible gadgets(i).handle,1	
+			endif
+		endif	
+	next i
+	
+	`Reset drawing type
+	currentDrawingType=-1
+	
+	`activeWin=mainEditWin
+	createSizeMarkers(activeWin)
+	
+	close file fileNum
+	
+	delete memory newPos
+	
+	
+endfunction
+
+function loadItemsIntoGadget(index,itemStr as string)
+	`setAutoUpdate gadgets(index).handle,0
+	
+	local itemLen
+	itemLen=len(itemStr)
+	local temp as string
+	local tempChar as string
+	
+	`message str$(itemLen)
+	select gadgets(index).gtype
+	case GADGET_COMBO,GADGET_LIST
+	if itemCount(gadgets(index).handle) > 0 then removeItem gadgets(index).handle,0
+	endcase
+	case GADGET_TABS
+	if tabCount(gadgets(index).handle) > 0 then removeTab gadgets(index).handle,0
+	endcase
+	endselect
+	
+	for i=1 to itemLen
+		tempChar=mid$(itemStr,i)
+		if i=itemLen then temp=temp+tempChar
+		
+		if (tempChar="|") or (i=itemLen)
+			`message "OKAY! - "+tempChar
+			select gadgets(index).gtype
+			case GADGET_COMBO,GADGET_LIST
+			addItem gadgets(index).handle,temp
+			endcase		
+			case GADGET_TABS
+			addTab gadgets(index).handle,temp
+			endcase
+			endselect
+			
+			temp=""
+		else
+			`message tempChar		
+			temp=temp+tempChar		
+		endif
+	next i
+	
+	`setAutoUpdate gadgets(index).handle,1
+endfunction
+
+function loadMenuLayout(fileNum)
+	
+	local lineTxt as string
+	local mnuText as string
+	
+	read string fileNum,lineTxt
+	
+	lastItem=tvMenuTreeRoot
+	
+	while (lineTxt <> "endmenu") and (file end(fileNum)=0)
+		
+		i=1
+		newDepth=0
+		
+		repeat
+			tmp$=mid$(lineTxt,i)
+			inc i
+			inc newDepth
+		until tmp$ <> "-"
+		
+		mnuText=right$(lineTxt,len(lineTxt)-i+2)
+		
+		if newDepth > lastDepth
+			lastItem=addTreeViewItem(menuTree,lastItem,0,mnuText)
+		else
+			if newDepth < lastDepth
+				depthChange=lastDepth-newDepth
+				
+				currentParent=lastItem
+				
+				for k=0 to depthChange-1
+					currentParent=getTreeViewParent(menuTree,currentParent)
+				next k
+				
+				lastItem=addTreeViewItem(menuTree,getTreeViewParent(menuTree,currentParent),0,mnuText)
+			else
+				lastItem=addTreeViewItem(menuTree,getTreeViewParent(menuTree,lastItem),0,mnuText)
+			endif
+		endif
+		
+		lastDepth=newDepth
+		
+		
+		read string fileNum,lineTxt
+	endwhile
+	
+	updateWindowMenu(mainEditWin,menuTree,tvMenuTreeRoot)
+endfunction
+
+
+function getNextWord(txt as string, startPos, newPos)
+	local result as string
+	local currentChar as string
+	local recording=0
+	local inQuotes=0
+	
+	textLen=len(txt)
+	
+	if startPos > textLen then exitfunction "EOL"
+	
+	for i=startPos to textLen
+		currentChar=mid$(txt,i)
+		cType=charType(currentChar)
+		
+		if (cType=0) and (not inQuotes)
+			if (recording)
+				*newPos=i
+				`   message "EXITF"
+				exitfunction result
+			endif
+		else
+			recording=1
+			
+			if cType <> 4
+				result=result+currentChar
+			else
+				inQuotes=(not inQuotes)
+			endif
+		endif
+		
+	next i
+	
+	*newPos=textLen+1
+	
+endfunction result
+
+function gadgetFromCoords(x,y)
+	for i=1 to MAX_GADGETS
+		if gadgets(i).handle > 0
+			gW=gadgetWidth(gadgets(i).handle)
+			gH=gadgetHeight(gadgets(i).handle)
+			gX=gadgetX(gadgets(i).handle,activeWin)
+			gY=gadgetY(gadgets(i).handle,activeWin)
+			
+			if (x > gX) and (x < (gX+gW))
+				if (y > gY) and (y < (gY+gH))
+					exitfunction i
+				endif
+			endif
+		endif
+		
+	next i
+endfunction 0
+
+function editorEventKeyShortCut()
+	`Delete Gadget
+	if eventData()=0x2E
+		if selectedGadget <> mainEditWin
+			deleteCurrentGadget()
+		endif
+	endif
+	`Lock gadget
+	if eventData()=0x4C
+		if selectedGadget <> activeWin
+			gadgets(getGadgetData(selectedGadget)).locked = not lockedState
+			lockedState = not lockedState
+		endif
+	endif
+	`Hide/Show Gadget
+	if eventData()=86
+		if selectedGadget <> activeWin
+			setGadgetVisible selectedGadget, not getGadgetVisible(selectedGadget)
+			setMarkers(1) `Note that markers will be hidden if gadget is now invisible
+		endif
+	endif
+	
+	`Escape From Current Mode
+	if eventData()=0x1B
+		selectedGadget=0
+		setMarkers(0)
+		activeMode=0
+	endif
+	
+	`Moving Gadget With Keys
+	
+	`Left
+	if eventData()=0x25
+		if activeGadget()=activeWin
+			positionGadget selectedGadget,gadgetX(selectedGadget)-1,gadgetY(selectedGadget)
+			setMarkers(1)
+		endif
+	endif
+	
+	`Right
+	if eventData()=0x27
+		if activeGadget()=activeWin
+			positionGadget selectedGadget,gadgetX(selectedGadget)+1,gadgetY(selectedGadget)
+			setMarkers(1)
+		endif
+	endif
+	
+	`Up
+	if eventData()=0x26
+		if activeGadget()=activeWin
+			positionGadget selectedGadget,gadgetX(selectedGadget),gadgetY(selectedGadget)-1
+			setMarkers(1)
+		endif
+	endif
+	
+	`Down
+	if eventData()=0x28
+		if activeGadget()=activeWin
+			positionGadget selectedGadget,gadgetX(selectedGadget),gadgetY(selectedGadget)+1
+			setMarkers(1)
+		endif
+	endif
+	
+	
+endfunction
+
+function editorEventMenuSelect()
+	local fileName as string
+	
+	`DEMO LIMITATION
+	`if eventData()=7 or eventData()=6 or eventData()=10
+	`	warningMessage "Layout saving and code export are disabled in the demo version."
+	`	exitfunction
+	`endif
+	
+	select eventData()
+	case 3 `File > Exit
+	postEvent toolboxWin,WINDOW_CLOSE,0,0
+	endcase
+	case 11 `File > New
+	savePrompt()
+	closeLayout()
+	activeFile=""
+	updateWindowCaption()
+	modified=0
+	endcase
+	case 5 `File > Open
+	
+	savePrompt()
+	
+	fileName=openDialog("Open Layout File","Rainbow Layout Files (*.gui)|*.gui|All Files (*.*)|*.*")
+	
+	if fileName <> ""
+		loadLayout(fileName)
+		modified=0
+		activeFile=fileName
+		updateWindowCaption()
+	endif
+	endcase
+	case 6 `File > Save
+	
+	
+	if activeFile=""
+		fileName=saveDialog("Save Layout File","Rainbow Layout Files (*.gui)|*.gui")
+	else
+		fileName=activeFile
+	endif
+	
+	if fileName <> ""
+		saveLayout(fileName)
+		modified=0
+		activeFile=fileName
+		updateWindowCaption()
+	endif
+	
+	
+	endcase
+	case 10 `File > Save As
+	
+	
+	fileName=saveDialog("Save Layout File As","Rainbow Layout Files (*.gui)|*.gui")
+	
+	if fileName <> ""
+		saveLayout(fileName)
+	endif
+	endcase
+	case 7 `File > Export DarkBASIC Code
+	
+	
+	fileName=saveDialog("Export DarkBASIC Code","DarkBASIC Source Files (*.dba)|*.dba")
+	if fileName <> ""
+		exportCodeDB(fileName)
+	endif
+	endcase
+	case 20 `File > Export To Clipboard
+	exportCodeDB("?temp_export.dba")
+	endcase
+	
+	case 21 `Edit > Cut
+	
+	clipboardPush(CLIP_CLEAR,selectedGadget)
+	
+	endcase
+	
+	case 22 `Edit > Copy
+	
+	
+	clipboardPush(CLIP_CLEAR,selectedGadget)
+	
+	endcase
+	
+	case 23 `Edit > Paste
+	
+	clipboardPaste()
+	
+	endcase
+	
+	case 13 `Edit > Set Window Size
+	width=val(inputBox("New Window Size","Enter the width in pixels for the main window.","",toolboxWin))
+	if width=0 then exitfunction
+	height=val(inputBox("New Window Size","Enter the height in pixels for the main window.","",toolboxWin))
+	if height=0 then exitfunction
+	
+	if (width > 100) and (height > 100)
+		resizeGadget mainEditWin,width,height,1
+	else
+		warningMessage "Width and Height must both be greater than 100"
+	endif
+	endcase
+	case 4 `Help > About
+	message "Rainbow","Rainbow Visual UI Designer (version " + RAINBOW_VERSION + ")"
+	endcase
+	case 8 :`View > Snap to Grid
+	configSnapToGrid = not getMenuItemChecked(viewMenu,8)
+	setMenuItemChecked viewMenu,8,configSnapToGrid
+	endcase
+	case 14 : `Edit > Allow Gadget Reordering
+	allowGadgetReordering = not getMenuItemChecked(editMenu,14)
+	setMenuItemChecked editMenu,14,allowGadgetReordering
+	endcase
+	
+	case 15 : `View > Menu Editor
+	showMenuEditor(getGadgetData(activeWin))
+	endcase
+	endselect
+endfunction
+
+function editorEventLeftButtonDown()
+	
+	source=eventSource()
+	
+	if isMarker(eventSource())
+		activeMode=MODE_RESIZE
+		setGadgetColor sizeToolTip,RGB(202,255,202),0
+		positionGadget sizeToolTip,mousePosX(activeWin)+20,mousePosY(activeWin)+20
+		
+		newWidth=gadgetX(sizeMarker(3))-gadgetX(sizeMarker(1))-5
+		newHeight=gadgetY(sizeMarker(6))-gadgetY(sizeMarker(1))-5
+		
+		setGadgetText sizeToolTip,str$(newWidth)+","+str$(newHeight)
+		
+		setGadgetVisible sizeToolTip,1
+	endif
+	
+	`Select gadget, prepare for positioning - if gadget is unlocked
+	if (isDrawingGadget(source)) and (currentDrawingType=-1)
+		if gadgets(getGadgetData(source)).gtype <> GADGET_WIN
+			activeMode=MODE_POSITION
+			setGadgetColor sizeToolTip,RGB(255,255,176),0
+		endif
+		
+		ignoreMouseMove=1
+		selectedGadget=source
+		
+		updateLayoutTree()
+		updatePropsSelect()
+		updatePropsValue()
+		
+		positionGadget sizeToolTip,mousePosX(activeWin)+20,mousePosY(activeWin)+20
+		setGadgetText sizeToolTip,str$(gadgetX(sizeMarker(1))+5)+","+str$(gadgetY(sizeMarker(1))+5)
+		if gadgets(getGadgetData(selectedGadget)).gtype <> GADGET_WIN then setGadgetVisible sizeToolTip,1
+		
+		setMarkers(1)
+		positionOffsetX=mousePosX(selectedGadget)
+		positionOffsetY=mousePosY(selectedGadget)
+		
+		if gadgets(getGadgetData(source)).gtype=GADGET_COMBO
+			`setGadgetEnabled source,0
+			`   setGadgetEnabled source,1
+		endif
+		
+		activateGadget activeWin
+	endif
+	
+	`Draw New Gadget
+	if currentDrawingType > -1
+		if (isDrawingGadget(source)) or (eventSource()=activeWin)
+			createNewGadget(0,"",0,0,0)
+			setToolbarButtonState toolbar,currentDrawingType,0
+			currentDrawingType=-1
+		endif
+	else
+		if eventSource()=activeWin and currentDrawingType = -1
+			setMarkers(0)
+		endif
+	endif
+endfunction
+
+function editorEventLayoutTree()
+	`Highlight item under mouse when doing drag-drop operation
+	if eventType()=MOUSE_MOVE
+		if eventData()=1 :`left mouse down
+			selectTreeViewItem layoutTree,treeViewItemFromPoint(layoutTree,mousePosX(layoutTree),mousePosY(layoutTree))
+		endif
+	endif
+	
+	`Drag-drop re-arranging of gadgets
+	if (eventType()=LEFTBUTTON_UP) and (allowGadgetReordering)
+		if layoutDragging
+			
+			treeViewItemUnderMouse=treeViewItemFromPoint(layoutTree,mousePosX(layoutTree),mousePosY(layoutTree))	
+			
+			index=indexFromTVHandle(treeViewItemUnderMouse)
+			selIndex=getGadgetData(selectedGadget)
+			selType=gadgets(selIndex).gtype
+			handle=gadgets(index).handle
+			hasChildren=getTreeViewChild(layoutTree,gadgets(selIndex).treeViewItemHandle)
+			
+			moveDist=sqrt((mousePosX(layoutTree)-dragStartX)^2+(mousePosY(layoutTree)-dragStartY)^2)
+			
+			
+			if (index > 0) and (selIndex > 0) and (selType <> GADGET_WIN) and (handle <> selectedGadget) and (moveDist>2)
+				
+				
+				if (selIndex > 0) and (hasChildren > 0)
+					warningMessage "This gadget cannot be re-arranged because it has children."
+				endif
+				
+				`Get relative positions of gadgets
+				`relX=gadgetX(selectedGadget,activeWin)-gadgetX(handle,activeWin)
+				`relY=gadgetY(selectedGadget,activeWin)-gadgetY(handle,activeWin)
+				
+				`message str$(relX) + " - " + str$(relY)
+				
+				`message str$(mousePosX(layoutTree)-dragStartX)+ " : " + str$(mousePosY(layoutTree)-dragStartY)
+				
+				if (hasChildren=0)
+					removeTreeViewItem layoutTree,gadgets(selIndex).treeViewItemHandle
+					gadgets(selIndex).treeViewItemHandle=addTreeViewItem(layoutTree,gadgets(index).treeViewItemHandle,gadgets(selIndex).gtype,gadgets(selIndex).name)
+					setGadgetParent selectedGadget,handle
+					gadgets(selIndex).parent=handle
+					setMarkers(0)
+				endif
+			endif
+			
+			`Special drag-drop case: Main window
+			if (treeViewItemUnderMouse=mainEditWin_TVHandle) and (selIndex > 0)
+				if (hasChildren > 0)
+					warningMessage "This gadget cannot be re-arranged because it has children."
+				else
+					removeTreeViewItem layoutTree,gadgets(selIndex).treeViewItemHandle
+					gadgets(selIndex).treeViewItemHandle=addTreeViewItem(layoutTree,mainEditWin_TVHandle,gadgets(selIndex).gtype,gadgets(selIndex).name)
+					setGadgetParent selectedGadget,mainEditWin
+					setMarkers(0)
+				endif
+			endif
+		endif
+		layoutDragging=0
+	endif
+	
+	`If the user selects a gadget it the tree, focus it in the editing area
+	if eventType()=LEFTBUTTON_DOWN or eventType()=KEYDOWN
+		layoutDragging=1
+		
+		dragStartX=mousePosX(layoutTree)
+		dragStartY=mousePosY(layoutTree)
+		
+		`Get new selection
+		selectedGadget=gadgets(indexFromTVHandle(selectedTreeViewItem(layoutTree))).handle
+		
+		setActiveWin()
+		
+		`activateGadget layoutTree
+		
+		if (isDrawingGadget(selectedGadget))
+			setMarkers(1)
+		else
+			setMarkers(0)
+		endif
+		
+		`Update Properties Box
+		updatePropsSelect()
+		updatePropsValue()
+	endif
+endfunction
+
+function setActiveWin()
+	`Change Active window if necessary - nb selectedGadget is 0 for main DBPro window
+	if selectedGadget
+		if gadgets(getGadgetData(selectedGadget)).window <> activeWin
+			setGadgetVisible activeWin,0
+			activeWin=gadgets(getGadgetData(selectedGadget)).window
+			`Show active window - but don't activate it
+			setGadgetVisible activeWin,2
+			
+			`Recreate the size markers
+			createSizeMarkers(activeWin)
+		endif
+	else
+		if activeWin <> mainEditWin
+			setGadgetVisible activeWin,0
+			`Show main window, but don't activate it
+			setGadgetVisible mainEditWin,2
+			activeWin=mainEditWin
+			
+			`Recreate the size markers
+			createSizeMarkers(activeWin)
+		endif
+	endif
+endfunction
+
+function editorEventLeftButtonUp()
+	
+	setGadgetVisible sizeToolTip,0
+	
+	if activeMode=MODE_RESIZE :`Finish resizing
+		parent=getParentGadget(selectedGadget)
+		
+		newWidth=gadgetX(sizeMarker(3))-gadgetX(sizeMarker(1))-5
+		newHeight=gadgetY(sizeMarker(6))-gadgetY(sizeMarker(1))-5
+		
+		if (newWidth > 0) and (newHeight > 0)
+			resizeGadget selectedGadget,newWidth,newHeight
+			
+			`Special handling for scrollbar gadgets
+			if gadgets(getGadgetData(selectedGadget)).gtype=GADGET_SCROLL
+				`paintDummyScrollbar(selectedGadget)
+				`message "OK"
+				drawRect selectedGadget,0,0,20,20
+				paintGadget selectedGadget
+				
+				paintDummyScrollbar(selectedGadget)
+			endif
+		else
+			`warningMessage "Cannot resize a gadget to a height or width of zero pixels"
+			setMarkers(1)
+		endif
+		
+		positionGadget selectedGadget,gadgetX(sizeMarker(1),parent)+5,gadgetY(sizeMarker(1),parent)+5
+		
+		`If this is a label gadget then reset the text to force an update
+		if gadgets(getGadgetData(selectedGadget)).gtype=GADGET_LABEL then setGadgetText selectedGadget,getGadgetText(selectedGadget)
+		
+		updatePropertyTree()
+		
+	endif
+	
+	if activeMode=MODE_POSITION and lockedState=0 :`Finish positioning
+		parent=getParentGadget(selectedGadget)
+		
+		newX=gadgetX(sizeMarker(1),parent)+5
+		newY=gadgetY(sizeMarker(1),parent)+5
+		
+		If (newX=gadgetX(selectedGadget)) and (newY=gadgetY(selectedGadget))
+			`No Need To Move Gadget
+		else
+			positionGadget selectedGadget,gadgetX(sizeMarker(1),parent)+5,gadgetY(sizeMarker(1),parent)+5
+			
+			`Reset alignment            
+			if gadgets(getGadgetData(selectedGadget)).align <> 0
+				gadgets(getGadgetData(selectedGadget)).align=0
+				setGadgetAlign selectedGadget,ALIGN_NONE
+			endif
+		endif
+		
+		
+		updatePropertyTree()
+		
+		paintGadget selectedGadget
+		setMarkers(1)
+	endif
+	activeMode=0
+	activeMarker=0
+endfunction
+
+function editorEventPropsResize()
+	
+	propsWidth=gadgetWidth(propsWin)
+	propsHeight=gadgetHeight(propsWin)
+	
+	`Set min width
+	if propsWidth < 200
+		resizeGadget propsWin,200,propsHeight
+		propsWidth=200
+	endif
+	`Set min height
+	if propsHeight < 450
+		resizeGadget propsWin,propsWidth,450
+		propsHeight=450
+	endif
+	
+	resizeGadget layoutFrame,propsWidth-15,propsHeight-295
+	resizeGadget layoutTree,propsWidth-25,propsHeight-315
+	
+	positionGadget propsFrame,5,propsHeight-280
+	
+	resizeGadget propsFrame,propsWidth-15,gadgetHeight(propsFrame)
+	resizeGadget propsTree,propsWidth-25,gadgetHeight(propsTree)
+	
+	resizeGadget propsSelect,propsWidth-25,gadgetHeight(propsSelect)
+	resizeGadget propsSettingEdit,propsWidth-25,gadgetHeight(propsSettingEdit)
+	resizeGadget propsSettingCombo,propsWidth-25,gadgetHeight(propsSettingCombo)
+endfunction
+
+function updateWindowCaption()
+	local fileName as string
+	
+	endOfPath=strchrRev(activeFile,"\")
+	
+	if endOfPath > 0
+		fileName=right$(activeFile,len(activeFile)-endOfPath)
+		setGadgetText toolboxWin,fileName + " - Rainbow Visual UI Designer"
+	else
+		setGadgetText toolboxWin,"Rainbow Visual UI Designer"
+	endif
+endfunction
+
+function savePrompt()
+	
+	`DEMO LIMITATION
+	`exitfunction 1
+	
+	
+	local fileName as string
+	
+	doExit=1
+	
+	if modified
+		result=questionMessage("Do you wish to save changes to the current layout?","Save Changes?")
+		
+		if result=1
+			if activeFile=""
+				fileName=saveDialog("Save Layout File","Rainbow Layout Files (*.gui)|*.gui");
+			else
+				fileName=activeFile
+			endif
+			
+			if filename="" then doExit=0
+			
+			saveLayout(fileName)
+		endif
+		
+		if result=-1
+			doExit=0
+		endif
+	endif
+endfunction doExit
+
+function alignConstantToString(alignConst)
+	select alignConst
+	case ALIGN_NONE
+	exitfunction "None"
+	endcase
+	case ALIGN_ALL
+	exitfunction "All Client"
+	endcase
+	case ALIGN_LEFT
+	exitfunction "Left"
+	endcase
+	case ALIGN_RIGHT
+	exitfunction "Right"
+	endcase
+	case ALIGN_TOP
+	exitfunction "Top"
+	endcase
+	case ALIGN_BOTTOM
+	exitfunction "Bottom"
+	endcase
+	endselect
+	null$=""
+endfunction null$
+
+function styleConstantToString(styleConst)
+	select styleConst
+	case STYLE_HORZ
+	exitfunction "Horizontal"
+	endcase
+	case STYLE_VERT
+	exitfunction "Vertical"
+	endcase
+	endselect
+	null$=""
+endfunction null$
+
+function borderConstantToString(borderConst)
+	select borderConst
+	case BORDER_NONE
+	exitfunction "None"
+	endcase
+	case BORDER_FLAT
+	exitfunction "Flat"
+	endcase
+	case BORDER_3D
+	exitfunction "3D Raised"
+	endcase
+	case BORDER_SUNKEN
+	exitfunction "3D Sunken"
+	endcase
+	endselect
+	null$=""
+endfunction null$
+
+function winBorderConstantToString(winBorderConst)
+	select winBorderConst
+	case WINBORDER_NORMAL
+	exitfunction "Normal"
+	endcase
+	case WINBORDER_FIXED
+	exitfunction "Normal Fixed"
+	endcase
+	case WINBORDER_NORMAL_TOOL
+	exitfunction "ToolWindow"
+	endcase
+	case WINBORDER_FIXED_TOOL
+	exitfunction "ToolWindow Fixed"
+	endcase
+	endselect
+	null$=""
+endfunction null$
+
+function getItemCount(index)
+	handle=gadgets(index).handle
+	
+	select gadgets(index).gtype
+	case GADGET_COMBO,GADGET_LIST
+	exitfunction itemCount(handle)
+	endcase
+	case GADGET_TABS
+	exitfunction tabCount(handle)
+	endcase
+	endselect
+	
+endfunction 0
+
+function getItemText(gadgetIndex,itemIndex)
+	handle=gadgets(gadgetIndex).handle
+	
+	select gadgets(gadgetIndex).gtype
+	case GADGET_COMBO,GADGET_LIST
+	exitfunction itemText(handle,itemIndex)
+	endcase
+	case GADGET_TABS
+	exitfunction tabCaption(handle,itemIndex)
+	endcase
+	endselect
+	
+	null$=""
+endfunction null$
+
+function showItemEditor(index)
+	setGadgetVisible itemWin,1
+	setGadgetText itemWin,"Edit Items in " + gadgets(index).name
+	
+	activateGadget itemWin
+	
+	`Clear the list
+	count=itemCount(itemList)
+	for i=0 to (count-1)
+		removeItem itemList,0
+	next i
+	
+	`Populate the item editor
+	select gadgets(index).gtype
+	case GADGET_TABS
+	for i=0 to (tabCount(gadgets(index).handle)-1)
+		addItem itemList,tabCaption(gadgets(index).handle,i)
+	next i
+	endcase
+	case GADGET_LIST
+	for i=0 to (itemCount(gadgets(index).handle)-1)
+		addItem itemList,itemText(gadgets(index).handle,i)
+	next i
+	endcase
+	case GADGET_COMBO
+	for i=0 to (itemCount(gadgets(index).handle)-1)
+		addItem itemList,itemText(gadgets(index).handle,i)
+	next i
+	endcase
+	endselect
+	
+	do
+		getEvent
+		
+		if (activeGadget() <> itemWin) and (getParentGadget(activeGadget()) <> itemWin)
+			activateGadget itemWin
+		endif
+		
+		if eventSource()=itemWin and eventType()=WINDOW_CLOSE
+			setGadgetVisible itemWin,0
+			exitfunction
+		endif
+		
+		if eventSource()=itemAdd and eventType()=MOUSE_CLICK
+			item$=inputBox("Add Item","Enter text for new item:","",itemWin)
+			
+			if (item$ <> "~X~")
+				addItem itemList,item$
+				itemEditorAdd(index,item$)
+			endif
+		endif
+		
+		if (eventSource()=itemRemove)
+			if eventType()=MOUSE_CLICK
+				
+				itemIndex=selectedItem(itemList)
+			
+				if itemIndex > -1
+			
+					removeItem itemList,itemIndex
+					itemEditorRemove(index,itemIndex)
+				endif
+			endif
+		endif
+		
+		if eventSource()=itemList and eventType()=RIGHTMOUSE_CLICK
+			option=showPopupMenu(itemListPopup)
+			
+			select option
+			`Import
+			case 1
+			itemEditorImport(index)
+			endcase
+			
+			`Export
+			case 2
+			itemEditorExport()	
+			endcase
+			
+			`Clear
+			case 3
+			itemEditorClear(index)
+			endcase
+			endselect
+		endif
+		
+		if eventSource()=itemList and eventType()=LEFTBUTTON_DOUBLECLICK
+			if selectedItem(itemList) > -1
+				item$=inputBox("Change Item","Enter new text for item:",itemText(itemList,selectedItem(itemList)),itemWin)
+				
+				`Check that user did not cancel dialog
+				if (item$ <> "~X~")          
+					changeItem itemList,selectedItem(itemList),item$
+					itemEditorChange(index,selectedItem(itemList),item$)
+				endif
+			endif
+		endif
+	loop
+	
+	setGadgetVisible itemWin,0
+endfunction
+
+function itemEditorImport(index)
+	local fileName as string
+	local fileNum
+	fileNum=1
+	
+	fileName=openDialog("Import List","Text Files (*.txt)|*.txt|All Files (*.*)|*.*")
+	
+	if len(fileName) > 0
+		if file exist(fileName)
+			open to read fileNum,fileName
+			
+			repeat
+				read string fileNum,temp$
+				if len(temp$) > 0
+					addItem itemList,temp$
+					itemEditorAdd(index,temp$)		
+				endif
+			until file end(fileNum)
+			
+			close file fileNum	
+		endif	
+	endif
+endfunction
+
+function itemEditorExport()
+	local fileName as string
+	local fileNum
+	
+	fileNum=1
+	
+	fileName=saveDialog("Export List","Text Files (*.txt)|*.txt|All Files (*.*)|*.*")
+	
+	if len(fileName) > 0
+		if file exist(fileName) then delete file fileName
+		
+		open to write fileNum,fileName
+		
+		count=itemCount(itemList)
+		
+		for i=0 to count-1
+			write string fileNum,itemText(itemList,i)
+		next i
+		
+		close file fileNum
+	endif
+endfunction
+
+function itemEditorClear(index)
+	count=itemCount(itemList)
+	
+	for i=0 to count-1
+		itemEditorRemove(index,i)
+	next i
+endfunction
+
+function itemEditorAdd(gadgetIndex,txt as string)
+	select gadgets(gadgetIndex).gtype
+	case GADGET_TABS
+	addTab gadgets(gadgetIndex).handle,txt
+	endcase
+	case GADGET_LIST
+	
+	addItem gadgets(gadgetIndex).handle,txt
+	endcase
+	case GADGET_COMBO
+	addItem gadgets(gadgetIndex).handle,txt
+	endcase
+	endselect
+endfunction
+
+function itemEditorChange(gadgetIndex,itemIndex,txt as string)
+	select gadgets(gadgetIndex).gtype
+	case GADGET_TABS
+	changeTab gadgets(gadgetIndex).handle,itemIndex,txt
+	endcase
+	case GADGET_LIST
+	changeItem gadgets(gadgetIndex).handle,itemIndex,txt
+	endcase
+	case GADGET_COMBO
+	changeItem gadgets(gadgetIndex).handle,itemIndex,txt
+	endcase
+	endselect
+endfunction
+
+function itemEditorRemove(gadgetIndex,itemIndex)
+	select gadgets(gadgetIndex).gtype
+	case GADGET_TABS
+	removeTab gadgets(gadgetIndex).handle,itemIndex
+	endcase
+	case GADGET_LIST
+	removeItem gadgets(gadgetIndex).handle,itemIndex
+	endcase
+	case GADGET_COMBO
+	removeItem gadgets(gadgetIndex).handle,itemIndex
+	endcase
+	endselect
+endfunction
+
+function showMenuEditor(gadgetIndex)
+	setGadgetVisible menuWin,1
+	
+	
+	
+	`Empty Treeview
+	
+	do
+		getEvent
+		
+		`Keep menu window on top
+		if (activeGadget() <> menuWin) and (getParentGadget(activeGadget()) <> menuWin)
+			bringToFront menuWin
+		endif
+		
+		if (eventType()=RIGHTBUTTON_DOWN) and (eventSource()=menuTree)
+			
+			modified=1
+			
+			selItem=treeViewItemFromPoint(menuTree,mousePosX(menuTree),mousePosY(menuTree))
+			
+			select showPopupMenu(menuPopup)
+			case 1 : `Insert Item
+			name$=inputBox("New Item","Enter a name for the new menu item","",menuWin)
+			
+			if (name$ <> "~X~")
+				parent=getTreeViewParent(menuTree,selItem)
+				
+				if selItem=tvMenuTreeRoot or selItem=0 then parent=tvMenuTreeRoot : repaint=1
+				
+				if selItem
+					insertAfter=selItem
+				else
+					insertAfter=0
+				endif
+				
+				x=addTreeViewItem(menuTree,parent,0,name$,insertAfter)
+			endif
+			endcase
+			
+			case 2 : `Insert SubMenu
+			name$=inputBox("New SubMenu","Enter a name for the first item in the new submenu","",menuWin)
+			
+			if (name$ <> "~X~")
+				x=addTreeViewItem(menuTree,selItem,0,name$) 
+				repaint=1
+			endif
+			endcase
+			
+			case 3 : `Change Item
+			
+			
+			if (selItem)
+				
+				name$=inputBox("Change Item","Enter the new caption for the menu item",getTreeViewItemText(menuTree,selItem),menuWin)
+				
+				if (name$ <> "~X~")
+					if (selItem <> tvMenuTreeRoot)
+						setTreeViewItemText menuTree,selItem,name$
+					endif
+				endif
+			endif
+			endcase
+			
+			case 4 : `Remove Item
+			
+			if (selItem)
+				if (selItem <> tvMenuTreeRoot)
+					removeTreeViewItem menuTree,selItem
+				endif
+			endif
+			endcase
+			
+			case 5 : `Insert Splitter
+			
+			
+			parent=getTreeViewParent(menuTree,selItem)
+			
+			if selItem=tvMenuTreeRoot or selItem=0 then parent=tvMenuTreeRoot : repaint=1
+			
+			if selItem
+				insertAfter=selItem
+			else
+				insertAfter=0
+			endif
+			
+			x=addTreeViewItem(menuTree,parent,0,"[Splitter]",insertAfter)
+			
+			endcase
+			case 6 : `Move Item Up
+			
+			oldCaption as String
+			
+			if (selItem) and (selItem <> tvMenuTreeRoot)
+				oldCaption=getTreeViewItemText(menuTree,selItem)	
+				prevItem=getTreeViewPrev(menuTree,getTreeViewPrev(menuTree,selItem))
+				if prevItem=0 then prevItem=-1
+				
+				parent=getTreeViewParent(menuTree,selItem)
+				
+				x=addTreeViewItem(menuTree,parent,0,oldCaption,prevItem)
+				removeTreeViewItem menuTree,selItem
+				
+				selectTreeViewiTem menuTree,x
+			endif
+			endcase
+			case 7 : `Move Item Down
+			
+			oldCaption as string
+			
+			if (selItem) and (selItem <> tvMenuTreeRoot)
+				oldCaption=getTreeViewItemText(menuTree,selItem)
+				nextItem=getTreeViewNext(menuTree,selItem)
+				
+				parent=getTreeViewParent(menuTree,selItem)
+				
+				x=addTreeViewItem(menuTree,parent,0,oldCaption,nextItem)
+				removeTreeViewItem menuTree,selItem
+				
+				selectTreeViewItem menuTree,x
+			endif
+			
+			endcase
+			endselect
+			
+			if (repaint)
+				repaint=0
+				paintGadget menuTree
+			endif
+		endif
+		
+		if (eventType()=WINDOW_CLOSE) and (eventSource()=menuWin)
+			exit
+		endif
+	loop
+	
+	updateWindowMenu(mainEditWin,menuTree,tvMenuTreeRoot)
+	
+	setGadgetVisible menuWin,0
+endfunction
+
+
+function updateWindowMenu(window,sourceTree,rootItem)
+	if mainEditMenu then deleteMenu mainEditMenu : mainEditMenu=0
+	
+	local dim prevMenu(10)
+	stackPos=0
+	
+	
+	item=getTreeViewChild(sourceTree,rootItem)
+	
+	`Set identifier to some high value to prevent conflicts
+	identifier=1000
+	
+	if item
+		mainEditMenu=createMenu(window)
+		currentMenu=mainEditMenu
+		
+		repeat
+			temp$=getTreeViewItemText(sourceTree,item)
+			
+			if (temp$="[Splitter]")
+				addMenuSplitter currentMenu
+			else
+				addMenuItem currentMenu,temp$,identifier
+			endif
+			
+			
+			
+			currentItem=item
+			
+			item=getTreeViewChild(sourceTree,item)
+			
+			if item
+				prevMenu(stackPos)=currentMenu
+				inc stackPos
+				
+				currentMenu=createSubMenu(currentMenu,identifier)
+			else
+				item=getTreeViewNext(sourceTree,currentItem)
+				
+				if item=0
+					
+					parent=getTreeViewParent(sourceTree,currentItem)
+					
+					shift=1
+					while (getTreeViewNext(sourceTree,parent)=0) and (parent <> rootItem)
+						parent=getTreeViewParent(sourceTree,parent)	
+						inc shift
+					endwhile
+					
+					item=getTreeViewNext(sourceTree,parent)
+					
+					dec stackPos,shift
+					
+					if (stackPos >= 0)
+						currentMenu=prevMenu(stackPos)
+					endif
+					
+				endif
+			endif
+			
+			inc identifier
+			
+		until (item=0) or (item=rootItem)
+		
+	endif
+	
+endfunction
+
+function clipboardPaste()
+	
+	for i=0 to array count(clipboardGadgets(0))-1
+		
+		newIndex=freeGadgetIndex()
+		
+		currentDrawingType=clipboardGadgets(i).gtype
+		
+		if (selectedGadget <> 0)
+			newParent=selectedGadget
+		else
+			newParent=activeWin
+		endif
+		
+		createNewGadget(1,freeGadgetName(clipboardGadgets(i).name),0,0,newParent)
+		currentDrawingType=-1
+		
+		`Copy All But Non-Transferable
+		tempHandle=gadgets(newIndex).handle
+		tempCombo=gadgets(newIndex).comboIndex
+		tempParent=gadgets(newIndex).parent
+		tempWin=gadgets(newIndex).window
+		tempTreeView=gadgets(newIndex).treeviewItemHandle
+		
+		gadgets(newIndex)=clipboardGadgets(i)
+		
+		gadgets(newIndex).handle=tempHandle
+		gadgets(newIndex).comboIndex=tempCombo
+		gadgets(newIndex).parent=tempParent
+		gadgets(newIndex).window=tempWin
+		gadgets(newIndex).treeviewItemHandle=tempTreeView
+		
+		`Apply properties
+		resizeGadget gadgets(newIndex).handle,clipboardGadgets(i).width,clipboardGadgets(i).height
+		setGadgetText gadgets(newIndex).handle,clipboardGadgets(i).caption
+		setGadgetAlign gadgets(newIndex).handle,clipboardGadgets(i).align
+		
+		if gadgets(newIndex).hasBorder then setPanelBorderStyle gadgets(newIndex).handle,clipboardGadgets(i).border
+		
+	next i
+	
+endfunction
+
+function clipboardPush(mode,gadget)
+	
+	if (gadget=0)
+		exitfunction
+	endif
+	
+	index=getGadgetData(gadget)
+	
+	select mode
+	case CLIP_CLEAR
+	`DBPro Serious Array Bugs Bonanza
+	if array count(clipboardGadgets(0)) > 0
+		empty array clipboardGadgets(0)
+		array insert at bottom clipboardGadgets(0)
+	endif
+	endcase
+	endselect
+	
+	array insert at bottom clipboardGadgets(0)
+	
+	newIndex=array count(clipboardGadgets(0))-1
+	
+	updateTGadgetStruct(gadget)
+	
+	`Note - This also copies non-transferable data, eg. gadget handle
+	clipboardGadgets(newIndex)=gadgets(index)
+	
+endfunction
+
+function updateTGadgetStruct(gadget)
+	
+	index=getGadgetData(gadget)
+	gadgets(index).width=gadgetWidth(gadget)
+	gadgets(index).height=gadgetHeight(gadget)
+	gadgets(index).caption=getGadgetText(gadget)
+	
+endfunction
+
+function freeGadgetName(prefix as string)
+	
+	count=0
+	
+	for i=0 to MAX_GADGETS
+		if left$(gadgets(i).name,len(prefix))=prefix
+			inc count
+		endif	
+	next i
+	
+	if count=0
+		exitfunction prefix
+	else
+		exitfunction prefix+str$(count)
+	endif
+	
+	
+	
+endfunction ""

@@ -1,0 +1,150 @@
+<html>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="index.html">GUI Help</a> &gt <a href="index.html">Create</a> &gt createRadioButton</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>createRadioButton</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+int handle=<b><font color="blue">createRadioButton(</font></b><i>int x, int y, int width, int height, str caption, handle parent</i><font color=blue><b>)</b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Creates a radiobutton.  Radiobuttons are similar to checkboxes except that instead of only having on/off options to choose from, the user selects one radiobutton from a group of radiobuttons.  Only one radiobutton from a group can be selected at once.  Radiobuttons belong to the same group if they have the same parent gadget.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+Handle to the new gadget.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>x</i>
+</td>
+<td>
+X position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>y</i>
+</td>
+<td>
+Y position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>width</i>
+</td>
+<td>
+Width of new gadget in pixels
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>height</i>
+</td>
+<td>
+Height of new gadget in pixels
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>caption</i>
+</td>
+<td>
+The text which appears next to the radiobutton.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>parent</i>
+</td>
+<td>
+Handle to the parent of the new gadget, or 0 for the main window
+</td>
+</tr>
+
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>You must not use a frame gadget as the parent for a radiobutton, this may cause drawing errors under Windows XP.  Instead, either create the radiobutton as a sibling of the frame (ie. the frame and radiobutton have the same parent), or create a panel inside the frame, and place the radiobutton inside the panel.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

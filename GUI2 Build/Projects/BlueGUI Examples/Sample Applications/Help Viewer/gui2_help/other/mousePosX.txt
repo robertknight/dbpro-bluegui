@@ -1,0 +1,3 @@
+CommandName{mousePosX}HelpPath{Other}ReturnValue{int x=}OpenBrace{(}Parameters{[handle gadget]}CloseBrace{)}Description{Retrieves the X-coordinate of the mouse, either relative to the main window, or relative to the specified gadget.
+<br><br>
+This command is more accurate than MouseX.  MouseX uses the DirectX screen width, which is not always the same as the true width.  For example if your desktop is 1024x768 pixels but the DBPro resolution is set to 640x480 stretched to fit, MouseX will report 640 when the mouse is at the right edge of the screen, mousePosX will return 1024.}ReturnDescription{X position of mouse.}Param1{[gadget]}Param1Desc{Optional.  If specified the returned X co-ordinate will be relative to the top-left of the gadget's client area.}

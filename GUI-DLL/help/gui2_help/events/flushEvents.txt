@@ -1,0 +1,1 @@
+Param4Desc{}CommandName{flushEvents}HelpPath{Events}ReturnValue{ }OpenBrace{}Description{Removes all events waiting to be processed from the queue and clears information about the current event.}

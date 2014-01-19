@@ -1,0 +1,1 @@
+Param2Desc{Zero-based index of the item whoose text you wish to retrieve.}CommandName{getListViewItemText}HelpPath{Special}ReturnValue{str text=(}OpenBrace{(}Parameters{handle gadget, int item}CloseBrace{)}Description{Retrieves the text of an item in a listview gadget.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a listview gadget}Param2{item}

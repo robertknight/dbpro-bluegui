@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getProgressBarPos}HelpPath{Special}ReturnValue{int pos=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the position of a progress bar}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a progress bar gadget}Param2{}

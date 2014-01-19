@@ -1,0 +1,1 @@
+Param1Desc{Handle of a listview gadget}CommandName{removeListViewItem}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int item}CloseBrace{}Description{Removes an item from a listview gadget.}ReturnDescription{}Param1{gadget}Param2{item}Param2Desc{Index of the item which you wish to remove}

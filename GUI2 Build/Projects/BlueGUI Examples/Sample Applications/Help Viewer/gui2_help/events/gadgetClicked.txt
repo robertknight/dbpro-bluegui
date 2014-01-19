@@ -1,0 +1,5 @@
+Remarks{The getEvent system is far more flexible and developers are advised to use that method instead.}CommandName{gadgetClicked}HelpPath{Events}ReturnValue{int handle=}OpenBrace{(}Parameters{}CloseBrace{)}Description{A simple alternative to the other events system (getEvent, eventSource() etc...)
+<br>
+This is provided primarily for users of the original BlueGUI plugin, where gadgetClicked was the only real user interaction command.
+<br>
+gadgetClicked returns a handle to the last gadget clicked since the last call to gadgetClicked, or 0 if no gadgets where clicked in that time.}ReturnDescription{Gadget handle of the last gadget clicked}Param1{}

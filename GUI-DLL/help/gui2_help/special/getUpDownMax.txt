@@ -1,0 +1,1 @@
+Param1Desc{Handle to an UpDown gadget.}CommandName{getUpDownMax}HelpPath{Special}ReturnValue{int max=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the maximum possible value for an UpDown gadget.  You can set this with setUpDownRange.}ReturnDescription{See Above}Param1{gadget}

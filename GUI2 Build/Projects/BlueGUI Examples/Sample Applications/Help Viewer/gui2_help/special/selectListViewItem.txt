@@ -1,0 +1,1 @@
+Param3Desc{}CommandName{selectListViewItem}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int item}CloseBrace{}Description{Selects an item in a listview gadget.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a listview gadget}Param2{index}Param2Desc{Index of the item which you wish to select (zero-based).}

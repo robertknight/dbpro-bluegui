@@ -1,0 +1,1 @@
+Param1Desc{Handle to an UpDown gadget.}CommandName{getUpDownMin}HelpPath{Special}ReturnValue{int min=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the minimum possible value for an UpDown gadget.  You can set this with setUpDownRange.}ReturnDescription{See Above}Param1{gadget}

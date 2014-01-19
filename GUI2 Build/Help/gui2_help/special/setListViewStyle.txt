@@ -1,0 +1,6 @@
+Param3Desc{}CommandName{setListViewStyle}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int style}CloseBrace{}Description{Sets which display style a listview gadget uses.  This can either be large icons with captions underneath, small icons with captions to the right, or table format if you need to display additional data. 
+<br><br>
+Icon view is the default.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a listview gadget}Param2{style}Param2Desc{The style to use.  The constants file provides the following codes:<br>
+LISTVIEW_ICON<br>
+LISTVIEW_REPORT<br>
+LISTVIEW_LIST}

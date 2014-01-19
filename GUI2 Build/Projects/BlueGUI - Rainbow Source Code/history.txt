@@ -1,0 +1,88 @@
+=== version 1.03 ===
+
+Additions:
+
+- Rainbow can now load layout files from a path specified on the command line
+- Menu items can now be moved up / down (note:  This currently loses any child items)
+- Added "Export To Clipboard" menu item.  
+
+Bug Fixes:
+
+- Moving a gadget which has its Alignment property set to a value other than 'None' now resets its Alignment back to 'None'
+- Selecting a label gadget's text property now sets the text correctly in the "Edit Value" edit box.
+- Selecting a different gadget in the layout view or a different property in the property view now applies any outstanding 
+property changes as the new gadget / property is selected.
+
+
+=== Version 1.02 ===
+
+- Menus with more than 3 tiers are now exported correctly
+- Loading large .gui files now faster (improved setAutoUpdate command in DLL)
+- Closing large .gui files now faster
+- Creating a new layout after closing a multi-windowed layout no longer causes size-markers to disappear
+- Item Editor now displays previous caption when changing an existing item
+- Double-click edits existing item instead of Right-click in Item Editor
+- Editor now switches between SYNC ON mode when it has keyboard focus, and SYNC OFF mode when the user is working
+with another application.  
+- Added Border property to Window Gadgets - Windows can be set to, Normal, Fixed, ToolWindow (Normal) or ToolWindow (Fixed)
+- Gadget items for listboxes, comboboxes and tabs can now be saved, loaded and exported.  
+- Item Editor can Import and Export lists (Access via item list context menu)
+- Layout Tree no longer loses focus after selecting a gadget in a different window (setGadgetVisible's flag parameter can now be
+2 for 'Show But Don't Activate')
+- Selecting a gadget from the combobox now switches to that gadget's window where necessary
+- Positioning of gadgets using arrow keys now only works when the editing area window has focus
+- Double-clicking on boolean values in the Property Selector (eg. Initially Enabled and Initially Visible) toggles them.
+
+*Notes about the Item Editor*
+
+- Due to a DarkBASIC Pro bug with WRITE STRING, it is not possible to save gadgets which have a large number of items.  You
+can however export .dba code for layouts containing gadgets that have a large number of items. 
+
+If Rainbow encounters problems when saving a gadget's details to the .gui file, it will display a message warning the user and
+continue saving the other gadgets. 
+
+
+=== Version 1.0 ===
+
+- Tidied up interface a little
+- Fixed a couple of gadget re-ordering issues
+- Sizemarkers now repaint themselves after they are moved
+- Gadgets now repainted after re-positioning
+- Sizemarkers no longer get "lost" after extensive file opening and closing
+- Menu editor & menu code export added
+- Modified code to take advantage of new setGadgetDefaults command
+- Fixed annoying "bong" sound when pressing enter to set a property or accept an input box
+- "Edit" label now disables itself when no property is selected to edit
+- ListView, TrackBar, ProgressBar & StatusBar gadgets added
+- Empty line in .gui file no longer causes a crash when loaded
+- Added status-tooltip to main toolbox window
+- Added context menu
+
+=== Beta 3 ===
+
+- Added "SET MAIN WINDOW SIZE" option (Edit Menu)
+- Added BORDER property
+- Gadgets can now be moved with arrow keys
+- Gadgets cannot be resized to a width or height less than zero pixels by dragging markers
+- Property tree updates correctly after changing a combobox-edited property
+- Style property now shows words "Horizontal / Vertical" instead of number "0/1" in prop tree.
+- Parent property export broken by DBPro Update 5.4, used alternate method as a fix for now
+- U5.4 bug with commands that have a $ in the name caused a ghost window to be shown,
+implemented a temp fix for this.
+- Scrollbars now replaced with placeholder gadget to get round positioning difficulties
+
+
+=== Beta 2 ===
+
+- Added ALIGNMENT property
+- Added STYLE property (no effect in editor, only in exported code)
+- Added INITIALLY ENABLED property (no effect in editor, only in exported code)
+- Added INITIALLY VISIBLE property (no effect in editor, only in exported code)
+- Added toolbar gadget 
+- Changed toolbar & treeview icons to an XP-theme set
+- Added drag-drop rearranging of gadgets in the layout view (gadgets with children cannot be moved at the moment) 
+- BlueGUI Win98 fixes now mean that Rainbow works correctly under Win98/2000
+
+=== Beta 1 ===
+
+First private beta release.

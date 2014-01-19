@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{itemCount}HelpPath{Special}ReturnValue{int count=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the number of items in a listbox or combobox gadget.}ReturnDescription{Number of items in the specified gadget.}Param1{gadget}Param1Desc{Handle to a listbox or combobox gadget.}

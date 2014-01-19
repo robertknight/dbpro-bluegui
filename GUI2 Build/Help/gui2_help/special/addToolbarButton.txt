@@ -1,0 +1,22 @@
+Param1Desc{Hande to a toolbar gadget.}CommandName{addToolbarButton}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{[handle gadget, int index, bool isToggleButton] | [handle gadget, str fileName, bool isToggleButton],  [str tooltip]}CloseBrace{}Description{Adds a button to a toolbar gadget.  You can either add a standard button by specifying its index, or you can load the icon for the button from a file.  You may optionally specify tooltip text which appears when the user holds their mouse over the button.
+
+isToggleButton determines whether or not the button will toggle a normal / "pushed in" state when clicked.}ReturnDescription{}Param1{gadget}Param2{index}Param2Desc{Index of the image to add.  Specify EITHER this index OR a filename.<br>
+After creating the toolbar, call addStandardToolbarButtons, and then use these values for the index from the constants file:<br><br>
+<pre>
+TOOLBAR_CUT
+TOOLBAR_COPY         
+TOOLBAR_PASTE       
+TOOLBAR_UNDO       
+TOOLBAR_REDO  
+TOOLBAR_DELETE      
+TOOLBAR_NEW    
+TOOLBAR_OPEN     
+TOOLBAR_SAVE        
+TOOLBAR_PRINTPREVIEW 
+TOOLBAR_PROPERTIES   
+TOOLBAR_HELP         
+TOOLBAR_FIND         
+TOOLBAR_REPLACE     
+TOOLBAR_PRINT    
+</pre>
+}Param3{imageFile}Param3Desc{If specified, the filename of the image to use as the icon for the new button.}Param4{isToggleButton}Param4Desc{0 for a normal toolbar button, or 1 for a toggle toolbar button.}Param5{[tooltip]}Param5Desc{Optional.  Text of the tooltip associated with the button.  You will see this text when you hold the mouse over the button.}

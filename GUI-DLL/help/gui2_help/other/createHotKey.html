@@ -1,0 +1,154 @@
+<html>
+<head><title>createHotKey</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Other</a> &gt createHotKey</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>createHotKey</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+<b><font color="blue">createHotKey </font></b><i>int HotKeyId, bool requireAlt, bool requireShift, bool requireCtrl, int character</i><font color=blue><b></b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Creates a hot-key for the application.  When the specified key-combination is pressed, a HOTKEY event is sent to the main application window.  This is useful for menu shortcuts and other application shortcuts.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>hotKeyId</i>
+</td>
+<td>
+An index number to use for the hotkey.  eventData() contains this Id when a HOTKEY event is received by the program.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>requireAlt</i>
+</td>
+<td>
+1 if the ALT key must be pressed in order to trigger the HOTKEY event.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>requireShift</i>
+</td>
+<td>
+1 if the SHIFT key must be pressed to trigger the HOTKEY event.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>requireCtrl</i>
+</td>
+<td>
+1 if the Control key must be pressed in order to activate the HOTKEY event.
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>character</i>
+</td>
+<td>
+ASCII character code for the key which must be pressed in order to activate the HOTKEY event.  This can be generated using the asc function.   For example:
+<pre>
+createHotKey 1,0,1,0,asc("S")
+</pre>
+Will trigger a HOTKEY event when Ctrl+S is pressed.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

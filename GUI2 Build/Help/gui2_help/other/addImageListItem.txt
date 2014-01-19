@@ -1,0 +1,5 @@
+CommandName{addImageListItem}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle imageList, [str filename] | [int imageId]}CloseBrace{}Description{Adds a new item to an image list.  The item must be the correct width and height, as specified in createImageList}ReturnDescription{}Param1{imageList}Param1Desc{Handle to an image list}Param2{fileName}Param2Desc{If specified, a bitmap file which is loaded into the image list.}Param3{imageId}Param3Desc{If specified, the id of a DBPro image to load into the image list.  
+<br><br>
+<b>Important:</b>  You must enable the texture flag on the image when you load it.  Eg: LOAD IMAGE fileName$,imageId,1 or GET IMAGE imageId,0,0,128,128,1
+<br>
+You must also use a memblock command somewhere in your program in order to load a DBPro image.  This does not have to be in any code which is actually run, but it must be there in your code to force the compiler to load the Memblocks DLL.}Param4{}

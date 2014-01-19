@@ -1,0 +1,155 @@
+<html>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="index.html">GUI Help</a> &gt <a href="index.html">Create</a> &gt createCanvas</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>createCanvas</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+int handle=<b><font color="blue">createCanvas(</font></b><i>int x, int y, int width, int height, handle parent</i><font color=blue><b>)</b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Creates a canvas.  Canvases are effectively blank drawing boards which you can draw on using the various drawing commands (drawLine, drawRect, drawEllipse and drawPoint).  They have many uses, such as custom controls, or a painting surface in an image editor.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+Handle to the new gadget.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>x</i>
+</td>
+<td>
+X position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>y</i>
+</td>
+<td>
+Y position of new gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>width</i>
+</td>
+<td>
+Width of new gadget in pixels
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>height</i>
+</td>
+<td>
+Height of new gadget in pixels
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i>parent</i>
+</td>
+<td>
+Handle to the parent of the new gadget, or 0 for the main window
+</td>
+</tr>
+
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>You do not have to continually repaint canvases like you would with the normal 2D commands (dot, point, line).  You only need to call the drawing commands when you wish to show a visual change in the appearence of the canvas.
+<br><br>
+Use the setDrawingColor command to set the colour used by the drawing commands.
+<br><br>
+At the time of writing, canvas gadget drawing is much faster than using the ordinary 2D commands, so they may be useful as replacements.  setDrawingColor in particular may be done frequently unlike the INK command.<br>
+However, resizing a canvas is a slow operation as the plugin has to recreate all of its internal memory buffers.  Also for this reason, a gadget is wiped clean when you resize it.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

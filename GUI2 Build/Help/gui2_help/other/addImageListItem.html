@@ -1,0 +1,154 @@
+<html>
+<head><title>addImageListItem</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Special</a> &gt addImageListItem</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>addImageListItem</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+<b><font color="blue">addImageListItem </font></b><i>handle imageList, [str filename] | [int imageId]</i><font color=blue><b></b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Adds a new item to an image list.  The item must be the correct width and height, as specified in createImageList
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>imageList</i>
+</td>
+<td>
+Handle to an image list
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>fileName</i>
+</td>
+<td>
+If specified, a bitmap file which is loaded into the image list.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>imageId</i>
+</td>
+<td>
+If specified, the id of a DBPro image to load into the image list.  
+<br><br>
+<b>Important:</b>  You must enable the texture flag on the image when you load it.  Eg: LOAD IMAGE fileName$,imageId,1 or GET IMAGE imageId,0,0,128,128,1
+<br>
+You must also use a memblock command somewhere in your program in order to load a DBPro image.  This does not have to be in any code which is actually run, but it must be there in your code to force the compiler to load the Memblocks DLL.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

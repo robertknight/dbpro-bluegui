@@ -1,0 +1,160 @@
+`Gadget Constants (gui.dba)
+`==========================
+`Robert Knight 2006
+`BlueGUI v2. edition
+
+
+
+`Information about this file
+`==========================
+
+`Constants give names to numbers.  For example, after clicking on a gadget, eventType() will return 514 (which
+`can also be written as 0x202).  This number isn't very helpful if you are trying to remember it to use in an 
+`IF statement, or if you are trying to understand some code you wrote previously.  Hence this file provides the constant
+`MOUSE_CLICK=0x202.  In your code you can simply do:
+
+`If eventType()=MOUSE_CLICK
+`...
+`Endif
+
+`Which is far more readable, especially when you come back to look at code you have not been working on for a while
+
+`How to include this file
+`==========================
+`You do not *have* to use this file, but it is strongly recommended.  In order to use this file, you can either put
+`#include "gui.dba" 
+`at the top of your main source file, or you can use the Browse button on the Files tab (normal editor) or the Browse button
+`above the includes list on the Project tab (BlueIDE)
+
+`This is used so you can tell if the gui.dba file was included or not
+#constant GUI_CONSTANTS 1
+
+`eventType() Constants
+`===========================================================================================================================
+`These are the different types of messages which eventType() can return.
+`[Advanced Users:  These are the same as the WM_XXX messages used by the Windows API.  For some messages the eventData() and
+`eventDataEx() information may be changed by the DLL to make it more convenient for users]
+
+#constant COMMAND           0x111
+#constant MOUSE_CLICK       0x202
+#constant LEFTBUTTON_UP     0x202
+#constant RIGHTMOUSE_CLICK  0x205
+#constant RIGHTBUTTON_UP    0x205
+#constant MOUSE_MOVE        0x200
+#constant GADGET_TIMER      0x113
+`old value - #constant MENU_CLICK        0x111
+#constant TOOLBAR_CLICK     0x111
+#constant HOTKEY            0x312
+#constant LEFTBUTTON_DOWN   513
+#constant RIGHTBUTTON_DOWN  0x204
+#constant KEYDOWN           0x100
+#constant KEYUP             0x101
+`old value - #constant COMBOBOX_CHANGE   0x111
+`old value - #constant TREEVIEW_CHANGE   0x111
+#constant LOSEFOCUS         0x8
+#constant GADGET_SIZING     0x214
+#constant GADGET_SIZE       0x5
+#constant WINDOW_CLOSE      0x10
+#constant LEFTBUTTON_DOUBLECLICK 0x203
+
+#constant MENU_CLICK        0x0400+1
+#constant COMBOBOX_CHANGE   0x0400+3
+#constant TREEVIEW_CHANGE   0x0400+4
+
+`setPanelBorderStyle Constants
+`===========================================================================================================================
+`These values are passed as the borderStyle parameter of setPanelBorderStyle to set the appearence of a panel gadget
+
+#constant BORDER_NONE       0
+#constant BORDER_FLAT       1
+#constant BORDER_3D         2
+#constant BORDER_SUNKEN     3
+
+`setGadgetAlign Constants
+`===========================================================================================================================
+`These values set how the gadget auto-aligns to its parent
+
+#constant ALIGN_NONE        0
+#constant ALIGN_ALL         1
+#constant ALIGN_TOP         2
+#constant ALIGN_LEFT        3
+#constant ALIGN_RIGHT       4
+#constant ALIGN_BOTTOM      5
+
+`Standard Toolbar Buttons
+`===========================================================================================================================
+`These are the values you pass to addButton to add standard buttons like file open / save, cut/copy/paste etc. to a toolbar
+`gadget.
+`In order to use these, you must call addStandardButtons immediately after you create the toolbar, eg:
+`
+`toolbar=createToolbar(0)
+`addStandardButtons toolbar
+`addButton toolbar,TOOLBAR_OPEN,0
+
+#constant TOOLBAR_CUT          0
+#constant TOOLBAR_COPY         1
+#constant TOOLBAR_PASTE        2
+#constant TOOLBAR_UNDO         3
+#constant TOOLBAR_REDO         4
+#constant TOOLBAR_DELETE       5
+#constant TOOLBAR_NEW          6
+#constant TOOLBAR_OPEN         7
+#constant TOOLBAR_SAVE         8
+#constant TOOLBAR_PRINTPREVIEW 9
+#constant TOOLBAR_PROPERTIES   10
+#constant TOOLBAR_HELP         11
+#constant TOOLBAR_FIND         12
+#constant TOOLBAR_REPLACE      13
+#constant TOOLBAR_PRINT        14
+
+`createWindow Style Options
+`===========================================================================================================================
+`These values are passed to createWindow to set the style and appearence of the window.  
+`Generally speaking, the only values you will normally need to use are WINDOW_NORMAL or WINDOW_FIXED for the styles parameter,
+`and either 0 or WINDOW_TOOLWINDOW for the extraStyles parameter.
+`If you want to put multiple styles together, just add them! (see WINDOW_NORMAL comment below)
+
+`styles
+`******
+
+`Gives the window a titlebar
+#constant WINDOW_TITLEBAR      12582912 
+`With the exception of toolwindows, 
+`this also adds a system menu and icon to the window               
+#constant WINDOW_CLOSEBUTTON   524288			
+`Windows with a maximize button must also have a close button								 
+#constant WINDOW_MAXBUTTON     65536
+`Windows with a minimize button must also have a close button		
+#constant WINDOW_MINBUTTON     131072
+`Allows the user to drag the edges of the window to resize it		
+#constant WINDOW_RESIZEABLE    262144			
+`A window with no border
+#constant WINDOW_NOBORDER      -2147483648
+
+`extraStyles
+`***********
+`Like a normal window, but with a thinner frame and no system menu - usually used for floating toolboxes.
+#constant WINDOW_TOOLWINDOW    128	
+
+`standard styles (created from ones above)
+`*****************************************
+`A normal resizeable window with close,min & max buttons
+`WINDOW_TITLEBAR+WINDOW_CLOSEBUTTON+WINDOW_MAXBUTTON+WINDOW_MINBUTTON+WINDOW_RESIZEABLE
+#constant WINDOW_NORMAL        13565952
+
+`A dialog-type window with a caption and close button but a fixed size
+`WINDOW_TITLEBAR+WINDOW_CLOSEBUTTON
+#constant WINDOW_FIXED         13107200
+
+#constant WINDOW_OVR           0
+
+
+`setListViewStyle Viewing Mode Options
+`===========================================================================================================================
+`Listview gadgets are highly flexible, and have several different ways in which they can display information.  These are the 
+`different possible viewing style values
+
+#constant LISTVIEW_ICON        0 `Big icons with captions underneath, ideal for texture/model browsers etc
+#constant LISTVIEW_REPORT      1 `A table where each item can have additional information (subitems) listed as well
+#constant LISTVIEW_LIST        3 `Small icons with captions to their right.
+		

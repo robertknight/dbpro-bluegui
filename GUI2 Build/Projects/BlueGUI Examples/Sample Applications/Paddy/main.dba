@@ -1,0 +1,304 @@
+`Paddy Example
+`A Tabbed Text Editor
+`Demonstrates usage of tabs gadget, toolbar, menus, open/save dialogs
+`====================================================================
+
+sync off
+
+startBlue "USER_ID","KEY"
+
+type TEditArea
+   handle `Handle to edit gadget
+   used `Boolean value set to 1 when this edit has content
+   tabId `ID of tab for this edit
+endtype
+
+global main :`Handle of main window
+
+global tabs : `Handle of document selection tabs
+global dim edit(32) as TEditArea :`Handle of edit gadgets which make up the documents
+global toolbar : `Handle of toolbar gadget
+
+`Menu handles
+global mainMenu
+global fileMenu
+global viewMenu
+global helpMenu
+
+`Status variables
+global currentEdit : `Handle of active edit gadget
+global numUntitledDocs : `Number of open documents with "Untitled..." style names
+
+main=createGadgetFromWindow(mainWindow())
+
+`Create user interface
+createUI()
+`Setup vars
+currentEdit=edit(0).handle
+edit(0).used=1
+numUntitledDocs=1
+
+
+`setAutoUpdate tabs,0
+
+applyFont edit(0).handle,x
+
+`MAIN LOOP
+do
+   `Retrieve information about events
+   getEvent
+
+   `Menu Event
+   if eventType()=MENU_CLICK
+      select eventData()
+         case 4 : eventNew()  : endcase
+         case 5 : eventOpen() : endcase
+         case 6 : eventSave() : endcase
+         case 7 : end : endcase
+         case 9 : message "About","Paddy - A Tabbed Text Editor.  Version 1" : endcase
+         case 8 : toolbarToggle() : endcase
+         case 10 : eventClose() : endcase
+      endselect
+   endif
+   `Toolbar Event
+   if eventType()=MOUSE_CLICK and eventSource()=toolbar
+      select getToolbarItem(toolbar)
+         case 0 : eventNew() : endcase
+         case 1 : eventOpen() : endcase
+         case 3 : eventSave() : endcase
+         case 4 : eventClose() : endcase
+      endselect
+   endif
+   `Tab Event
+   if eventType()=MOUSE_CLICK and eventSource()=tabs
+      switch(tabToIndex(selectedTab(tabs)))
+   endif
+   `Edit Event
+   if eventType()=KEYDOWN
+      isEdit=0
+      for i=0 to 32
+         if eventSource()=edit(i).handle then isEdit=1
+      next i
+      `Only act if the gadget is an edit
+      if isEdit
+         `Add a little start to indicate that the gadget has been modified
+         if left$(tabCaption(tabs,selectedTab(tabs)),1)<>"*"
+            changeTab tabs,selectedTab(tabs),"*"+tabCaption(tabs,selectedTab(tabs))
+         endif
+      endif
+   endif
+
+   `Main Window Events
+
+   `Close App
+   if eventType()=WINDOW_CLOSE then end
+   `Prevent change of window size
+   if eventType()=GADGET_SIZING and eventSource()=main then resizeGadget main,641,480
+loop
+
+
+
+function createUI()
+
+`Create the menu
+mainMenu=createMenu(0)
+addMenuItem mainMenu,"File",1
+addMenuItem mainMenu,"View",2
+addMenuItem mainMenu,"Help",3
+
+fileMenu=createSubMenu(mainMenu,1)
+addMenuItem fileMenu,"New",4
+addMenuItem fileMenu,"Open",5
+addMenuItem fileMenu,"Save",6
+addMenuItem fileMenu,"Close",10
+addMenuSplitter fileMenu
+addMenuItem fileMenu,"Exit",7
+
+viewMenu=createSubMenu(mainMenu,2)
+addMenuItem viewMenu,"Show Toolbar",8
+setMenuItemChecked viewMenu,8,1
+
+helpMenu=createSubMenu(mainMenu,3)
+addMenuItem helpMenu,"About",9
+
+resizeGadget main,641,480
+
+`Create Tab Gadget
+tabs=createTabs(0,26,635,400,0)
+
+font=createFont("Courier New",10,0,0,0)
+
+`Create 32 edits (allows up to 32 files open at once) and hide all except the first
+for i=1 to 32
+   edit(i-1).handle=createEdit(5,28,625,360,1,tabs)
+   setGadgetTextAlign edit(i-1).handle,1
+   applyFont edit(i-1).handle,font
+   if i>1 then setGadgetVisible edit(i-1).handle,0
+   
+next i
+
+`Add a new tab and set its caption
+addTab tabs,"Untitled 1"
+
+`Create the toolbar
+toolbar=createToolbar(0)
+addStandardToolbarButtons toolbar
+addToolbarButton toolbar,TOOLBAR_NEW,0
+addToolbarButton toolbar,TOOLBAR_OPEN,0
+addToolbarSplitter toolbar
+addToolbarButton toolbar,TOOLBAR_SAVE,0
+addToolbarButton toolbar,TOOLBAR_DELETE,0
+
+
+endfunction
+
+function eventNew()
+   inc numUntitledDocs
+
+   `Create new tab
+   addTab tabs,"Untitled "+str$(numUntitledDocs)
+
+   `Get a spare array index
+   index=findEdit()
+   edit(index).tabId=tabCount(tabs)-1
+   edit(index).used=1
+
+   `Switch to view
+   switch(index)
+endfunction
+
+function eventOpen()
+   local filename as string=""
+   local basename as string=""
+   local fileText as string=""
+
+   filename=openDialog("Open a File","All Files (*.*)|*.*")
+
+   nameLen=len(filename)
+   basename=right$(filename,nameLen-instrRev(filename,"\"))
+
+   if filename<>""
+      `Create new tab
+      eventNew()
+      `Set its caption
+      changeTab tabs,selectedTab(tabs),basename
+      `Load text into edit control
+
+      open to read 1,filename
+         `Use a for...next loop because repeat...until loops are VERY, VERY slow.
+         for i=0 to 10
+            read string 1,tmp$
+
+            if fileText=""
+               fileText=tmp$
+            else
+               fileText=fileText+chr$(13)+chr$(10)+tmp$
+            endif
+
+            if file end(1) : i=10 : else : i=0 : endif
+         next i
+
+      close file 1
+
+      setGadgetText currentEdit,fileText
+   endif
+endfunction
+
+function eventSave()
+   local filename as string=""
+   local basename as string=""
+
+   filename=saveDialog("Save a File","Text Files (*.txt)|*.txt|All Files (*.*)|*.*")
+   nameLen=len(fileName)
+
+   if filename<>""
+      if file exist(filename) then delete file fileName
+
+      open to write 1,filename
+      write string 1,getGadgetText(currentEdit)
+      close file 1
+
+      basename=right$(filename,nameLen-instrRev(filename,"\"))
+      changeTab tabs,selectedTab(tabs),basename
+   endif
+endfunction
+
+function toolbarToggle()
+   toolbarShown=not getMenuItemChecked(viewMenu,8)
+   setMenuItemChecked viewMenu,8,toolbarShown
+
+   if toolbarShown
+      setGadgetVisible toolbar,1
+      positionGadget tabs,0,26
+
+      resizeGadget tabs,gadgetWidth(tabs),gadgetHeight(tabs)-26
+
+      for i=0 to 32
+         resizeGadget edit(i).handle,gadgetWidth(edit(i).handle),gadgetHeight(edit(i).handle)-26
+      next i
+   else
+      setGadgetVisible toolbar,0
+      positionGadget tabs,0,0
+      resizeGadget tabs,gadgetWidth(tabs),gadgetHeight(tabs)+26
+
+      for i=0 to 32
+         resizeGadget edit(i).handle,gadgetWidth(edit(i).handle),gadgetHeight(edit(i).handle)+26
+      next i
+   endif
+
+endfunction
+function findEdit()
+   for i=0 to 32
+      if edit(i).used=0 then exitfunction i
+   next i
+endfunction c
+
+`Hide the current document and active another document - called when the user closes a document or clicks on a tab
+function switch(editIndex)
+
+   setGadgetVisible currentEdit,0
+   setGadgetVisible edit(editIndex).handle,1
+   currentEdit=edit(editIndex).handle
+   selectTab tabs,edit(editIndex).tabId
+
+endfunction
+`Get the TEditArea array index from a tab ID
+function tabToIndex(tabId)
+   for i=0 to 32
+      if edit(i).tabId=tabId and edit(i).used then exitfunction i
+   next i
+endfunction c
+
+function instrRev(search as string, find as string)
+   strlen=len(search)
+	`Search backwards through the string to find a certain character
+   for i=strlen to 1 step -1
+      if mid$(search,i)=find then exitfunction i
+   next i
+endfunction c
+
+function eventClose()
+   for i=0 to 32
+      if edit(i).handle=currentEdit then index=i
+   next i
+
+   removeTab tabs,edit(index).tabId
+   setGadgetText currentEdit,""
+
+   count=tabCount(tabs)
+
+	`Adjust the tabId field in each TEditArea so they match up correctly with the document
+   for i=0 to 32
+      if edit(i).tabId > edit(index).tabId
+         edit(i).tabId=edit(i).tabId-1
+      endif
+   next i
+
+   edit(index).used=0
+
+   `Switch back to the first gadget
+   if tabCount(tabs)=0 then eventNew()
+   switch(tabToIndex(0))
+
+endfunction
+ 

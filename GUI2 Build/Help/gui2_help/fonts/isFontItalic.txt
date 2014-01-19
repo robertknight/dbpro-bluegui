@@ -1,0 +1,1 @@
+Param1Desc{Handle of a font.}CommandName{isFontItalic}HelpPath{Fonts}ReturnValue{bool italic=}OpenBrace{(}Parameters{handle font}CloseBrace{)}Description{Used to determine if a font is italic or not.}ReturnDescription{Returns 1 if the specified font is italic, or 0 if it is not.}Param1{font}

@@ -1,0 +1,92 @@
+`Simple Menus Demo
+`=================
+`Robert Knight.
+
+startBlue "USER_ID","KEY"
+
+sync off
+
+`Firstly create some global variables to hold the handles of the menus
+global mainMenu
+global fileMenu
+global demoMenu
+global helpMenu
+
+global popupMenu
+
+`Create the main menu on the main window
+mainMenu=createMenu(0)
+
+`Add some items to the main menu
+addMenuItem mainMenu,"File",3
+addMenuItem mainMenu,"Demo",1
+addMenuItem mainMenu,"Help",2
+
+`Create the tree submenus for File,Demo and Help
+fileMenu=createSubMenu(mainMenu,3)
+demoMenu=createSubMenu(mainMenu,1)
+helpMenu=createSubMenu(mainMenu,2)
+
+`Add some items to those menus
+addMenuItem fileMenu,"Exit",4
+
+addMenuItem demoMenu,"Check Me",5
+addMenuSplitter demoMenu
+addMenuItem demoMenu,"Radio 1",6
+addMenuItem demoMenu,"Radio 2",7
+addMenuSplitter demoMenu
+addMenuItem demoMenu,"Disable File Menu",8
+
+addMenuItem helpMenu,"About",9
+
+`Create a Popup Menu (Shown when the user right-clicks on the main window area)
+popupMenu=createPopupMenu()
+addMenuItem popupMenu,"Item 10",10
+addMenuItem popupMenu,"Item 11",11
+addMenuItem popupMenu,"Item 12",12
+
+sb=createStatusBar(0)
+
+`Now watch for menu clicks
+do
+	getEvent
+
+
+     setStatusText sb,0,str$(mousePosY())
+     	
+	`Check for menu click event
+   	if eventType()=MENU_CLICK
+		`Do something depending on the item selected
+		`Note that eventData() contains the id of the menu item which was selected
+		
+		select eventData()
+			case 4 `Exit
+				end
+			endcase
+			case 5 `Check Me
+				setMenuItemChecked demoMenu,5,not getMenuItemChecked(demoMenu,5)
+			endcase
+			case 6 `Radio 1
+				setMenuItemRadio demoMenu,6,7,6
+			endcase
+			case 7 `Radio 2
+				setMenuItemRadio demoMenu,6,7,7
+			endcase
+			case 8 `Disable File Menu
+				disable=not getMenuItemChecked(demoMenu,8)
+				setMenuItemChecked demoMenu,8,disable
+				setMenuItemEnabled mainMenu,3,not disable
+			endcase
+			case 9 `About
+				message "Example","Simple Menu Demo"
+			endcase
+		endselect
+	endif	
+	
+	if mouseclick()=2
+		`Show Popup Menu
+		result=showPopupMenu(popupMenu)
+		
+		message "You clicked item " + str$(result)
+	endif
+loop

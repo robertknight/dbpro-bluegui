@@ -1,0 +1,169 @@
+<html>
+<head><title>addToolbarButton</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Special</a> &gt addToolbarButton</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>addToolbarButton</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+<b><font color="blue">addToolbarButton </font></b><i>handle gadget, [int index] | [str imageFile], [tooltip]</i><font color=blue><b></b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Adds a button to a toolbar gadget.  You can either add a standard button by specifying its index, or you can load the icon for the button from a file.  You may optionally specify tooltip text which appears when the user holds their mouse over the button.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>gadget</i>
+</td>
+<td>
+Hande to a toolbar gadget.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>index</i>
+</td>
+<td>
+Index of the image to add.  Specify EITHER this index OR a filename.<br>
+After creating the toolbar, call addStandardToolbarButtons, and then use these values for the index from the constants file:<br><br>
+<pre>
+TOOLBAR_CUT
+TOOLBAR_COPY         
+TOOLBAR_PASTE       
+TOOLBAR_UNDO       
+TOOLBAR_REDO  
+TOOLBAR_DELETE      
+TOOLBAR_NEW    
+TOOLBAR_OPEN     
+TOOLBAR_SAVE        
+TOOLBAR_PRINTPREVIEW 
+TOOLBAR_PROPERTIES   
+TOOLBAR_HELP         
+TOOLBAR_FIND         
+TOOLBAR_REPLACE     
+TOOLBAR_PRINT    
+</pre>
+
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>imageFile</i>
+</td>
+<td>
+If specified, the filename of the image to use as the icon for the new button.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>[tooltip]</i>
+</td>
+<td>
+Optional.  Text of the tooltip associated with the button.  You will see this text when you hold the mouse over the button.
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

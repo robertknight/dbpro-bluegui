@@ -1,0 +1,49 @@
+`Web Browser Gadget Example
+`==========================
+
+sync off
+
+startBlue "USER_ID","KEY"
+
+global panel
+
+global txtURL
+global btnGo
+global btnRun
+
+global browser
+
+
+
+`Create Address bar
+panel=createPanel(0,0,640,480,0)
+
+txtURL=createEdit(5,5,460,25,0,panel)
+btnGo=createButton(470,5,75,25,"Go",0,panel)
+btnRun=createButton(550,5,75,25,"Run",0,panel)
+
+`Create web browser gadget - gui2_web.dll must be present in the application's folder
+`for this to work.
+browser=createWebBrowser(5,35,620,400,panel)
+
+
+do
+	getEvent
+	
+	if eventSource()=btnGo
+		if eventType()=MOUSE_CLICK
+			`Navigate to the URL in the address text box.
+			webBrowserNavigate browser,getGadgetText(txtURL)
+			
+		endif
+	endif
+	
+	if eventSource()=btnRun
+		if eventType()=MOUSE_CLICK
+			`Run the HTML / JavaScript in the address text box.
+			webBrowserRun browser,getGadgetText(txtURL)
+			
+		endif
+	endif
+loop
+ 

@@ -1,0 +1,35 @@
+`%ProjectTitle%
+`======================
+`©%Author%
+`======================
+`Main Source File
+
+#constant 
+
+`Create a 3D button belonging to the main window
+
+buttonA=createButton(10,10,75,25,"3D Button",0,0)
+
+
+
+`Create a flat button belonging to the main window
+
+buttonB=createButton(10,50,75,25,"Flat Button",1,0)
+
+
+
+do
+
+	getEvent
+
+	
+
+	if eventType()=MOUSE_CLICK
+
+		if eventSource()=buttonA then message "You clicked the 3D Button"
+
+		if eventSource()=buttonB then message "You clicked the Flat Button"
+
+	endif
+
+loop

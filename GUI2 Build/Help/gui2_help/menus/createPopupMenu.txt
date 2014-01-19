@@ -1,0 +1,1 @@
+Param4Desc{}CommandName{createPopupMenu}HelpPath{Menus}ReturnValue{handle menu=}OpenBrace{(}Parameters{}CloseBrace{)}Description{Creates a popup (or "right click" / "context") menu which you show using showPopupMenu when the user right clicks on a certain item in your application.}ReturnDescription{Handle of the new menu.}

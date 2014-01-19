@@ -1,0 +1,15 @@
+;Rainbow GUI Layout File
+;version Alpha 1
+window name="winTaskEdit" x="100" y="210" width="369" height="383" parent="" text="ToDo List"
+treeview name="tvTasks" x="15" y="60" width="335" height="270" parent="winTaskEdit" text=""
+label name="lbDblClick" x="15" y="10" width="320" height="20" parent="winTaskEdit" text="Double click item to view information"
+label name="lbNewItems" x="15" y="30" width="255" height="20" parent="winTaskEdit" text="Right-Click to add new items"
+window name="winNewTask" x="178" y="310" width="373" height="302" parent="" text="Add New Task"
+label name="lbSubject" x="20" y="20" width="50" height="20" parent="winNewTask" text="Subject:"
+edit name="txtSubject" x="75" y="15" width="280" height="20" parent="winNewTask" text=""
+label name="lbDetails" x="20" y="50" width="50" height="20" parent="winNewTask" text="Details:"
+edit name="txtDetails" x="20" y="70" width="335" height="110" parent="winNewTask" text=""
+label name="lbPriority" x="20" y="195" width="50" height="15" parent="winNewTask" text="Priority:"
+combobox name="cmbPrority" x="80" y="195" width="275" height="17" parent="winNewTask" text=""
+button name="addNewOK" x="200" y="230" width="75" height="25" parent="winNewTask" text="OK"
+button name="addNewCancel" x="280" y="230" width="75" height="25" parent="winNewTask" text="Cancel"

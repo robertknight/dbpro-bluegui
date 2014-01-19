@@ -1,0 +1,1 @@
+Param1Desc{Handle of a font}CommandName{getFontSize}HelpPath{Fonts}ReturnValue{int size=}OpenBrace{(}Parameters{handle font}CloseBrace{)}Description{Retrieves the point-size of the specified font.  This is the size that you specified when the font was created using createFont.}ReturnDescription{Size of the specified font.}Param1{font}

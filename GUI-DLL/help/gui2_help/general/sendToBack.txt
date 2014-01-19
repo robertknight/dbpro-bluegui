@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{sendToBack}HelpPath{General}ReturnValue{}OpenBrace{ }Parameters{handle gadget}CloseBrace{}Description{Sends an gadget to the back of the screen relative to sibling gadgets.  This is the opposite of bringToFront}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a gadget}

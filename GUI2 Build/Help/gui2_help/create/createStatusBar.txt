@@ -1,0 +1,3 @@
+Param2Desc{}CommandName{createStatusBar}HelpPath{Create}ReturnValue{int handle=}OpenBrace{(}Parameters{handle parent}CloseBrace{)}Description{Creates a status bar.  Statusbars are shown at the bottom of a window gadget, and can have one or more panels which display various information (eg:  Current 3D co-ordinates of the camera).
+
+Create the status bar using createStatusBar, add panels to it using addStatusPanel, and then to set the information which appears in them, use setStatusText.}ReturnDescription{Handle to the new statusbar gadget.}Param1{parent}Param1Desc{Handle to the parent gadget for the new statusbar, or 0 for the main window.}

@@ -1,0 +1,143 @@
+
+
+`ListView Example
+`================
+`Robert Knight
+
+startBlue "USER_ID","KEY"
+
+`Important - You must call SYNC OFF or SYNC ON.
+`SYNC OFF is better for low-CPU usage
+`programs.  If you don't use either, DarkBASIC gets stuck in a limbo which can result in some weird
+`things happening.
+sync off
+
+
+global panel
+global listView
+global lbStatus
+global imageList
+
+global appdir as string
+
+panel=createPanel(0,0,640,480,0)
+
+`Create the new ListView gadget
+listView=createListView(10,10,620,440,panel)
+
+`Display waiting notice
+lbStatus=createLabel(10,455,640,15,"Loading Thumbnails...",panel)
+paintGadget lbStatus
+
+`Load Textures (64x64 in height)
+`===============================
+
+`Create a new image list to hold our textures
+imageList=createImageList(64,64)
+
+`Get a list of all the files in the textures folder
+appdir=get dir$()
+
+message "Click OK and select a folder containing JPG, BMP, PNG or TGA textures to view."
+
+repeat
+    selFolder$=folderDialog()
+until path exist(selFolder$)
+
+set dir selFolder$
+
+perform checklist for files 
+
+count=checklist quantity()
+
+`Loop through the files, load their images into the image list
+for i=1 to count
+	if file exist(checklist string$(i))
+		addImageListItem imageList,loadAndScaleImage(checklist string$(i),64,64)	
+		inc successCount
+		setGadgetText lbStatus,"Loading Thumbnails... ("+str$(successCount)+")"
+	endif
+	
+next i
+
+`Associate the image list with the listView so that we can use its images in listView items
+setListViewImageList listView,imageList
+
+local ext as string
+
+`Loop through the files again, this time adding items to the listview
+for i=1 to count
+	if file exist(checklist string$(i))	
+		  
+     	ext=lower$(right$(checklist string$(i),4))
+     
+     	if (ext <> ".bmp") and (ext <> ".jpg") and (ext <> "jpeg") and (ext <> ".tga") and (ext <> ".dds") and (ext <> ".dib") and (ext <> ".png")
+     		`Do Nothing
+     	else
+     		addListViewItem listView,checklist string$(i),loadedCount
+			inc loadedCount
+    		endif
+		
+	endif
+next i
+
+`Set the text of the status panel
+setGadgetText lbStatus,str$(loadedCount) + " textures loaded.  (Double Click Texture To Edit)"
+
+do
+	getEvent
+	
+	if eventSource()=listView
+		`If the user left-clicks on the file open it for editing
+		if eventType()=LEFTBUTTON_DBLCLICK
+			`message "OK"
+			execute file getListViewItemText(listView,selectedListViewItem(listView),0),"",""
+		endif
+	endif
+loop
+
+
+`Loads the images and scales them to the specified width and height, then returns the index of the new image
+function loadAndScaleImage(fileName as string,width as float,height)
+	ink rgb(255,255,255),rgb(255,255,255)
+	box 0,0,width,height
+
+     `Check that file is valid
+     local ext as string
+     ext=lower$(right$(fileName,4))
+     
+     if (ext <> ".bmp") and (ext <> ".jpg") and (ext <> "jpeg") and (ext <> ".tga") and (ext <> ".dds") and (ext <> ".dib") and (ext <> ".png")
+          `Unrecognised / unsupported image type
+          exitfunction 2
+     endif
+          
+	`Delete the image if it already exists
+	if image exist(1) then delete image 1
+	
+	`Load the new image, create a sprite from it, scale the sprite to the right size
+	`then finally grab the new image
+	load image fileName,1,1
+	sprite 1,0,0,1
+	scale sprite 1,(width/imageWidth(1))*100.0
+	paste sprite 1,0,0
+	
+
+	get image 1,0,0,width,height,1
+
+	cls
+	
+endfunction 1
+
+`IMPORTANT!
+`This ensures that the memblock commands are built into the DLL
+function neverRun()
+	make memblock from image 1,0
+endfunction
+
+`Uses memblocks to get the width of an image
+function imageWidth(imageIndex)
+	make memblock from image 1,imageIndex
+	result=memblock dword(1,0)
+	delete memblock 1
+endfunction result
+ 

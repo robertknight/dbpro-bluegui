@@ -1,0 +1,1 @@
+CommandName{getProgressBarMax}HelpPath{Special}ReturnValue{int max=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the maximum allowed range value of a progress bar.  You can set this using setProgressBarRange.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a progress bar gadget}

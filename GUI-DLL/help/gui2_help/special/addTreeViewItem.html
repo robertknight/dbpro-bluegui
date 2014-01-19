@@ -1,0 +1,152 @@
+<html>
+<head><title>addTreeViewItem</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Special</a> &gt addTreeViewItem</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>addTreeViewItem</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+handle item=<b><font color="blue">addTreeViewItem(</font></b><i>handle gadget, handle parentItem, int image, str text</i><font color=blue><b>)</b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Adds a new item to a treeview.  A treeview item has an image and a piece of text.  Unlike listboxes and comboboxes, treeviews use handles for items rather than indicies.  When you want to modify an item pass the handle returned by addTreeViewItem to the treeview functions.
+<br>
+In order to use images, you must have assigned an image list to the treeview using setTreeViewImageList.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+Handle of the new treeview item.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>gadget</i>
+</td>
+<td>
+Handle of a treeview gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>parentItem</i>
+</td>
+<td>
+Handle of a treeview item.  The new item will be created as a child of the parent item.  If this parameter is 0, the new item is added to the root of the treeview.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>image</i>
+</td>
+<td>
+Index of the image to use for the item.  In order to use images you must add an imagelist to the treeview.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i>text</i>
+</td>
+<td>
+The text of the new item.
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

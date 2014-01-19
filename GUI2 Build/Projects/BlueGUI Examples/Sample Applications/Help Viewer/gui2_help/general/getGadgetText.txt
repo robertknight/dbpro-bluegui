@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getGadgetText}HelpPath{General}ReturnValue{str text=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the specified gadget's text or caption.}ReturnDescription{Text of the specified gadget}Param1{gadget}Param1Desc{Handle to a gadget}

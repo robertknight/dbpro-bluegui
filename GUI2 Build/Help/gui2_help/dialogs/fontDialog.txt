@@ -1,0 +1,1 @@
+CommandName{fontDialog}HelpPath{Dialogs}ReturnValue{handle font=}OpenBrace{(}Parameters{ }CloseBrace{)}Description{Shows a standard windows font selection dialog, and allows the user to pick a face, size and style options for a font.}ReturnDescription{Handle to a font with the properties chosen by the user.  This can be applied to a gadget using applyFont.}Param1{}

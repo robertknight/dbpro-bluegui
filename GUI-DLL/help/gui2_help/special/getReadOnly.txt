@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getReadOnly}HelpPath{Special}ReturnValue{bool readOnly=}OpenBrace{(}Parameters{handle editGadget}CloseBrace{)}Description{Returns 1 if the specified edit gadget is read only (ie. the text cannot be edited) or 0 otherwise.  }ReturnDescription{See Above}Param1{editGadget}Param1Desc{Handle to an edit gadget}SeeAlso{setReadOnly}

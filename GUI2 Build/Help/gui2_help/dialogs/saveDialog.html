@@ -1,0 +1,156 @@
+<html>
+<head><title>saveDialog</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Dialogs</a> &gt saveDialog</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>saveDialog</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+str fileName=<b><font color="blue">saveDialog(</font></b><i>str caption, str fileTypes, [str initDir]</i><font color=blue><b>)</b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Displays a standard save-file dialog.  This allows the user to select a filename to save their work to.  This is usually used for saving documents in a Level Editor for example.
+
+saveDialog does not create or write anything to the file the user selected, your code must do that when it has the filename chosen by the user.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+The filename and path of the file which the user selected.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>caption</i>
+</td>
+<td>
+The caption which appears in the title bar of the dialog, eg "Save Editor File"
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>fileTypes</i>
+</td>
+<td>
+String specifying the types of files which the user can view.  The string looks like this : <pre>Description of FileType|Extension|Description of FileType|Extension</pre> Using a pipe character |  (chr$(127)) to seperate each part.
+<br><br>
+For example:
+<br>
+<pre>file=openDialog("Open Text File","Text Files (*.txt)|*.txt|All Files (*.*)|*.*")</pre>
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>[initDir]</i>
+</td>
+<td>
+Optional.  If specified sets the folder which is open when the dialog first appears.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

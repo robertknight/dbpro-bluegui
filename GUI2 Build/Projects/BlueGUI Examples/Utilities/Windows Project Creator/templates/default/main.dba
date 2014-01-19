@@ -1,0 +1,61 @@
+`Project: %name%
+`Created: %date%
+`=================
+`Main Source File
+
+`Global Variables
+	global mainMenu
+	global fileMenu
+
+`Constants
+	#constant MENU_FILE 1
+	#constant MENU_FILE_EXIT 2
+
+startBlue "ENTER UID HERE","ENTER KEY HERE"
+
+`Create user interface
+createUI()
+createUIMenu()
+
+`Main Loop
+do
+	`Get information about gadget events
+	getEvent
+
+	`Process event information
+	processEvents()
+
+	`Non-windows related code goes here
+	
+loop
+
+`Main User Interface Function
+function processEvents()
+	
+	`Handle menu events
+	if eventType()=MENU_CLICK
+		eventMenu(eventData())
+	endif
+
+endfunction
+
+`Create a menu in the program
+function createUIMenu()
+	mainMenu=createMenu(0)
+	addMenuItem mainMenu,"File",MENU_FILE
+
+	fileMenu=createSubMenu(mainMenu,MENU_FILE)
+	addMenuItem fileMenu,"Exit",MENU_FILE_EXIT
+endfunction
+
+`Process menu selections
+function eventMenu(id)
+
+	select id
+		`insert case statements here to respond to each menu item click in turn
+		case MENU_FILE_EXIT
+			end
+		endcase
+	endselect
+
+endfunction

@@ -1,0 +1,8 @@
+HelpPath{Create}CommandName{createListView}ReturnValue{int handle=}OpenBrace{(}Parameters{int x, int y, int width, int height, handle parent}CloseBrace{)}Description{Creates a listview.  Listviews display items of data such as an image using an image and a piece of text.
+<br><br>
+Listviews have three ways of displaying items:
+<ul>
+<li>Icon:  Items are positioned next to each other with large icons and a caption underneath.</li>
+<li>List:  Small icons are positioned one above another with small icons and a caption to the right of the text</li>
+<li>Table:  Similar to list, except that each item can have additional sub-items associated with it, under labelled columns.</li>
+</ul> }ReturnDescription{Handle to the new gadget.}Param1{x}Param1Desc{X position of new gadget}Param2{y}Param2Desc{Y position of new gadget}Param3{width}Param3Desc{Width of new gadget in pixels}Param4{height}Param4Desc{Height of new gadget in pixels}Param5{}Param5Desc{}Param6{}Param6Desc{}Remarks{}Param7{parent}Param7Desc{Handle to the parent of the new gadget, or 0 for the main window}ExampleSource{}SeeAlso{}

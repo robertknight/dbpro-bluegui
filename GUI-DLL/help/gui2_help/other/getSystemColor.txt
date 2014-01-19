@@ -1,0 +1,4 @@
+Param1Desc{The number of the colour to get.  At the moment, the acceptable value(s) are:<br>
+<ul>
+<li>22 - Button Face Colour</li>
+</ul>}CommandName{getSystemColor}HelpPath{Other}ReturnValue{color systemColor=}OpenBrace{(}Parameters{int index}CloseBrace{)}Description{Returns the DBPro equivilent of a system colour.  System colours are the colours which are used for the user interface, such as the grey button faces.}ReturnDescription{DBPro colour.}Param1{index}

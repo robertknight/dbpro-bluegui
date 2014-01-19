@@ -1,0 +1,1 @@
+Parameters{str text}CommandName{errorMessage}HelpPath{Dialogs}ReturnValue{}OpenBrace{ }CloseBrace{}Description{Displays a message box with a red stop sign to indicate something serious has happened.}ReturnDescription{}Param1{text}Param1Desc{The text of the error message}

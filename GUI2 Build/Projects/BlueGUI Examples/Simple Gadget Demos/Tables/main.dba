@@ -1,0 +1,122 @@
+`Project: Tables
+`Created: 11/01/04
+`=================
+`Main Source File
+
+`Setup Program
+startBlue "USER_ID","KEY"
+
+sync off
+
+`Create File Menu
+global menu
+global fileMenu
+menu=createMenu(0)
+addMenuItem menu,"File",0
+fileMenu=createSubMenu(menu,0)
+addMenuItem fileMenu,"Select Folder...",1
+
+`Declare Gadget Handle Globals
+global table
+global statusBar
+
+`Create the listview and set it into table (LISTVIEW_REPORT) mode
+table=createListView(0,0,640,480,0)
+setGadgetAlign table,ALIGN_ALL
+setListViewStyle table,LISTVIEW_REPORT
+
+`Add columns for file Name, Type & Size
+addListViewColumn table,"Name",200
+addListViewColumn table,"Type",150
+addListViewColumn table,"Size",100
+
+`Create a statusbar to show the current folder
+statusBar=createStatusBar(0)
+bringToFront statusBar
+
+`Populate the table
+folder$=get dir$()
+populateTable(folder$)
+
+`Main Loop
+do
+	`Get information about gadget events
+	getEvent
+	
+	if eventType()=MENU_CLICK and eventData()=1
+		folder$=folderDialog()
+		populateTable(folder$)
+	endif
+	
+	`Respond to user Double-Clicking on an item
+	`Note: Your constants file may not have DOUBLE_CLICK.  If it doesn't, add it:
+	`#constant DOUBLE_CLICK 0x203
+	if eventType()=DOUBLE_CLICK and eventSource()=table
+		if getListViewItemText(table,selectedListViewItem(table),1)="Folder"
+			folder$=folder$+"\"+getListViewItemText(table,selectedListViewItem(table),0)
+			populateTable(folder$)
+		else
+			execute file getListViewItemText(table,selectedListViewItem(table),0),"",folder$
+		endif
+		
+	endif		
+loop
+
+function populateTable(folder as string)
+	
+	if folder="" then exitfunction 
+	
+	`Empty List
+	removeListViewItem table,-1
+	
+	local oldDir as string
+	oldDir=get dir$()
+	
+	set dir folder
+	folder=get dir$()
+	setStatusText statusBar,0,"Opening... " + folder
+	
+	`Get file & folder information
+	perform checklist for files 
+	
+	for i=1 to checklist quantity()
+		item$=checklist string$(i)
+		
+		`1 - Add a new item for the file
+		addListViewItem table,item$,0
+		
+		`2 - Work out if the item is a file or folder - set the size text
+		if checklist value a(i)=1
+			typeText$="Folder"
+		else
+			typeText$=right$(checklist string$(i),len(checklist string$(i))-findInStringReverse(checklist string$(i),"."))
+			typeText$=upper$(typeText$)+" File"
+			setListViewItemText table,noItems,2,str$(file size(item$)/1024)+" KB"
+		endif
+
+		`3 - Set the item type string ("Folder" or "EXT File")
+		setListViewItemText table,noItems,1,typeText$
+		
+		
+		inc noItems
+		
+	next i
+	
+	`Finally update status bar
+	setStatusText statusBar,0,"Viewing " + folder
+	set dir oldDir
+endfunction
+
+function findInStringReverse(search as string, char as string)
+	local length
+	
+	length=len(search)
+
+	for i=1 to length
+		if mid$(search,i)=char
+			result=i	
+		endif
+	next i
+
+endfunction result
+

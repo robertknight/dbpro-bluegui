@@ -1,0 +1,7 @@
+Param1Desc{The caption which appears in the title bar of the dialog, eg "Save Editor File"}CommandName{saveDialog}HelpPath{Dialogs}ReturnValue{str fileName=}OpenBrace{(}Parameters{str caption, str fileTypes}CloseBrace{)}Description{Displays a standard save-file dialog.  This allows the user to select a filename to save their work to.  This is usually used for saving documents in a Level Editor for example.
+
+saveDialog does not create or write anything to the file the user selected, your code must do that when it has the filename chosen by the user.}ReturnDescription{The filename and path of the file which the user selected.}Param1{caption}Param2{fileTypes}Param2Desc{String specifying the types of files which the user can view.  The string looks like this : <pre>Description of FileType|Extension|Description of FileType|Extension</pre> Using a pipe character |  (chr$(127)) to seperate each part.
+<br><br>
+For example:
+<br>
+<pre>file=openDialog("Open Text File","Text Files (*.txt)|*.txt|All Files (*.*)|*.*")</pre>}

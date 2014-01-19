@@ -1,0 +1,2 @@
+Param5Desc{}CommandName{applyFont}HelpPath{Fonts}ReturnValue{}OpenBrace{ }Parameters{handle gadget, handle font}CloseBrace{}Description{Sets the font used by the specified gadget to draw its text.  When you change the font the gadget will immediately redraw itself.<br><br>
+This command will not affect window gadget's titlebars.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of the gadget whoose font you wish to set.}Param2{font}Param2Desc{Handle of the font you wish to use.}

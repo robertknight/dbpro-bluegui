@@ -1,0 +1,1 @@
+Param3Desc{}CommandName{getListViewItemCount}HelpPath{Special}ReturnValue{int count=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Retrieves the number of items in a listview gadget.}ReturnDescription{The number of items in the listview.}Param1{gadget}Param1Desc{Handle of a listview gadget}

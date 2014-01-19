@@ -1,0 +1,1 @@
+CommandName{getProgressBarMin}HelpPath{Special}ReturnValue{int min=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the minimum allowed range value of a progress bar.  You can set this using setProgressBarRange.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a progress bar gadget}

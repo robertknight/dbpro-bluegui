@@ -1,0 +1,1 @@
+Param1Desc{Handle to a tabs gadget.}CommandName{selectTab}HelpPath{Special}OpenBrace{ }Parameters{handle gadget, int index}CloseBrace{}ReturnValue{}Description{Sets which tab in a tabs gadget is currently selected.}ReturnDescription{}Param1{gadget}Param2{index}Param2Desc{Index of tab to select.  The first tab has an index of 0.}

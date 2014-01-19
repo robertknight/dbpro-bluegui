@@ -1,0 +1,1 @@
+ReturnDescription{Height of specified gadget.}CommandName{gadgetHeight}HelpPath{General}ReturnValue{int height=}OpenBrace{(}CloseBrace{)}Parameters{handle gadget}Description{Retrieves the height of the specified gadget in pixels.}Param1{gadget}Param1Desc{Handle to a gadget}

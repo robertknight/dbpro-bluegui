@@ -1,0 +1,112 @@
+`Simple ListBox Example
+`======================
+
+startBlue "JJ","5633"
+
+`Variables to hold gadget handles
+global panel
+global listbox
+global txtItem
+global lbSelItem
+
+global btnRemoveItem
+global btnChangeItem
+global btnFindItem
+global btnAddItem
+global btnClearList
+global btnSaveList
+global btnLoadList
+
+`Background Panel
+panel=createPanel(0,0,640,480,0)
+
+`Create listbox to show items
+listbox=createListBox(10,10,200,400,panel)
+setTabFocus listbox,1
+
+`Create textbox to edit items
+txtItem=createEdit(220,10,200,25,0,panel)
+setTabFocus txtItem,1
+
+`Create buttons to manipulate items
+btnAddItem=createButton(220,60,75,25,"Add Item",0,panel)
+btnRemoveItem=createButton(220,90,75,25,"Remove Item",0,panel)
+btnChangeItem=createButton(220,120,75,25,"Change Item",0,panel)
+btnFindItem=createButton(220,150,75,25,"Find Item",0,panel)
+btnClearList=createButton(220,180,75,25,"Clear List",0,panel)
+btnSaveList=createButton(220,210,75,25,"Save List",0,panel)
+btnLoadList=createButton(220,240,75,25,"Load List",0,panel)
+
+`Create label to display the currently selected item
+lbSelItem=createLabel(220,280,100,25,"-",panel)
+
+do
+   getEvent
+
+   if eventType()=MOUSE_CLICK
+      if eventSource()=btnAddItem then addItem listbox,getGadgetText(txtItem)
+      if eventSource()=btnRemoveItem then removeItem listbox,selectedItem(listbox)
+      if eventSource()=btnChangeItem then changeItem listbox,selectedItem(listbox),getGadgetText(txtItem)
+
+      if eventSource()=btnFindItem
+         count=itemCount(listbox)
+         for i=0 to count-1
+            if itemText(listbox,i)=getGadgetText(txtItem) then message "Item #"+str$(i)+" matches the text you entered."
+         next i
+      endif
+
+      if eventSource()=btnClearList
+         while itemCount(listbox) > 0
+            removeItem listbox,0
+         endwhile
+      endif
+
+      if eventSource()=btnLoadList
+         file$=openDialog("Load List","Text Files (*.txt)|*.txt|All Files (*.*)|*.*")
+         loadList(listbox,file$)
+      endif
+
+      if eventSource()=btnSaveList
+         file$=saveDialog("Load List","Text Files (*.txt)|*.txt")
+         saveList(listbox,file$)
+      endif
+
+      updateSelItem()
+   endif
+
+   if eventSource()=listbox
+      if eventType()=LEFTBUTTON_DOWN or eventType()=KEYDOWN
+         updateSelItem()
+         setGadgetText txtItem,itemText(listbox,selectedItem(listbox))
+      endif
+   endif
+
+loop
+
+function updateSelItem()
+   setGadgetText lbSelItem,"Selected Item: " + str$(selectedItem(listbox))
+endfunction
+
+function loadList(handle,fileName as string)
+   if filename<>""
+      open to read 1,fileName
+         repeat
+            read string 1,temp$
+            addItem handle,temp$
+         until file end(1)
+      close file 1
+   endif
+endfunction
+
+function saveList(handle,fileName as string)
+   if fileName<>""
+      if file exist(fileName) then delete file filename
+      open to write 1,fileName
+         count=itemCount(handle)
+         for i=0 to count-1
+            write string 1,itemText(handle,i)
+         next i
+      close file 1
+   endif
+endfunction
+ 

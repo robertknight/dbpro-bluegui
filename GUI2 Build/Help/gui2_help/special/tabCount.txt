@@ -1,0 +1,1 @@
+Param4Desc{}CommandName{tabCount}HelpPath{Special}ReturnValue{int count=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the number of tabs in a tab gadget.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a tab gadget}

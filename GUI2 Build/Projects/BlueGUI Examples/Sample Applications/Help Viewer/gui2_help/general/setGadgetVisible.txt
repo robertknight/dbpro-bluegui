@@ -1,0 +1,1 @@
+CommandName{setGadgetVisible}HelpPath{General}ReturnValue{}OpenBrace{ }Parameters{handle gadget, bool visible}CloseBrace{}Description{Shows or hides a gadget.  If the gadget has any children when you hide a gadget, they will also be hidden.}ReturnDescription{}Param1{gadget}Param1Desc{Handle to a gadget}Param2{visible}Param2Desc{0 to hide the gadget, 1 to show the gadget.}

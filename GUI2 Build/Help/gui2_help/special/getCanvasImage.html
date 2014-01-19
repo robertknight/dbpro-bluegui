@@ -1,0 +1,170 @@
+<html>
+<head><title>getCanvasImage</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Special</a> &gt getCanvasImage</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>getCanvasImage</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+<b><font color="blue">getCanvasImage </font></b><i>handle gadget, int imageId</i><font color=blue><b> </b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Copies the contents of a canvas gadget to an image.  The image must not already exist (use DELETE IMAGE first if it does).<br><br>
+<b>Important:  There *must* be a memblock command in your source code.  The code does not have to be run, but its presence forces the compiler to include the memblocks plugin in your program.  See the example source below</b>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>gadget</i>
+</td>
+<td>
+Handle of a canvas gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>imageId</i>
+</td>
+<td>
+The number of the image you want the canvas contents to be copied to.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>The user must be running in 32bit mode for this command to work.  You can check the display depth using the SCREEN DEPTH function.<br><br>
+getImageCanvas is a fairly fast command - it takes around 16ms to copy a 200x200 canvas on a Pentium 4.  For this reason it may be faster than using the native DBPro 2D commands.
+<br><br>
+You must have at least one memblock slot free for this command to work.  You can have up to 255 memblocks, and as long as one is free the plugin will automatically use it and then delete it afterwards.
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre>cv=createCanvas(0,0,200,200,0)
+
+setDrawingColor cv,RGB(0,255,0),RGB(255,0,0),0
+
+drawRect cv,0,0,200,200
+getCanvasImage cv,1
+paintGadget cv
+
+do	
+	getEvent
+	
+	paste image 1,300,100
+loop
+
+function neverRun()
+	delete memblock 0
+endfunction</pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

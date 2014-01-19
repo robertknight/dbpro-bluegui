@@ -1,0 +1,2 @@
+Param1Desc{Handle of a toolbar gadget.}CommandName{addToolbarSplitter}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget}CloseBrace{}Description{Adds a splitter to a toolbar.  This is a vertical grey line which seperates different groups of buttons that perform related tasks.  For example you might have OPEN SAVE [Splitter] CUT COPY PASTE [Splitter] HELP.<br><br>
+The splitter will be added after the last button on the toolbar.}ReturnDescription{}Param1{gadget}

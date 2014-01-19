@@ -1,0 +1,1 @@
+Remarks{}CommandName{removeItem}HelpPath{Special}OpenBrace{ }Parameters{handle gadget, int index}CloseBrace{}Description{Removes an item from a combobox or listbox.}Param1{gadget}Param1Desc{Handle to a combobox or listbox gadget}Param2{index}Param2Desc{Index of the item you wish to use.  The first item in the list has an index of 0.}

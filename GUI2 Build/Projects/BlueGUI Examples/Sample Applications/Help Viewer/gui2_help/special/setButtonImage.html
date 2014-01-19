@@ -1,0 +1,157 @@
+<html>
+<head><title>setButtonImage</title></head>
+<body>
+
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=verdana>
+<a href="../index.html">GUI Help</a> &gt <a href="index.html">Special</a> &gt setButtonImage</font>
+</tr>
+</td>
+
+<tr>
+<td>
+<br>
+<font size=4 face=verdana>setButtonImage</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#D7D7FF"><font face=verdana size=2>
+<b><font color="blue">setButtonImage </font></b><i>[handle gadget, str fileName] | [handle gadget, int imageIndex]</i><font color=blue><b></b></font>
+</td>
+</tr>
+
+<tr>
+<td>
+<br>
+<b>Description:</b><br>
+Sets the image which appears on the face of a button.  This can either be an image from a bitmap file, or an image already loaded into DBPro using LOAD IMAGE or GET IMAGE.
+<br><br>
+For a panel or label gadget use setPanelImage instead.
+<br><br>
+<i><b>Please read the paramter descriptions below carefully, there are some important notes which you need to know in order to use this command.</b></i>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Return Value:</b><br>
+
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<b>Parameters:</b>
+</td>
+</tr>
+
+<tr>
+<td>
+<table>
+<tr>
+<td width=100 valign=top>
+<i>gadget</i>
+</td>
+<td>
+Handle to a button gadget
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>[fileName]</i>
+</td>
+<td>
+Bitmap file to load the image from.  This must be a standard windows BMP file.  For other file types load the image using LOAD IMAGE, then use the imageIndex parameter instead.<br>
+Images loaded using this method will use transparency by default.  The colour of the top-left hand pixel in the image will be used as the transparent colour.
+</td>
+</tr>
+<tr>
+<td valign=top>
+<i>[imageIndex]</i>
+</td>
+<td>
+Instead of a filename you can specify the number of an image loaded into DBPro.  For the image to work correctly, you must disable mip-mapping of the image.  To do this, you should set the texture flag to 1 on the end of the LOAD IMAGE or GET IMAGE command.  (Eg: LOAD IMAGE "myfile.bmp",1,1  or GET IMAGE 1,0,0,128,128,1)  
+<br><br>
+<b>Important:</b> - In order to use this command, you must use at least one memblock command somewhere else in your program.  This does not have to be in code which is actually run, it can be in a function or subroutine which you never actually use, but it must be there.
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+
+<tr>
+<td valign=top>
+<i></i>
+</td>
+<td>
+
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td><b>Remarks:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td><b>See Also:</b>
+<br>
+<br><br>
+</td>
+</tr>
+
+
+
+<tr>
+<td>
+<b>Example:</b><br>
+(Note:  You will need to include the GUI constants file for this example to work)<br><br>
+<table bgcolor="#D7D7FF">
+<tr>
+<td>
+<pre></pre>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+</table>
+</body>
+</html>

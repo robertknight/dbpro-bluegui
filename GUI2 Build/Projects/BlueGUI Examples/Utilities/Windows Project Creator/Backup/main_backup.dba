@@ -1,0 +1,225 @@
+`Windows Project Creator
+`=======================
+`A small utility to help you create GUI projects, based upon templates.
+
+startBlue "USER_ID","KEY"
+sync off
+
+createUI()
+
+findTemplates()
+
+do
+     getEvent
+     processEvents()
+loop
+
+function processEvents()
+     
+     if eventSource()=storeBrowse and eventType()=MOUSE_CLICK
+          setGadgetText storeEdit,folderDialog()
+     endif
+     
+     if eventSource()=templateInfo and eventType()=MOUSE_CLICK
+          eventTemplateInfo()
+     endif
+     
+     if eventSource()=createBtn and eventType()=MOUSE_CLICK
+          eventCreateProject()
+     endif
+     
+     if eventSource()=exitBtn and eventType()=MOUSE_CLICK
+          end
+     endif
+     
+     if eventType()=WINDOW_CLOSE then end
+endfunction
+
+function eventCreateProject()
+         local template as string
+         local destFolder as string
+         local projectName as string
+         local sourceFolder as string
+         local ext as string
+         local appDir as string
+         
+         appDir=get dir$()
+         
+          `Check inputs
+          if len(getGadgetText(nameEdit))=0
+               warningMessage "Please enter a project name."
+               exitfunction
+          endif
+          
+          strlen=len(projectName)
+          
+          for i=1 to strlen
+               char$=mid$(projectName,i)
+               if (char$=" ") or (char$="?") or (char$="\") or (char$="/")
+                   ` warningMessage "Project name cannot contain the following characters: [Space],?,\ or /"
+                   ` exitfunction
+               endif
+          next i
+          
+          if len(getGadgetText(storeEdit))=0
+               warningMessage "Please enter the name of a folder to store the project in."
+               exitfunction
+          endif
+          
+          `Copy the files over
+         template=itemText(templateCombo,selectedItem(templateCombo))
+         projectName=getGadgetText(nameEdit)
+         sourceFolder=get dir$()+"\templates\"+template+"\"
+         destFolder=getGadgetText(storeEdit)+"\"+projectName+"\"
+         
+         `Create a new folder
+         if not path exist(destFolder)
+               make directory destFolder
+         endif
+         
+         `Copy each file over
+         if file exist(sourceFolder+"project.dbpro")
+               copy file sourceFolder+"project.dbpro",destFolder+projectName+".dbpro"
+         endif
+         
+         set dir sourceFolder
+         perform checklist for files
+         
+         for i=1 to checklist quantity()
+               ext=getExt(checklist string$(i))
+               
+               if (ext <> "") and (ext <> "dbpro")
+                    copy file sourceFolder+checklist string$(i),destFolder+checklist string$(i)
+               endif
+         next i
+         
+         set dir appDir
+         if getChecked(webGadgetCheck) then copy file "gui2_web.dll",destFolder+"gui2_web.dll"
+         if getChecked(themesCheck) then copy file "project.exe.manifest",destFolder+"project.exe.manifest"
+         
+         `Open each file and replace any special constants such as %name% or %date% with the correct values
+         set dir destFolder
+         perform checklist for files
+         
+         for i=1 to checklist quantity()
+               if (len(checklist string$(i)) > 2) and (checklist string$(i) <> "gui.dba") and (checklist string$(i) <> "project.exe.manifest") and (checklist string$(i) <> "gui2_web.dll")
+           
+                    replaceConstants(destFolder+checklist string$(i),projectName,get date$())
+               endif
+         next i
+         
+         message "Project Created.","Project created successfully.  Remember to set the UserID and Key parameters of the startBlue command at the top of the project code before running."
+         
+         set dir appDir
+endfunction
+
+function eventTemplateInfo()
+     set dir "templates\"+itemText(templateCombo,selectedItem(templateCombo))
+  
+     
+     if file exist("info.txt")
+          open to read 1,"info.txt"
+          read string 1,temp$
+          close file 1
+          
+          message "Template Information",temp$
+     else
+          warningMessage "No information for this template."
+     endif
+     
+     `Go back up
+     set dir "..\.."
+endfunction
+
+function findTemplates()
+     set dir "templates"
+     perform checklist for files
+     
+     for i=1 to checklist quantity()
+          if len(checklist string$(i)) > 2 
+               addItem templateCombo,checklist string$(i)
+          endif
+     next i
+     
+     selectItem templateCombo,0
+     
+    ` message itemText(templateCombo,0)
+    set dir ".."
+endfunction
+ 
+ 
+function getExt(str as string)
+     strLen=len(str)
+     
+     for i=strLen to 0 step -1
+          if mid$(str,i)="."
+               exitfunction right$(str,(strLen-i))
+          endif
+     next i
+endfunction ""
+
+function replaceConstants(fileName as string,projectName as string, date as string)
+     local newText as string
+     local temp as string
+     local constName as string
+     local value as string
+     
+     open to read 1,fileName
+          
+          while not file end(1)
+               read string 1,temp     
+   
+               strlen=len(temp)
+               
+               for i=1 to strlen
+                    char$=mid$(temp,i)
+                    
+                    if char$="%"
+                         if gettingSpecialConst
+                              doReplace=1
+                              endPos=i
+                         else
+                              startPos=i
+                         endif
+                         
+                         gettingSpecialConst=not gettingSpecialConst
+                    endif
+                    
+                    if gettingSpecialConst
+                         constName=constName+char$
+                    endif
+                    
+                    if doReplace
+                         value=""
+                         select constName
+                              case "%name"
+                                   value=projectName
+                              endcase
+                              case "%date"
+                                   value=date
+                              endcase
+                          
+                         endselect
+                         constName=""
+                
+                         temp=left$(temp,startPos-1)+value+right$(temp,strlen-endPos)
+                       
+                         doReplace=0
+                    endif
+               next i
+               
+               newText=newText+chr$(13)+chr$(10)+temp
+          endwhile
+          
+          
+     close file 1
+     
+     `Delete the existing file so we can overwrite it
+     delete file fileName
+
+     `Create a new file with the same name and write it back but with constants replaced     
+     open to write 1,fileName
+     write string 1,newText
+     close file 1
+endfunction
+ 

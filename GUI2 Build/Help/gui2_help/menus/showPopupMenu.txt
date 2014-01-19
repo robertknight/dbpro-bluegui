@@ -1,0 +1,1 @@
+Param1Desc{Handle of a menu}CommandName{showPopupMenu}HelpPath{Menus}ReturnValue{int item=}OpenBrace{(}Parameters{handle menu}CloseBrace{)}Description{Shows a popup menu created with createPopupMenu at the current mouse position and returns the number of the item the user selected.}ReturnDescription{Id of the item which the user selected.}Param1{menu}

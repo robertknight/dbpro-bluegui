@@ -1,0 +1,25 @@
+<html>
+<head><title>setDialogOptions</title></head>
+<body>
+<table>
+<tr bgcolor="#D7D7FF">
+<td><font size=2 face=Verdana>
+<a href="../index.html">GUI Help</a> &gt setDialogOptions
+</font></td></tr>
+<tr><td><br><font size=4 face=verdana>setDialogOptions</font>
+</td></tr>
+<td bgcolor="#D7D7FF">
+<font face=verdana size=2>
+<font color="blue"><b>
+setDialogOptions</b></font>
+<i> int setting, int value</i></td></tr>
+<tr><td>
+<br>Changes additional settings for BlueGUI dialogs.<br><br>Currently the only setting that can be changed through this command is the character which separates each filename when the user selects multiple files in an open file dialog.<br><br>1 - Set separator between each filename when multiple files are returned.  value should be set to the ASCII character code of the desired character (which is a comma by default).  You can get this value using the asc function (eg. setDialogOptions 1,asc("|")  would change the character to a pipe.)
+</td></tr>
+<tr><td><br><b>Parameters:</b><br><table>
+<tr><td><i>setting</i>&nbsp&nbsp</td><td>The setting to change, possible values:</td></tr>
+<tr><td><i>value</i>&nbsp&nbsp</td><td>The value for the new setting.</td></tr>
+</table></td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,419 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING129           "createButton[%LLLLLSLL%createButton%int x, int y, int width, int height, str caption, bool flat, handle parentGadget"
+    IDS_STRING130           "getEvent%0%getEvent_noWait%*No Parameters*"
+    IDS_STRING131           "eventSource[%D%eventSource%*No Parameters*"
+    IDS_STRING132           "eventType[%D%eventType%*No Parameters*%"
+    IDS_STRING133           "eventData[%D%eventData%*No Parameters*%"
+    IDS_STRING134           "eventDataEx[%D%eventDataEx%*No Parameters*%"
+    IDS_STRING135           "clearEvent%0%clearEvent%*No Parameters*%"
+    IDS_STRING136           "gadgetUnderMouse[%D%gadgetUnderMouse%*No Parameters*"
+    IDS_STRING137           "message%SS%message%str caption, str message"
+    IDS_STRING138           "message%S%messageNoCaption%str message"
+    IDS_STRING139           "moveGadget%LLL%moveGadget%handle gadget, int x, int y"
+    IDS_STRING140           "resizeGadget%LLL%resizeGadget%handle gadget, int width, int height"
+    IDS_STRING141           "setGadget%LLLLL%setGadget%handle gadget, int x, int y, int width, int height"
+    IDS_STRING142           "createGadgetFromWindow[%LL%createGadgetFromWindow%handle existingGadget"
+    IDS_STRING143           "copyGadget[%LL%copyGadget%handle existingGadget"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING144           "mainWindow[%L%mainWindow%*No Parameters*"
+    IDS_STRING145           "paintGadget%L%paintGadget%handle gadget"
+    IDS_STRING146           "createPanel[%LLLLLL%createPanel%int x, int y, int width, int height, handle parentGadget"
+    IDS_STRING147           "windowHandle[%LL%windowHandle%handle gadget"
+    IDS_STRING148           "setPanelBorderStyle%LL%setPanelBorderStyle%handle panelGadget, int borderStyle"
+    IDS_STRING149           "gadgetClicked[%L%gadgetClicked%*No Parameters*"
+    IDS_STRING150           "createEdit[%LLLLLLL%createEdit%int x, int y, int width, int height, bool multiLine, handle parentGadget"
+    IDS_STRING151           "setGadgetText%LS%setGadgetText%handle gadget, str text"
+    IDS_STRING152           "getGadgetText[%SL%getGadgetText%handle gadget"
+    IDS_STRING153           "createLabel[%LLLLLSL%createLabel%int x, int y, int width, int height, str caption, handle parentGadget"
+    IDS_STRING154           "doGadgetAlign%L%doGadgetAlign%handle gadget"
+    IDS_STRING155           "setGadgetAlign%LL%setGadgetAlign%handle gadget, int alignStyle"
+    IDS_STRING156           "setButtonImage%LS%setButtonImage%handle buttonGadget, str imageFileName"
+    IDS_STRING157           "setButtonImage%LL%setButtonImageFromMem%handle buttonGadget, int imageId"
+    IDS_STRING158           "setAutoUpdate%LL%setAutoUpdate%handle gadget, bool autoUpdate"
+    IDS_STRING159           "setReadOnly%LL%setReadOnly%handle editGadget, bool readOnly"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING160           "getReadOnly[%LL%getReadOnly%handle editGadget"
+    IDS_STRING161           "setSelStart%LL%setSelStart%handle editGadget, int selStart"
+    IDS_STRING162           "setSelLen%LL%setSelLen%handle editGadget, int selLength"
+    IDS_STRING163           "getSelStart[%LL%getSelStart%handle editGadget"
+    IDS_STRING164           "getSelLen[%LL%getSelLen%handle editGadget"
+    IDS_STRING165           "createCheckbox[%LLLLLSL%createCheckbox%int x, int y, int width, int height, str caption, handle parentGadget"
+    IDS_STRING166           "positionGadget%LLL%moveGadget%handle gadget, int x, int y"
+    IDS_STRING167           "gadgetX[%LL%gadgetX%handle gadget"
+    IDS_STRING168           "gadgetY[%LL%gadgetY%handle gadget"
+    IDS_STRING169           "gadgetWidth[%LL%gadgetWidth%handle gadget"
+    IDS_STRING170           "gadgetHeight[%LL%gadgetHeight%handle gadget"
+    IDS_STRING171           "createRadiobutton[%LLLLLSL%createRadiobutton%int x, int y, int width, int height, str caption, handle parentGadget"
+    IDS_STRING172           "setChecked%LL%setChecked%handle gadget, bool checked"
+    IDS_STRING173           "getChecked[%LL%getChecked%handle gadget"
+    IDS_STRING174           "createFrame[%LLLLLSL%createFrame%int x, int y, int width, int height, str caption, handle parentGadget"
+    IDS_STRING175           "getEvent%L%getEvent_wait%bool waitForEvent"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING176           "createListbox[%LLLLLL%createListbox%int x, int y, int width, int height, handle parentGadget"
+    IDS_STRING177           "addItem%LS%addItem%handle gadget, str text"
+    IDS_STRING178           "removeItem%LL%removeItem%handle gadget, int index"
+    IDS_STRING179           "changeItem%LLS%changeItem%handle gadget, int index, str newText"
+    IDS_STRING180           "selectItem%LL%selectItem%handle gadget, int index"
+    IDS_STRING181           "selectedItem[%LL%selectedItem%handle gadget"
+    IDS_STRING182           "createCombobox[%LLLLLL%createCombobox%int x, int y, int width, int height, handle parentGadget"
+    IDS_STRING183           "createTabs[%LLLLLL%createTabs_noStyle%int x, int y, int width, int height, handle parentGadget"
+    IDS_STRING184           "itemText[%SLL%itemText%handle gadget, int index"
+    IDS_STRING185           "addTab%LS%addTab%handle tabsGadget, str caption"
+    IDS_STRING186           "removeTab%LL%removeTab%handle tabsGadget, int index"
+    IDS_STRING187           "changeTab%LLS%changeTab%handle tabsGadget, int index, str newCaption"
+    IDS_STRING188           "selectedTab[%LL%selectedTab%handle tabsGadget"
+    IDS_STRING189           "selectTab%LL%selectTab%handle tabsGadget, int index"
+    IDS_STRING190           "itemCount[%LL%itemCount%handle gadget"
+    IDS_STRING191           "tabCaption[%SLL%tabCaption%handle tabsGadget, int index"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING192           "createStatusbar[%LL%createStatusbar%handle parentGadget"
+    IDS_STRING193           "addStatusPanel%LL%addStatusPanel%handle statusbarGadget, int width"
+    IDS_STRING194           "setStatusText%LLS%setStatusText%handle statusbarGadget, int index, str text"
+    IDS_STRING195           "removeStatusPanel%LL%removeStatusPanel%handle statusbarGadget, int index"
+    IDS_STRING196           "statusPanelCount[%LL%statusPanelCount%handle statusbarGadget"
+    IDS_STRING197           "getStatusText[%SLL%getStatusText%handle statusbarGadget, int index"
+    IDS_STRING198           "setGadgetVisible%LL%setVisible%handle gadget, bool visible"
+    IDS_STRING199           "getGadgetVisible[%LL%getVisible%handle gadget"
+    IDS_STRING200           "openDialog[%SSS%openDialog_noOptions%str caption, str fileTypes"
+    IDS_STRING201           "saveDialog[%SSS%saveDialog_noInitDir%str caption, str fileTypes"
+    IDS_STRING202           "colorDialog[%D%colorDialog%*No Parameters*"
+    IDS_STRING203           "bringToFront%L%bringToFront%handle gadget"
+    IDS_STRING204           "createScrollbar[%LLLLLLL%createScrollbar%int x, int y, int width, int height, flag style, handle parentGadget"
+    IDS_STRING205           "gadgetHandle[%LL%gadgetHandle%handle gadget"
+    IDS_STRING206           "setScrollbarPosition%LL%setScrollbarPosition%handle scrollbarGadget, int position"
+    IDS_STRING207           "setScrollbarRange%LLL%setScrollbarRange%handle scrollbarGadget, int min, int max"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING208           "getScrollbarPosition[%LL%getScrollbarPosition%handle scrollbarGadget"
+    IDS_STRING209           "getScrollbarMin[%LL%getScrollbarMin%handle scrollbarGadget"
+    IDS_STRING210           "getScrollbarMax[%LL%getScrollbarMax%handle scrollbarGadget"
+    IDS_STRING211           "setScrollbarThumbSize%LL%setScrollbarThumbSize%handle scrollbarGadget, int size"
+    IDS_STRING212           "getScrollbarThumbSize[%LL%getScrollbarThumbSize%handle scrollbarGadget"
+    IDS_STRING213           "activeGadget[%L%activeGadget%*No Parameters*"
+    IDS_STRING214           "setGadgetEnabled%LL%setGadgetEnabled%handle gadget, bool flag"
+    IDS_STRING215           "getGadgetEnabled[%LL%getGadgetEnabled%handle gadget"
+    IDS_STRING216           "activateGadget%L%activateGadget%handle gadget"
+    IDS_STRING217           "createUpDown[%LLLLLL%createUpDown_noBuddy_vert%int x, int y, int width, int height, handle parentGadget"
+    IDS_STRING218           "createUpDown[%LLLLLLL%createUpDown_buddy_vert%int x, int y, int width, int height, handle buddyGadget, handle parentGadget"
+    IDS_STRING219           "setUpDownRange%LLL%setUpDownRange%handle upDownGadget, int min, int max"
+    IDS_STRING220           "setUpDownPosition%LL%setUpDownPosition%handle upDownGadget, int position"
+    IDS_STRING221           "getUpDownPosition[%LL%getUpDownPosition%handle upDownGadget"
+    IDS_STRING222           "getUpDownMin[%LL%getUpDownMin%handle upDownGadget"
+    IDS_STRING223           "getUpDownMax[%LL%getUpDownMax%handle upDownGadget"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING224           "mousePosX[%LL%mousePosX%handle gadget"
+    IDS_STRING225           "mousePosY[%LL%mousePosY%handle gadget"
+    IDS_STRING226           "mousePosX[%L%mousePosX_noGadget%*No Parameters*"
+    IDS_STRING227           "mousePosY[%L%mousePosY_noGadget%*No Parameters*"
+    IDS_STRING228           "createToolbar[%LL%createToolbar%handle parentGadget"
+    IDS_STRING229           "addStandardToolbarButtons%L%addStandardToolbarButtons%handle toolbarGadget"
+    IDS_STRING230           "addToolbarButton%LLL%addToolbarButton_index%handle toolbarGadget, int index, bool makeCheckButton"
+    IDS_STRING231           "addToolbarButton%LSL%addToolbarButton_image%handle toolbarGadget, str fileName, bool makeCheckButton"
+    IDS_STRING232           "removeToolbarButton%LL%removeToolbarButton%handle toolbarGadget, int index"
+    IDS_STRING233           "getToolbarItem[%LL%getToolbarItem%handle toolbarGadget"
+    IDS_STRING234           "addToolbarSplitter%L%addToolbarSplitter%handle toolbarGadget"
+    IDS_STRING235           "createWindow[%LLLLLSLLLL%createWindow%int x, int y, int width, int height, str caption, int styles, int extraStyles, bool createTopMost, handle parentGadget"
+    IDS_STRING236           "setPanelImage%LL%setPanelImageFromMem%handle panelGadget, int imageId"
+    IDS_STRING237           "setPanelImage%LS%setPanelImage%handle panelGadget, str fileName"
+    IDS_STRING238           "createMenu[%LL%createMenu%handle parentGadget"
+    IDS_STRING239           "setGadgetTimer%LL%setGadgetTimer%handle gadget, int milliseconds"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING240           "addMenuItem%LSL%addMenuItem%handle menu, str caption, int returnValue"
+    IDS_STRING241           "createSubMenu[%LLL%createSubMenu%handle parentMenu, int item"
+    IDS_STRING242           "addMenuSplitter%L%addMenuSplitter%handle menu"
+    IDS_STRING243           "setMenuItemChecked%LLL%setMenuItemChecked%handle menu, int item, bool checked"
+    IDS_STRING244           "setMenuItemEnabled%LLL%setMenuItemEnabled%handle menu, int item, bool enabled"
+    IDS_STRING245           "getMenuItemEnabled[%LLL%getMenuItemEnabled%handle menu, int item"
+    IDS_STRING246           "getMenuItemChecked[%LLL%getMenuItemChecked%handle menu, int item"
+    IDS_STRING247           "getMenuItemText[%SLL%getMenuItemText%handle menu, int item"
+    IDS_STRING248           "getMenuItemCount[%LL%getMenuItemCount%handle menu"
+    IDS_STRING249           "showPopupMenu[%LL%showPopupMenu%handle menu"
+    IDS_STRING250           "setMenuItemRadio%LLLL%setMenuItemRadio%handle menu, int firstItemInGroup, int lastItemInGroup, int selectItem"
+    IDS_STRING251           "createPopupMenu[%L%createPopupMenu%*No Parameters*"
+    IDS_STRING252           "createTrackbar[%LLLLLLL%createTrackbar%int x, int y, int width, int height, int style, handle parentGadget"
+    IDS_STRING253           "setTrackbarRange%LLL%setTrackbarRange%handle trackbarGadget, int min, int max"
+    IDS_STRING254           "setTrackbarTickFrequency%LL%setTrackbarTickFrequency%handle trackbarGadget, int frequency"
+    IDS_STRING255           "setTrackbarPosition%LL%setTrackbarPosition%handle trackbarGadget, int position"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING256           "getTrackbarPosition[%LL%getTrackbarPosition%handle trackbarGadget"
+    IDS_STRING257           "getTrackbarMin[%LL%getTrackbarMin%handle trackbarGadget"
+    IDS_STRING258           "getTrackbarMax[%LL%getTrackbarMax%handle trackbarGadget"
+    IDS_STRING259           "createCanvas[%LLLLLL%createCanvas%int x, int y, int width, int height, handle parentGadget"
+    IDS_STRING260           "setDrawingColor%LDDD%setDrawingColor%handle canvasGadget, color line, color fill, color text"
+    IDS_STRING261           "drawLine%LLLLL%drawLine%handle canvasGadget, int x1, int y1, int x2, int y2"
+    IDS_STRING262           "drawRect%LLLLL%drawRect%handle canvasGadget, int x1, int y1, int x2 ,int y2"
+    IDS_STRING263           "drawEllipse%LLLLL%drawEllipse%handle canvasGadget, int x1, int y1, int x2, int y2"
+    IDS_STRING264           "drawPoint%LLLD%drawPoint%handle canvasGadget, int x, int y, color pixelColour"
+    IDS_STRING265           "drawText%LLLS%drawText%handle canvasGadget, int x, int y, str text"
+    IDS_STRING266           "setGadgetParent%LL%setGadgetParent%handle childGadget, handle newParentGadget"
+    IDS_STRING267           "createHotKey%LLLLL%createHotKey%int hotKeyId, int requireAlt, int requireShift, int requireCtrl, int character"
+    IDS_STRING268           "deleteHotKey%L%deleteHotKey%int hotKeyId"
+    IDS_STRING269           "createListview[%LLLLLL%createListview%int x, int y, int width, int height, handle parentGadget"
+    IDS_STRING270           "createImageList[%LLL%createImageList%int imageWidth, int imageHeight"
+    IDS_STRING271           "addImageListItem%LS%addImageListItem%handle imageList, str fileName"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING272           "setListViewImageList%LL%setListViewImageList%handle listviewGadget, handle imageList"
+    IDS_STRING273           "addListViewItem%LSL%addListViewItem%handle listviewGadget, str caption, int image"
+    IDS_STRING274           "addImageListItem%LL%addImageListItem_FromMem%handle imageList, int imageId"
+    IDS_STRING275           "setListViewImageList%LLL%setListViewImageList_withIndex%handle listviewGadget, handle imageList, int index"
+    IDS_STRING276           "setListViewStyle%LL%setListViewStyle%handle listviewGadget, int style"
+    IDS_STRING277           "addListViewColumn%LSL%addListViewColumn%handle listviewGadget, str caption, int width"
+    IDS_STRING278           "getListViewItemCount[%LL%getListViewItemCount%handle listviewGadget"
+    IDS_STRING279           "getTextWidth[%LLS%getTextWidth%handle gadget, str text"
+    IDS_STRING280           "getTextHeight[%LLS%getTextHeight%handle gadget, str text"
+    IDS_STRING281           "setListViewItemText%LLLS%setListViewItemText%handle gadget, int itemIndex, int subItemIndex, str text"
+    IDS_STRING282           "deleteGadget%L%deleteGadget%handle gadget"
+    IDS_STRING283           "deleteGadget[%LL%deleteGadget_returnNull%handle gadget"
+    IDS_STRING284           "createTreeview[%LLLLLL%createTreeview%int x, int y, int width, int height, handle parentGadget"
+    IDS_STRING285           "addTreeViewItem[%LLLLS%addTreeViewItem%handle treeviewGadget, handle parentItem, int image, str text"
+    IDS_STRING286           "setTreeViewImageList%LLL%setTreeViewImageList%handle treeviewGadget, handle imageList, int index"
+    IDS_STRING287           "selectedTreeViewItem[%LL%selectedTreeViewItem%handle treeviewGadget"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING288           "removeTreeViewItem%LL%removeTreeViewItem%handle treeviewGadget, handle item"
+    IDS_STRING289           "selectTreeViewItem%LL%selectTreeViewItem%handle treeviewGadget, handle item"
+    IDS_STRING290           "setTreeViewItemText%LLS%setTreeViewItemText%handle treeviewGadget, "
+    IDS_STRING291           "selectListViewItem%LL%selectListViewItem%handle listviewGadget, int item"
+    IDS_STRING292           "selectedListViewItem[%LL%selectedListViewItem%handle listviewGadget"
+    IDS_STRING293           "removeListViewItem%LL%removeListViewItem%handle listviewGadget, int item"
+    IDS_STRING294           "gadgetX[%LLL%gadgetX_relative%handle gadget, handle relativeToGadget"
+    IDS_STRING295           "gadgetY[%LLL%gadgetY_relative%handle gadget, handle relativeToGadget"
+    IDS_STRING296           "getParentGadget[%LL%getParentGadget%handle gadget"
+    IDS_STRING297           "setGadgetData%LL%setGadgetData%handle gadget, int data"
+    IDS_STRING298           "getGadgetData[%LL%getGadgetData%handle gadget"
+    IDS_STRING299           "getTreeViewItemText[%SLL%getTreeViewItemText%handle treeViewGadget, handle item"
+    IDS_STRING300           "getTreeViewChild[%LLL%getTreeViewChild%handle treeViewGadget, handle item"
+    IDS_STRING301           "getTreeViewNext[%LLL%getTreeViewNext%handle treeViewGadget, handle item"
+    IDS_STRING302           "getTreeViewPrev[%LLL%getTreeViewPrev%handle treeViewGadget, handle item"
+    IDS_STRING303           "getTreeViewParent[%LLL%getTreeViewParent%handle treeViewGadget, handle item"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING304           "errorMessage%S%errorMessage%str text"
+    IDS_STRING305           "warningMessage%S%warningMessage%str text"
+    IDS_STRING306           "questionMessage[%LSS%questionMessage%str text, str caption"
+    IDS_STRING307           "addToolbarButton%LSLS%addToolbarButton_image_text%handle toolbarGadget, str image, bool makeCheckButton, str tooltip"
+    IDS_STRING308           "addToolbarButton%LLLS%addToolbarButton_index_text%handle toolbarGadget, int index, bool makeCheckButton, str tooltip"
+    IDS_STRING309           "createWebBrowser[%LLLLLL%createWebBrowser%int x, int y, int width, int height, handle parent"
+    IDS_STRING310           "webBrowserNavigate%LS%webBrowserNavigate%handle webBrowserGadget, str URL"
+    IDS_STRING311           "getWebBrowserURL[%SL%getWebBrowserURL%handle webBrowserGadget"
+    IDS_STRING312           "tabCount[%LL%tabCount%handle tabsGadget"
+    IDS_STRING313           "getSystemColor[%DL%getSystemColor%int index"
+    IDS_STRING314           "webBrowserRun%LS%webBrowserRun%handle webBrowserGadget, str HTML"
+    IDS_STRING315           "getListViewItemText[%SLLL%getListViewItemText%handle listviewGadget, int item, int subItem"
+    IDS_STRING316           "getTreeViewRoot[%LL%getTreeViewRoot%handle treeviewGadget"
+    IDS_STRING317           "deleteMenu%L%deleteMenu_noReturn%handle menu"
+    IDS_STRING318           "deleteMenu[%LL%deleteMenu%handle menu"
+    IDS_STRING319           "createFont[%LSLLLL%createFont%str name, int size, bool bold, bool italic, bool underline"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING320           "deleteFont%L%deleteFont%handle font"
+    IDS_STRING321           "applyFont%LL%applyFont%handle gadget, handle font"
+    IDS_STRING322           "resetMainWindow%0%resetMainWindow%*No Parameters*"
+    IDS_STRING323           "createUpDown[%LLLLLLLL%createUpDown_buddy%int x, int y, int width, int height, int buddy, int style, handle parent"
+    IDS_STRING324           "gadgetClientWidth[%LL%gadgetClientWidth%handle gadget"
+    IDS_STRING325           "gadgetClientHeight[%LL%gadgetClientHeight%handle gadget"
+    IDS_STRING326           "treeViewItemFromPoint[%LLLL%treeViewItemFromPoint%handle gadget, int x, int y"
+    IDS_STRING327           "maximizeWindow%L%maximizeWindow%handle gadget"
+    IDS_STRING328           "minimizeWindow%L%minimizeWindow%handle gadget"
+    IDS_STRING329           "restoreWindow%L%restoreWindow%handle gadget"
+    IDS_STRING330           "setWindowIcon%LS%setWindowIcon%handle gadget, str iconFile"
+    IDS_STRING331           "sendToBack%L%sendToBack%handle gadget"
+    IDS_STRING332           "resizeGadget%LLLL%resizeGadget_client%handle gadget, int width, int height, bool clientSize"
+    IDS_STRING333           "setGadgetColor%LLL%setGadgetColor%handle gadget, color background, color text"
+    IDS_STRING334           "getPoint[%DLLL%getPoint%handle gadget, int x, int y"
+    IDS_STRING335           "getCanvasImage%LL%getCanvasImage%handle gadget, int imageId"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING336           "fontDialog[%L%fontDialog%*No Parameters*"
+    IDS_STRING337           "setGadgetTextAlign%LL%setGadgetTextAlign%handle gadget, int alignment"
+    IDS_STRING338           "addMenuItem%LSLL%addMenuItem_insert%handle menu, str caption, int returnValue, int insertBefore"
+    IDS_STRING339           "setMenuItemText%LLS%setMenuItemText%handle menu, int item, str newCaption"
+    IDS_STRING340           "desktopWindow[%L%desktopWindow%*No Parameters*"
+    IDS_STRING341           "setLineWidth%LL%setLineWidth%handle gadget, int width"
+    IDS_STRING342           "copyCanvas%LLLLLL%copyCanvas%handle gadget, handle sourceCanvas, int left, int top, int right, int bottom"
+    IDS_STRING343           "folderDialog[%S%folderDialog%*No Parameters*"
+    IDS_STRING344           "openDialog[%SSSL%openDialog_noInitDir%str caption, str fileTypes, [int options]"
+    IDS_STRING345           "setGadgetShape%LS%setGadgetShape%handle gadget, str bitmapFile"
+    IDS_STRING346           "createProgressBar[%LLLLLL%createProgressBar%int x, int y, int width, int height, handle parent"
+    IDS_STRING347           "setProgressBarRange%LLL%setProgressBarRange%handle gadget, int min, int max"
+    IDS_STRING348           "setProgressBarPos%LL%setProgressBarPos%handle gadget, int pos"
+    IDS_STRING349           "getProgressBarMin[%LL%getProgressBarMin%handle gadget"
+    IDS_STRING350           "getProgressBarMax[%LL%getProgressBarMax%handle gadget"
+    IDS_STRING351           "getProgressBarPos[%LL%getProgressBarPos%handle gadget"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING352           "startBlue%SS%startBlue%str name, str key"
+    IDS_STRING353           "setGadgetVisible%LLL%setVisible_centerFlag%handle gadget, bool visible, [bool centerInParent]"
+    IDS_STRING354           "setSelFont%LLD%setSelFont%handle gadget, handle font, color textColor"
+    IDS_STRING355           "createRichEdit[%LLLLLL%createRichEdit%int x, int y, int width, int height, handle parent"
+    IDS_STRING356           "getSelFont[%LL%getSelFont%handle gadget"
+    IDS_STRING357           "getSelColor[%LL%getSelColor%handle gadget"
+    IDS_STRING358           "getFontName[%SL%getFontName%handle font"
+    IDS_STRING359           "getFontSize[%LL%getFontSize%handle font"
+    IDS_STRING360           "isFontBold[%LL%isFontBold%handle font"
+    IDS_STRING361           "isFontItalic[%LL%isFontItalic%handle font"
+    IDS_STRING362           "isFontUnderlined[%LL%isFontUnderlined%handle font"
+    IDS_STRING363           "setGadgetAlpha%LL%setGadgetAlpha%handle gadget, int alpha"
+    IDS_STRING364           "postEvent%LLLL%postEvent%handle source, int type, int data, int dataEx"
+    IDS_STRING365           "flushEvents%0%flushEvents%*No Parameters*"
+    IDS_STRING366           "addMenuItem%LSLLS%addMenuItem_insert_image%handle menu, str caption, int returnValue, int insertBefore, str image"
+    IDS_STRING367           "addMenuItem%LSLS%addMenuItem_image%handle menu, str caption, int returnValue, str image"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING368           "listViewItemFromPoint[%LLLL%listViewItemFromPoint%handle gadget, int x, int y"
+    IDS_STRING369           "listViewSubItemFromPoint[%LLLL%listViewSubItemFromPoint%handle gadget, int x, int y"
+    IDS_STRING370           "listViewItemX[%LLLL%listViewItemX%handle listview, int item, int subItem"
+    IDS_STRING371           "listViewItemY[%LLLL%listViewItemY%handle listview, int item, int subItem"
+    IDS_STRING372           "setListViewColumnWidth%LLL%setListViewColumnWidth%handle listview, int column, int width"
+    IDS_STRING373           "getListViewColumnWidth[%LLL%getListViewColumnWidth%handle listview, int column"
+    IDS_STRING374           "setGadgetDefaults%L%setGadgetDefaults%bool visible"
+    IDS_STRING375           "addTab%LSL%addTab_index%handle gadget, str caption, int index"
+    IDS_STRING376           "addItem%LSL%addItem_index%handle gadget, str caption, int index"
+    IDS_STRING377           "addTreeViewItem[%LLLLSL%addTreeViewItem_index%handle gadget, handle parentItem, int image, str caption, handle insertAfterItem"
+    IDS_STRING378           "openDialog[%SSSLS%openDialog%str title, str fileTypes, [int options], [str initDir]"
+    IDS_STRING379           "saveDialog[%SSSS%saveDialog%str title, str fileTypes, [str initDir]"
+    IDS_STRING380           "getToolbarButtonEnabled[%LLL%getToolbarButtonEnabled%handle toolbar, int item"
+    IDS_STRING381           "getToolbarButtonState[%LLL%getToolbarButtonState%handle toolbar, int item"
+    IDS_STRING382           "setToolbarButtonEnabled%LLL%setToolbarButtonEnabled%handle toolbar, int item, bool enabled"
+    IDS_STRING383           "setToolbarButtonState%LLL%setToolbarButtonState%handle toolbar, int item, bool state"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STRING384           "createTabs[%LLLLLLL%createTabs_style%int x, int y, int width, int height, int style, handle parent"
+    IDS_STRING385           "setGadgetTab%LLL%setGadgetTab%handle gadget, bool focus, handle selectAfter"
+    IDS_STRING386           "attachGadget%LLL%attachGadget%handle target, int item, handle gadget"
+    IDS_STRING387           "detachGadget%LLL%detachGadget%handle target, int item, handle gadget"
+    IDS_STRING388           "setSelText%LS%setSelText%handle gadget, str text"
+    IDS_STRING389           "setWordWrapMode%LL%setWordWrapMode%handle gadget, bool wordWrap"
+    IDS_STRING390           "setDialogOptions%LL%setDialogOptions%int setting, int value"
+    IDS_STRING391           "setMaxTextLength%LL%setMaxTextLength%handle gadget, int maxLength"
+    IDS_STRING392           "enableXPStyles%LL%enableXPStyles%handle gadget, bool enable"
+    IDS_STRING393           "removeImageListItem%LL%removeImageListItem%handle imageList, int item"
+    IDS_STRING394           "deleteImageList%L%deleteImageList%handle imageList"
+END
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

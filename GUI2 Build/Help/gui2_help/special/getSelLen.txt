@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getSelLen}HelpPath{Special}ReturnValue{int start=}OpenBrace{(}Parameters{handle editGadget}CloseBrace{)}Description{Retrieves the length of the current selection in an edit gadget.}ReturnDescription{Length of the current selection.  -1 if the edit gadget does not have a selection.}Param1{editGadget}Param1Desc{Handle to an edit gadget}

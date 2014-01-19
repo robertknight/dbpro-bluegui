@@ -1,0 +1,1 @@
+Param2Desc{Handle of a treeview item}CommandName{setTreeViewItemText}HelpPath{special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, handle item, str text}CloseBrace{}Description{Sets the text of a treeview item.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a treeview gadget.}Param2{item}Param3{text}Param3Desc{The new text of the item}

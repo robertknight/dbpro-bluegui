@@ -1,0 +1,38 @@
+version=DBP1.00
+;****DarkBASIC Professional Project****
+;[Created by BLUE IDE - version 1.0.0]
+;Basic project details
+project name=Untitled Project
+;
+;Files
+final source=_Temp.dbsource
+main=combo.dba
+include1=gui.dba
+executable=combo.exe
+build type=exe
+CLI=NO
+compression=NO
+encryption=NO
+media root path=C:\Documents and Settings\Rob\My Documents\DarkBASIC\Projects\GUIv2 Examples\Simple Gadget Demos\Combobox\
+ 
+;====Other Settings====
+app title=ComboBox Example
+graphics mode=Window
+fullscreen resolution=640x480
+window resolution=640x480
+compression=NO
+encryption=NO
+ 
+;====Version Information====
+vercomments=
+vercompany=
+vercopyright=
+verfiledesc=
+verfilename=
+verfilenumber=
+verinternal=
+verproduct=
+verproductnumber=
+vertrademark=
+ 
+;====Project Organisation====

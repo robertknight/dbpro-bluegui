@@ -1,0 +1,2 @@
+Param3Desc{}CommandName{deleteGadget}HelpPath{General}ReturnValue{[int result=0] = }OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Deletes a gadget.  You should delete any child gadgets first.<br><br>
+Optionally delete gadget will return 0.  Assign this to the variable containing the handle of the gadget to reset it to 0.<br>  This is a useful safety measure as attempting to manipulate a gadget which does not exist will cause a crash, but all plugin commands safely ignore a gadget handle of 0.}ReturnDescription{Optional.  Always returns 0.}

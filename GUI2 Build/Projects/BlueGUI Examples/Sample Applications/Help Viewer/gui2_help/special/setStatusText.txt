@@ -1,0 +1,1 @@
+Param2{index}CommandName{setStatusText}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int index, str text}Description{Sets the text of a panel in a statusbar.}ReturnDescription{}Param1{gadget}Param1Desc{Handle to a statusbar gadget.}Param2Desc{The index of the panel whoose text you wish to set.}Param3{text}Param3Desc{The new text of the specified panel.}

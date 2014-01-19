@@ -1,0 +1,3 @@
+Param1Desc{Handle to the parent gadget of the new toolbar, or 0 for the main window.}CommandName{createToolbar}HelpPath{Create}ReturnValue{handle gadget=}OpenBrace{(}Parameters{handle parent}CloseBrace{)}Description{Creates a toolbar gadget.  Toolbars appear at the top of their parent windows and display small icons, usually 16x16 or 32x32 pixels in size, providing access to common tasks like loading or saving a document.
+
+Toolbar icons can either be loaded from file using addToolbarButton, or you can use a range of standard icons using addStandardToolbarButtons.}ReturnDescription{Handle to the new toolbar gadget.}Param1{parent}

@@ -1,0 +1,1 @@
+This is a simple empty GUI project with the basic functions and code in place.

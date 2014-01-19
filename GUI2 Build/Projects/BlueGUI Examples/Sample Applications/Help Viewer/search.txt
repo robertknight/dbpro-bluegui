@@ -1,0 +1,110 @@
+Source Code Relating to the Search function of the Help Viewer which I decided to remove
+
+function search(query as string)
+   webBrowserRun browser,"<h3>Searching for "+query+"...</h3>"
+   paintGadget browser
+   
+   local temp as string=""
+   local foundFiles as string=""
+   local fileName as string=""
+   local fileNo=1
+   local foundCount=0
+
+   queryLen=len(query)
+	query=lower$(query)
+
+   nextItem=getNextItem(tree,getTreeViewRoot(tree))
+
+   repeat
+      `Get next file name
+         fileName=getURL(nextItem,1)
+     
+      `Open file and search contents 
+      if fileName <> ""
+      open to read fileNo,fileName
+         found=0
+         count=0
+         repeat
+            read string fileNo,temp
+            inc count
+            `if count=26 then message temp
+            `read string fileNo,temp
+            `Search string for search query
+            sLen=len(temp)
+            for i=1 to sLen
+               if subStr(lower$(temp),i,queryLen)=query
+                  if found=0 then found=1 : foundFiles=foundFiles+"|"+fileName : inc foundCount
+               endif
+            next i
+
+         until file end(fileNo)
+      close file fileNo
+      endif
+
+      nextItem=getNextItem(tree,nextItem)
+   until nextItem=0
+
+
+
+   length=len(foundFiles)
+   currentIndex=0
+
+   local dim fileArray(foundCount) as string=""
+
+      for i=1 to length
+         temp$=mid$(foundFiles,i)
+
+         if temp$ <> "|"
+            fileArray(currentIndex)=fileArray(currentIndex)+temp$
+         else
+            inc currentIndex
+         endif
+      next i
+
+ `  message foundFiles
+
+   local HTML as string=""
+   HTML="<h4>"+str$(foundCount)+" results found in help files:</h4>"
+   for i=0 to foundCount
+      HTML=HTML+"<a href='"+fileArray(i)+"'>"+fileArray(i)+"</a><br><br>"
+   next i
+
+
+   webBrowserRun browser,HTML
+
+   undim fileArray(0)
+endfunction
+
+`Walks through a treeview gadget
+function getNextItem(gadget,handle)
+
+   `Does item have any children?
+   item=getTreeViewChild(gadget,handle)
+
+   if item then exitfunction item
+
+   `No - is there another item at this level?
+   item=getTreeViewNext(gadget,handle)
+
+   if item then exitfunction item
+
+   `No - go back to the parent and then to its next sibling
+
+   temp=handle
+
+   repeat
+      temp=getTreeViewParent(gadget,temp)
+      item=getTreeViewNext(gadget,temp)
+   until (item <> 0) or temp=0
+
+   if item then exitfunction item
+
+endfunction 0
+
+function subStr(txt as string, start, length)
+   local result as string=""
+
+   for i=start to (start+length)-1
+     result=result+mid$(txt,i)
+   next i
+endfunction result

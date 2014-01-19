@@ -1,0 +1,1 @@
+Param6Desc{}CommandName{gadgetClientHeight}HelpPath{General}ReturnValue{int height=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the client height of a gadget.  This is the height in pixels excluding the gadget's borders, or titlebars in the case of window gadgets.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a gadget}

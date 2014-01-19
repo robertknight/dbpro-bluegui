@@ -1,0 +1,2 @@
+CommandName{resetMainWindow}HelpPath{Other}ReturnValue{}Description{Resets the main program window.  The black window created by DarkBASIC Professional sometimes "forgets" certain settings when you use the SET WINDOW LAYOUT, MINIMIZE WINDOW or MAXIMIZE WINDOW commands.  This results in gadgets disappearing or "flicking" in and out of view.<br><br>
+Call resetMainWindow to "fix" the main window.  You may need to call paintGadget again to update the gadgets.}

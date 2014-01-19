@@ -1,0 +1,9 @@
+Param1Desc{Handle to a toolbar gadget.}CommandName{addStandardToolbarButtons}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget}CloseBrace{}Description{Adds a range of standard toolbar buttons such as open, save and new to a toolbar.
+
+If you wish to use these buttons, you should call addStandardToolbarButtons as soon as you create the toolbar.  You can then use addToolbarButton to create the standard buttons, using image indicies specified by the constants file.  For example:<br><br>
+<pre>
+toolbar=createToolbar(0)
+addStandardToolbarButtons toolbar
+addToolbarButton toolbar,TOOLBAR_OPEN
+addToolbarButton toolbar,TOOLBAR_SAVE
+</pre>}ReturnDescription{}Param1{gadget}

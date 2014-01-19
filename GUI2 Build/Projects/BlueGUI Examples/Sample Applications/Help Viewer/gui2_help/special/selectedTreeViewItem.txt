@@ -1,0 +1,1 @@
+CommandName{selectedTreeViewItem}HelpPath{Special}ReturnValue{handle item=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the handle of the currently selected item in a treeview.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a treeview gadget}

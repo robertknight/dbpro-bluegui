@@ -1,0 +1,5 @@
+CommandName{setGadgetAlpha}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, int alpha}CloseBrace{}Description{Sets the opacity of a window gadget.  This can range from 0 (transparent) to 255 (opaque / solid).
+<br>
+This effect can add a nice graphical touch when used in moderation, but be aware of the potential performance hit on older PCs.  
+<br>
+This command is only supported on Windows 2000 / XP.}ReturnDescription{}Param1{gadget}Param1Desc{Handle of a window gadget}Param2{alpha}Param2Desc{Value between 0 and 255 which sets the opacity of the window.}

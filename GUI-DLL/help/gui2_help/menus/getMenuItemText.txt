@@ -1,0 +1,1 @@
+Param2Desc{The number of the item which you wish to examine, this is the number you assigned with addMenuItem}CommandName{getMenuItemText}HelpPath{Menus}ReturnValue{str text=}OpenBrace{(}Parameters{handle menu, int item}CloseBrace{)}Description{Retrieves the text of a menu item.}ReturnDescription{The text of the menu item.}Param1{menu}Param1Desc{Handle of a menu}Param2{item}

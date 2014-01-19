@@ -1,0 +1,2 @@
+Param1Desc{Handle to a gadget}CommandName{getTextWidth}HelpPath{Other}ReturnValue{int width=}OpenBrace{(}Parameters{handle gadget, str text}CloseBrace{)}Description{Retrieves the width in pixels required to display the specified text using the specified gadget's font.<br>
+This is normally used with drawText and canvas gadgets.}ReturnDescription{See Above}Param1{gadget}Param2{text}Param2Desc{Text which you wish to find the width of.}

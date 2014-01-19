@@ -1,0 +1,1 @@
+Param6Desc{}CommandName{gadgetClientWidth}HelpPath{General}ReturnValue{int width=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Returns the client width of a gadget.  This is the width in pixels excluding the gadget's borders.}ReturnDescription{See Above}Param1{gadget}Param1Desc{Handle of a gadget}

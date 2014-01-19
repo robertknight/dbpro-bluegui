@@ -1,0 +1,5 @@
+[COMMON]
+PathToEXE=C:\Documents and Settings\Rob\My Documents\DarkBASIC\Projects\GUIv2 Examples\Sample Applications\Help Viewer\gui2_help\CrashOn_07_04_04.txt
+[CEXE]
+m_dwRuntimeErrorDWORD=0
+m_dwRuntimeErrorLineDWORD=25

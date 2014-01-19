@@ -1,0 +1,1 @@
+Param2Desc{}CommandName{getGadgetEnabled}HelpPath{General}ReturnValue{bool enabled=}OpenBrace{(}Parameters{handle gadget}CloseBrace{)}Description{Used to determine if a gadget is enabled or disabled.}ReturnDescription{0 if the gadget is disabled, 1 if the gadget is enabled.}Param1{gadget}Param1Desc{Handle to a gadget.}

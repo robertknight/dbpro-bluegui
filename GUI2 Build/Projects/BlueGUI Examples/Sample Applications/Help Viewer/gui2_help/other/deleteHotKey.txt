@@ -1,0 +1,1 @@
+Param5Desc{}CommandName{deleteHotKey}HelpPath{Other}ReturnValue{}OpenBrace{ }Parameters{int hotKeyId}CloseBrace{}Description{Deletes a hotkey.  See createHotKey for more information on hot keys.}ReturnDescription{}Param1{hotKeyId}Param1Desc{The index of the hot key to delete}

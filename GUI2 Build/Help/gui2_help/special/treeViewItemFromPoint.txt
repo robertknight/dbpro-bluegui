@@ -1,0 +1,4 @@
+Description{Retrives the handle of the treeview item at the specified position.  This can be useful if you wanted to implement drag & drop functionality for example.  For example, if you had a treeview gadget called myTree, you could find out which item was under the mouse using this code:
+<pre>
+handle=treeViewItemFromPoint(myTree,mousePosX(myTree),mousePosY(myTree))
+</pre>}CommandName{treeViewItemFromPoint}HelpPath{Special}ReturnValue{handle item=}OpenBrace{(}Parameters{handle gadget, int x, int y}CloseBrace{)}ReturnDescription{Handle of item at specified point}Param1{gadget}Param1Desc{Handle of a treeview gadget}Param2{x}Param2Desc{X co-ordinate of the point you want to test, this is relative to the top-left of the treeview.}Param3{y}Param3Desc{Y co-ordinate of the point to test, relative to the top-left of the treeview gadget.}

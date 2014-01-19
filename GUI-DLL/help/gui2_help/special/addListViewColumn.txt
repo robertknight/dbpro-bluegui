@@ -1,0 +1,3 @@
+Param2Desc{The text of the new column.}CommandName{addListViewColumn}HelpPath{Special}ReturnValue{}OpenBrace{ }Parameters{handle gadget, str caption, int width}CloseBrace{}Description{Adds a column to a listview.
+
+When the listview is in table view mode (LISTVIEW_REPORT), the table has a number of columns at the top.  The first is for the main item (eg: File Name), the others are for the subitems associated with that item (eg: Type / File Size).}ReturnDescription{}Param1{gadget}Param1Desc{Handle to a listview gadget}Param2{caption}Param3{width}Param3Desc{The width of the new column in pixels.}
